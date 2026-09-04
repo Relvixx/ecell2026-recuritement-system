@@ -1,5 +1,6 @@
 import dbConnect from '../../../../lib/mongodb';
 import Application from '../../../../models/Application';
+import { requireAuth } from '../../../../lib/auth';
 
 export async function POST(request) {
   try {
@@ -44,7 +45,7 @@ export async function POST(request) {
   }
 }
 
-export async function GET(request) {
+export const GET = requireAuth(async function GET(request) {
   try {
     await dbConnect();
 
@@ -90,4 +91,4 @@ export async function GET(request) {
       { status: 500 }
     );
   }
-}
+});

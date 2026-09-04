@@ -1,7 +1,8 @@
 import dbConnect from '../../../../../lib/mongodb';
 import Application from '../../../../../models/Application';
+import { requireAuth } from '../../../../../lib/auth';
 
-export async function GET(request, { params }) {
+export const GET = requireAuth(async function GET(request, { params }) {
   try {
     await dbConnect();
     
@@ -23,9 +24,9 @@ export async function GET(request, { params }) {
       { status: 500 }
     );
   }
-}
+});
 
-export async function PUT(request, { params }) {
+export const PUT = requireAuth(async function PUT(request, { params }) {
   try {
     await dbConnect();
     
@@ -59,9 +60,9 @@ export async function PUT(request, { params }) {
       { status: 500 }
     );
   }
-}
+});
 
-export async function DELETE(request, { params }) {
+export const DELETE = requireAuth(async function DELETE(request, { params }) {
   try {
     await dbConnect();
     
@@ -85,4 +86,4 @@ export async function DELETE(request, { params }) {
       { status: 500 }
     );
   }
-}
+});

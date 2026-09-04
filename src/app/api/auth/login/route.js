@@ -4,6 +4,13 @@ import jwt from 'jsonwebtoken';
 
 export async function POST(request) {
   try {
+    if (!process.env.JWT_SECRET) {
+      return Response.json(
+        { error: 'Login failed' },
+        { status: 500 }
+      );
+    }
+
     await dbConnect();
 
     const { username, password } = await request.json();

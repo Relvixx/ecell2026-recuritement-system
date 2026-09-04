@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
+import { requireAuth } from '../../../../../lib/auth';
 
-export async function GET() {
+export const GET = requireAuth(async function GET() {
   try {
     // CSV template with exact column headers as specified
     const csvTemplate = `fullName,email,whatsappNumber,isFromNashik,department,yearOfStudy,firstPreference,secondaryRole,whyJoinEcell,relevantExperience,hasOtherClubs,projectsWorkedOn,availabilityPerWeek,status,adminRemarks,feedback
@@ -28,4 +29,4 @@ Arjun Kumar,arjun.kumar@example.com,9876543214,false,Electronics Engineering (B.
       { status: 500 }
     );
   }
-}
+});

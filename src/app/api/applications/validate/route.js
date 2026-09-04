@@ -1,7 +1,8 @@
 import dbConnect from '../../../../../lib/mongodb';
 import { parse } from 'csv-parse';
+import { requireAuth } from '../../../../../lib/auth';
 
-export async function POST(request) {
+export const POST = requireAuth(async function POST(request) {
   try {
     await dbConnect();
 
@@ -116,4 +117,4 @@ export async function POST(request) {
       success: false
     }, { status: 500 });
   }
-}
+});

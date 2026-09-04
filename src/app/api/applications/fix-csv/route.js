@@ -1,7 +1,8 @@
 import fs from 'fs';
 import path from 'path';
+import { requireAuth } from '../../../../../lib/auth';
 
-export async function POST(request) {
+export const POST = requireAuth(async function POST(request) {
   try {
     const formData = await request.formData();
     const file = formData.get('file');
@@ -88,4 +89,4 @@ export async function POST(request) {
       details: error.message
     }, { status: 500 });
   }
-}
+});
