@@ -64,7 +64,7 @@ export default function AdminLogin() {
       <div className="bg-white/10 backdrop-blur-md rounded-xl shadow-2xl p-8 max-w-md w-full">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-white mb-2">Admin Portal</h1>
-          <p className="text-gray-300">E-CELL MET Recruitment 2025-26</p>
+          <p className="text-gray-300">E-CELL MET Recruitment 2026-27</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -117,14 +117,6 @@ export default function AdminLogin() {
           <Link href="/" className="text-purple-300 hover:text-purple-200 transition-colors">
             ← Back to Application Form
           </Link>
-        </div>
-
-        <div className="mt-4 p-4 bg-blue-500/20 border border-blue-400/30 rounded-lg">
-          <p className="text-blue-200 text-sm text-center">
-            <strong>Demo Credentials:</strong><br />
-            Username: admin<br />
-            Password: admin123
-          </p>
         </div>
       </div>
     </div>

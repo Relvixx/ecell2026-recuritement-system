@@ -4,9 +4,7 @@ import { useState, useEffect } from 'react';
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import CreateApplicationModal from '../../../components/CreateApplicationModal';
 import EditApplicationModal from '../../../components/EditApplicationModal';
-import MultipleEntryFormModal from '../../../components/MultipleEntryFormModal';
 import {
   Chart as ChartJS,
   ArcElement,
@@ -27,19 +25,15 @@ export default function AdminDashboard() {
   const [filters, setFilters] = useState({
     status: '',
     search: '',
-    role: ''
+    primaryTeam: ''
   });
   const [selectedApplication, setSelectedApplication] = useState(null);
-  const [showBulkUpload, setShowBulkUpload] = useState(false);
-  const [showCreateForm, setShowCreateForm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
-  const [showMultipleEntryForm, setShowMultipleEntryForm] = useState(false);
   const [editingApplication, setEditingApplication] = useState(null);
   const [adminUser, setAdminUser] = useState(null);
   const [viewMode, setViewMode] = useState('cards'); // 'cards' or 'table'
   const [exportLoading, setExportLoading] = useState(false);
   const [showExportDropdown, setShowExportDropdown] = useState(false);
-  const [showNewApplicationDropdown, setShowNewApplicationDropdown] = useState(false);
   const [showStatsSection, setShowStatsSection] = useState(false);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
   const router = useRouter();
@@ -72,7 +66,6 @@ export default function AdminDashboard() {
     const handleClickOutside = (event) => {
       if (!event.target.closest('.dropdown-container')) {
         setShowExportDropdown(false);
-        setShowNewApplicationDropdown(false);
       }
     };
 
@@ -103,7 +96,7 @@ export default function AdminDashboard() {
     setLoading(true);
     try {
       const params = new URLSearchParams({
-        limit: '1000', // Get all applications
+        limit: '100',
         ...filters
       });
 
@@ -126,7 +119,7 @@ export default function AdminDashboard() {
     }
   };
 
-  const updateApplicationStatus = async (id, status, remarks = '', feedback = '') => {
+  const updateApplicationStatus = async (id, status, internalNotes = '') => {
     try {
       const response = await fetch(`/api/applications/${id}`, {
         method: 'PUT',
@@ -136,8 +129,7 @@ export default function AdminDashboard() {
         },
         body: JSON.stringify({
           status,
-          adminRemarks: remarks,
-          feedback
+          internalNotes
         })
       });
 
@@ -178,35 +170,6 @@ export default function AdminDashboard() {
       }
     } catch (err) {
       setError('Network error occurred');
-    }
-  };
-
-  const createApplication = async (applicationData) => {
-    try {
-      const response = await fetch('/api/applications', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('adminToken')}`
-        },
-        body: JSON.stringify(applicationData)
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        fetchApplications(); // Refresh the list
-        fetchStats(); // Refresh stats
-        setShowCreateForm(false);
-        setError('');
-        return true;
-      } else {
-        setError(data.error || 'Failed to create application');
-        return false;
-      }
-    } catch (err) {
-      setError('Network error occurred');
-      return false;
     }
   };
 
@@ -257,8 +220,10 @@ export default function AdminDashboard() {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'pending': return 'bg-yellow-100 text-yellow-800';
+      case 'submitted': return 'bg-yellow-100 text-yellow-800';
+      case 'under_review': return 'bg-purple-100 text-purple-800';
       case 'shortlisted': return 'bg-blue-100 text-blue-800';
+      case 'interview': return 'bg-indigo-100 text-indigo-800';
       case 'selected': return 'bg-green-100 text-green-800';
       case 'rejected': return 'bg-red-100 text-red-800';
       default: return 'bg-gray-100 text-gray-800';
@@ -411,18 +376,26 @@ export default function AdminDashboard() {
         {stats && (
           <>
             {/* Status Stats */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-6 mb-6 lg:mb-8">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-3 sm:gap-4 lg:gap-6 mb-6 lg:mb-8">
               <div className="bg-gradient-to-br from-blue-50/80 to-indigo-100/80 backdrop-blur-sm rounded-3xl shadow-lg p-4 lg:p-6 border border-white/40 hover:shadow-xl transition-all duration-300 hover:scale-105">
                 <h3 className="text-sm lg:text-lg font-semibold text-gray-700 mb-1 lg:mb-2">Total Applications</h3>
                 <p className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">{stats.total}</p>
               </div>
               <div className="bg-gradient-to-br from-yellow-50/80 to-amber-100/80 backdrop-blur-sm rounded-3xl shadow-lg p-4 lg:p-6 border border-white/40 hover:shadow-xl transition-all duration-300 hover:scale-105">
-                <h3 className="text-sm lg:text-lg font-semibold text-gray-700 mb-1 lg:mb-2">Pending</h3>
-                <p className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-yellow-600 to-amber-600 bg-clip-text text-transparent">{stats.statusStats.pending || 0}</p>
+                <h3 className="text-sm lg:text-lg font-semibold text-gray-700 mb-1 lg:mb-2">Submitted</h3>
+                <p className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-yellow-600 to-amber-600 bg-clip-text text-transparent">{stats.statusStats.submitted || 0}</p>
+              </div>
+              <div className="bg-gradient-to-br from-purple-50/80 to-violet-100/80 backdrop-blur-sm rounded-3xl shadow-lg p-4 lg:p-6 border border-white/40 hover:shadow-xl transition-all duration-300 hover:scale-105">
+                <h3 className="text-sm lg:text-lg font-semibold text-gray-700 mb-1 lg:mb-2">Under Review</h3>
+                <p className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-purple-600 to-violet-600 bg-clip-text text-transparent">{stats.statusStats.under_review || 0}</p>
               </div>
               <div className="bg-gradient-to-br from-sky-50/80 to-cyan-100/80 backdrop-blur-sm rounded-3xl shadow-lg p-4 lg:p-6 border border-white/40 hover:shadow-xl transition-all duration-300 hover:scale-105">
                 <h3 className="text-sm lg:text-lg font-semibold text-gray-700 mb-1 lg:mb-2">Shortlisted</h3>
                 <p className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-sky-600 to-cyan-600 bg-clip-text text-transparent">{stats.statusStats.shortlisted || 0}</p>
+              </div>
+              <div className="bg-gradient-to-br from-indigo-50/80 to-blue-100/80 backdrop-blur-sm rounded-3xl shadow-lg p-4 lg:p-6 border border-white/40 hover:shadow-xl transition-all duration-300 hover:scale-105">
+                <h3 className="text-sm lg:text-lg font-semibold text-gray-700 mb-1 lg:mb-2">Interview</h3>
+                <p className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent">{stats.statusStats.interview || 0}</p>
               </div>
               <div className="bg-gradient-to-br from-emerald-50/80 to-green-100/80 backdrop-blur-sm rounded-3xl shadow-lg p-4 lg:p-6 border border-white/40 hover:shadow-xl transition-all duration-300 hover:scale-105">
                 <h3 className="text-sm lg:text-lg font-semibold text-gray-700 mb-1 lg:mb-2">Selected</h3>
@@ -438,7 +411,7 @@ export default function AdminDashboard() {
 
             </div>
 
-            {/* Role Stats */}
+            {/* Team Stats */}
             <div className="bg-gradient-to-br from-white/60 to-purple-50/60 backdrop-blur-sm rounded-3xl shadow-lg p-4 lg:p-6 mb-6 lg:mb-8 border border-white/40">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg lg:text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">📊 Detailed Statistics</h3>
@@ -455,12 +428,12 @@ export default function AdminDashboard() {
 
               {showStatsSection && (
                 <div className="space-y-6">
-                  {/* Role Distribution */}
+                  {/* Team Distribution */}
                   <div>
                     <h4 className="text-lg font-semibold text-gray-800 mb-4">🎯 First Preference Role Distribution</h4>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 sm:gap-4">
-                      {stats.roleStats && stats.roleStats.map((role, index) => {
-                        const cleanRole = role._id ? role._id.replace(/[📝📸🎨🎉💻⚙️🤝]\s*/, '').split('(')[0].trim() : 'Unknown Role';
+                      {stats.primaryTeamStats && stats.primaryTeamStats.map((team, index) => {
+                        const cleanTeam = team._id || 'Unknown Team';
                         const colors = [
                           'bg-purple-100 text-purple-800 border-purple-300',
                           'bg-blue-100 text-blue-800 border-blue-300',
@@ -474,11 +447,11 @@ export default function AdminDashboard() {
                         const colorClass = colors[index % colors.length];
 
                         return (
-                          <div key={role._id} className={`rounded-2xl border border-white/30 p-4 ${colorClass} backdrop-blur-sm shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105`}>
-                            <h4 className="font-semibold text-sm mb-2">{cleanRole}</h4>
-                            <p className="text-2xl font-bold">{role.count}</p>
+                          <div key={team._id} className={`rounded-2xl border border-white/30 p-4 ${colorClass} backdrop-blur-sm shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105`}>
+                            <h4 className="font-semibold text-sm mb-2">{cleanTeam}</h4>
+                            <p className="text-2xl font-bold">{team.count}</p>
                             <p className="text-xs opacity-75">
-                              {((role.count / stats.total) * 100).toFixed(1)}%
+                              {stats.total ? ((team.count / stats.total) * 100).toFixed(1) : '0.0'}%
                             </p>
                           </div>
                         );
@@ -633,34 +606,35 @@ export default function AdminDashboard() {
                 className="bg-gradient-to-r from-white/80 to-gray-50/80 backdrop-blur-sm border border-white/40 rounded-2xl px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 shadow-md transition-all duration-300"
               >
                 <option value="">All Status</option>
-                <option value="pending">Pending</option>
+                <option value="submitted">Submitted</option>
+                <option value="under_review">Under Review</option>
                 <option value="shortlisted">Shortlisted</option>
+                <option value="interview">Interview</option>
                 <option value="selected">Selected</option>
                 <option value="rejected">Rejected</option>
-                <option value="approved">Approved</option>
               </select>
 
               <input
                 type="text"
-                placeholder="Search by name, email, or phone..."
+                placeholder="Search by name, email, phone or Application ID..."
                 value={filters.search}
                 onChange={(e) => setFilters({ ...filters, search: e.target.value })}
                 className="bg-gradient-to-r from-white/80 to-gray-50/80 backdrop-blur-sm border border-white/40 rounded-2xl px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 shadow-md transition-all duration-300 sm:col-span-2 lg:col-span-1"
               />
 
               <select
-                value={filters.role}
-                onChange={(e) => setFilters({ ...filters, role: e.target.value })}
+                value={filters.primaryTeam}
+                onChange={(e) => setFilters({ ...filters, primaryTeam: e.target.value })}
                 className="bg-gradient-to-r from-white/80 to-gray-50/80 backdrop-blur-sm border border-white/40 rounded-2xl px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 shadow-md transition-all duration-300"
               >
-                <option value="">All Roles</option>
-                <option value="Documentation">Documentation</option>
-                <option value="Photography">Photography/Videography</option>
-                <option value="Design">Design Team</option>
-                <option value="Events">Events</option>
-                <option value="Technical">Technical / Web</option>
-                <option value="Operations">Operations</option>
-                <option value="Marketing">Marketing & Sponsorship</option>
+                <option value="">All Teams</option>
+                <option value="technical">Technical</option>
+                <option value="design">Design</option>
+                <option value="documentation">Documentation</option>
+                <option value="social_media">Social Media</option>
+                <option value="pr">PR</option>
+                <option value="event">Event</option>
+                <option value="research">Research</option>
               </select>
             </div>
 
@@ -692,52 +666,14 @@ export default function AdminDashboard() {
 
               {/* Action Buttons */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
-                {/* NEW APPLICATION Dropdown */}
-                <div className="relative dropdown-container">
-                  <button
-                    onClick={() => setShowNewApplicationDropdown(!showNewApplicationDropdown)}
-                    className="bg-gradient-to-r from-blue-100/80 to-indigo-100/80 backdrop-blur-sm text-blue-700 hover:text-blue-900 px-4 py-2 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 font-medium flex items-center gap-2 border border-white/40"
-                  >
-                    ➕ NEW APPLICATION
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                    </svg>
-                  </button>
-
-                  {showNewApplicationDropdown && (
-                    <div className="absolute left-0 mt-2 w-56 bg-gradient-to-br from-white/90 to-gray-50/90 backdrop-blur-lg rounded-2xl shadow-xl border border-white/40 z-10">
-                      <div className="py-1">
-                        <button
-                          onClick={() => {
-                            setShowCreateForm(true);
-                            setShowNewApplicationDropdown(false);
-                          }}
-                          className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-blue-50/60 hover:to-purple-50/60 w-full text-left rounded-xl transition-all duration-300"
-                        >
-                          ➕ Add Application
-                        </button>
-                        <button
-                          onClick={() => {
-                            setShowMultipleEntryForm(true);
-                            setShowNewApplicationDropdown(false);
-                          }}
-                          className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-blue-50/60 hover:to-purple-50/60 w-full text-left rounded-xl transition-all duration-300"
-                        >
-                          📝 Multiple Entry Form
-                        </button>
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-
                 <button
-                  onClick={() => setShowBulkUpload(true)}
-                  className="bg-gradient-to-r from-green-100/80 to-emerald-100/80 backdrop-blur-sm text-green-700 hover:text-green-900 px-4 py-2 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 font-medium border border-white/40"
+                  type="button"
+                  disabled
+                  title="Manual and CSV creation are disabled for the 2026 V1 cutover."
+                  className="bg-gradient-to-r from-gray-100/80 to-gray-50/80 backdrop-blur-sm text-gray-500 px-4 py-2 rounded-2xl shadow-md font-medium border border-white/40 cursor-not-allowed"
                 >
-                  📁 Bulk Upload CSV
+                  New Application Disabled
                 </button>
-
                 {/* EXPORT Dropdown */}
                 <div className="relative dropdown-container">
                   <button
@@ -820,7 +756,7 @@ export default function AdminDashboard() {
             </p>
             {Object.values(filters).some(f => f) && (
               <button
-                onClick={() => setFilters({ status: '', search: '', role: '' })}
+                onClick={() => setFilters({ status: '', search: '', primaryTeam: '' })}
                 className="mt-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-2 rounded-2xl hover:shadow-lg transition-all duration-300 font-medium"
               >
                 Clear Filters
@@ -841,7 +777,7 @@ export default function AdminDashboard() {
               </div>
               {Object.values(filters).some(f => f) && (
                 <button
-                  onClick={() => setFilters({ status: '', search: '', role: '' })}
+                  onClick={() => setFilters({ status: '', search: '', primaryTeam: '' })}
                   className="text-sm text-blue-600 hover:text-blue-800 font-medium self-start sm:self-center"
                 >
                   Clear All Filters
@@ -874,14 +810,18 @@ export default function AdminDashboard() {
                           <p className="text-sm text-gray-900 mt-1">{app.branch}</p>
                         </div>
                         <div>
-                          <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Primary Role</p>
+                          <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Application ID</p>
+                          <p className="text-sm text-gray-900 mt-1">{app.applicationCode}</p>
+                        </div>
+                        <div>
+                          <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Primary Team</p>
                           <p className="text-sm text-gray-900 mt-1">
-                            {app.primaryRole}
+                            {app.primaryTeam}
                           </p>
                         </div>
                         <div>
                           <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Year</p>
-                          <p className="text-sm text-gray-900 mt-1">{app.year}</p>
+                          <p className="text-sm text-gray-900 mt-1">{app.yearOfStudy}</p>
                         </div>
                         <div>
                           <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Submitted</p>
@@ -944,11 +884,11 @@ export default function AdminDashboard() {
                         </th>
                         <th
                           className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider cursor-pointer hover:bg-gradient-to-r hover:from-blue-50/60 hover:to-purple-50/60 select-none transition-all duration-300"
-                          onClick={() => handleSort('primaryRole')}
+                          onClick={() => handleSort('primaryTeam')}
                         >
                           <div className="flex items-center">
-                            Primary Role
-                            {getSortIcon('primaryRole')}
+                            Primary Team
+                            {getSortIcon('primaryTeam')}
                           </div>
                         </th>
                         <th
@@ -988,7 +928,7 @@ export default function AdminDashboard() {
                             {app.branch}
                           </td>
                           <td className="px-4 lg:px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                            {app.primaryRole}
+                            {app.primaryTeam}
                           </td>
                           <td className="px-4 lg:px-6 py-4 whitespace-nowrap">
                             <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(app.status)}`}>
@@ -1044,26 +984,6 @@ export default function AdminDashboard() {
         />
       )}
 
-      {/* Bulk Upload Modal */}
-      {showBulkUpload && (
-        <BulkUploadModal
-          onClose={() => setShowBulkUpload(false)}
-          onSuccess={() => {
-            setShowBulkUpload(false);
-            fetchApplications();
-            fetchStats();
-          }}
-        />
-      )}
-
-      {/* Create Application Modal */}
-      {showCreateForm && (
-        <CreateApplicationModal
-          onClose={() => setShowCreateForm(false)}
-          onSubmit={createApplication}
-        />
-      )}
-
       {/* Edit Application Modal */}
       {showEditForm && editingApplication && (
         <EditApplicationModal
@@ -1075,28 +995,18 @@ export default function AdminDashboard() {
           onSubmit={updateApplication}
         />
       )}
-
-      {/* Multiple Entry Form Modal */}
-      {showMultipleEntryForm && (
-        <MultipleEntryFormModal
-          onClose={() => setShowMultipleEntryForm(false)}
-          onSubmit={createApplication}
-        />
-      )}
     </div>
   );
 }
 
-// Application Details Modal Component
 function ApplicationModal({ application, onClose, onUpdate }) {
   const [status, setStatus] = useState(application.status);
-  const [remarks, setRemarks] = useState(application.adminRemarks || '');
-  const [feedback, setFeedback] = useState(application.feedback || '');
+  const [internalNotes, setInternalNotes] = useState(application.internalNotes || '');
   const [loading, setLoading] = useState(false);
 
   const handleUpdate = async () => {
     setLoading(true);
-    await onUpdate(application._id, status, remarks, feedback);
+    await onUpdate(application._id, status, internalNotes);
     setLoading(false);
   };
 
@@ -1106,53 +1016,63 @@ function ApplicationModal({ application, onClose, onUpdate }) {
         <div className="p-6">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold">Application Details</h2>
-            <button
-              onClick={onClose}
-              className="text-gray-500 hover:text-gray-700 text-2xl"
-            >
-              ×
+            <button onClick={onClose} className="text-gray-500 hover:text-gray-700 text-2xl">
+              x
             </button>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Personal Information */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold">Personal Information</h3>
+              <h3 className="text-lg font-semibold">Candidate</h3>
+              <div><strong>Application ID:</strong> {application.applicationCode}</div>
               <div><strong>Name:</strong> {application.fullName}</div>
               <div><strong>Email:</strong> {application.email}</div>
               <div><strong>WhatsApp:</strong> {application.whatsappNumber}</div>
               <div><strong>Branch:</strong> {application.branch}</div>
-              <div><strong>Year:</strong> {application.year}</div>
+              <div><strong>Year:</strong> {application.yearOfStudy}</div>
             </div>
 
-            {/* Role Preferences */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold">Role Preferences</h3>
-              <div><strong>Primary Role:</strong> {application.primaryRole}</div>
-              <div><strong>Secondary Role:</strong> {application.secondaryRole || 'None'}</div>
-              <div><strong>Other Clubs:</strong> {application.hasOtherClubs}</div>
+              <h3 className="text-lg font-semibold">Team Preferences</h3>
+              <div><strong>Primary Team:</strong> {application.primaryTeam}</div>
+              <div><strong>Secondary Team:</strong> {application.secondaryTeam || 'None'}</div>
+              <div><strong>Other Clubs:</strong> {application.hasOtherClubs ? 'Yes' : 'No'}</div>
+              {application.otherClubDetails && (
+                <div><strong>Other Club Details:</strong> {application.otherClubDetails}</div>
+              )}
             </div>
 
-            {/* Experience */}
             <div className="md:col-span-2 space-y-4">
-              <h3 className="text-lg font-semibold">Experience & Motivation</h3>
+              <h3 className="text-lg font-semibold">Application Answers</h3>
               <div>
-                <strong>Why this role:</strong>
-                <p className="mt-1 text-gray-700 bg-gray-50 p-3 rounded">{application.whyThisRole}</p>
+                <strong>Why E-CELL:</strong>
+                <p className="mt-1 text-gray-700 bg-gray-50 p-3 rounded">{application.whyEcell}</p>
               </div>
               <div>
-                <strong>Flex a little:</strong>
-                <p className="mt-1 text-gray-700 bg-gray-50 p-3 rounded">{application.pastExperience}</p>
+                <strong>Why Primary Team:</strong>
+                <p className="mt-1 text-gray-700 bg-gray-50 p-3 rounded">{application.whyPrimaryTeam}</p>
               </div>
+              <div>
+                <strong>Experience:</strong>
+                <p className="mt-1 text-gray-700 bg-gray-50 p-3 rounded">{application.experience}</p>
+              </div>
+              <div><strong>Availability:</strong> {application.availability}</div>
             </div>
 
-            {/* Availability */}
-            <div className="md:col-span-2 space-y-4">
-              <h3 className="text-lg font-semibold">Availability</h3>
-              <div><strong>Time Availability:</strong> {application.timeAvailability}</div>
-            </div>
+            {application.teamAnswers?.length > 0 && (
+              <div className="md:col-span-2 space-y-4">
+                <h3 className="text-lg font-semibold">Team Answers</h3>
+                {application.teamAnswers.map(answer => (
+                  <div key={answer.questionId}>
+                    <strong>{answer.questionId}:</strong>
+                    <p className="mt-1 text-gray-700 bg-gray-50 p-3 rounded">
+                      {answer.selectedOptions?.length ? answer.selectedOptions.join(', ') : answer.link || answer.answerText || ''}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
 
-            {/* Admin Actions */}
             <div className="md:col-span-2 space-y-4 border-t pt-4">
               <h3 className="text-lg font-semibold">Admin Actions</h3>
 
@@ -1163,40 +1083,28 @@ function ApplicationModal({ application, onClose, onUpdate }) {
                   onChange={(e) => setStatus(e.target.value)}
                   className="w-full border rounded px-3 py-2"
                 >
-                  <option value="pending">Pending</option>
+                  <option value="submitted">Submitted</option>
+                  <option value="under_review">Under Review</option>
                   <option value="shortlisted">Shortlisted</option>
+                  <option value="interview">Interview</option>
                   <option value="selected">Selected</option>
                   <option value="rejected">Rejected</option>
                 </select>
               </div>
 
               <div>
-                <label className="block font-medium mb-2">Admin Remarks</label>
+                <label className="block font-medium mb-2">Internal Notes</label>
                 <textarea
-                  value={remarks}
-                  onChange={(e) => setRemarks(e.target.value)}
+                  value={internalNotes}
+                  onChange={(e) => setInternalNotes(e.target.value)}
                   rows="3"
                   className="w-full border rounded px-3 py-2"
-                  placeholder="Add your remarks..."
-                />
-              </div>
-
-              <div>
-                <label className="block font-medium mb-2">Feedback</label>
-                <textarea
-                  value={feedback}
-                  onChange={(e) => setFeedback(e.target.value)}
-                  rows="3"
-                  className="w-full border rounded px-3 py-2"
-                  placeholder="Add feedback for the applicant..."
+                  placeholder="Only admins can see these notes."
                 />
               </div>
 
               <div className="flex justify-end space-x-4">
-                <button
-                  onClick={onClose}
-                  className="px-4 py-2 border border-gray-300 rounded hover:bg-gray-50"
-                >
+                <button onClick={onClose} className="px-4 py-2 border border-gray-300 rounded hover:bg-gray-50">
                   Cancel
                 </button>
                 <button
@@ -1207,180 +1115,6 @@ function ApplicationModal({ application, onClose, onUpdate }) {
                   {loading ? 'Updating...' : 'Update Application'}
                 </button>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// Bulk Upload Modal Component
-function BulkUploadModal({ onClose, onSuccess }) {
-  const [file, setFile] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState(null);
-
-  const handleUpload = async () => {
-    if (!file) return;
-
-    setLoading(true);
-    const formData = new FormData();
-    formData.append('file', file);
-
-    try {
-      const response = await fetch('/api/applications/bulk', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('adminToken')}`
-        },
-        body: formData
-      });
-
-      const data = await response.json();
-      setResult(data);
-
-      if (response.ok) {
-        setTimeout(() => {
-          onSuccess();
-        }, 2000);
-      }
-    } catch (err) {
-      setResult({ error: 'Network error occurred' });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="p-4 lg:p-6">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-xl lg:text-2xl font-bold">📁 Bulk Upload Applications</h2>
-            <button
-              onClick={onClose}
-              className="text-gray-500 hover:text-gray-700 text-2xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
-            >
-              ×
-            </button>
-          </div>
-
-          <div className="space-y-4">
-            {/* Template Download Section */}
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <h3 className="font-medium text-blue-900">📥 Download CSV Template</h3>
-                  <p className="text-sm text-blue-700 mt-1">
-                    Download the template with proper format and exact column headers.
-                    The template includes sample data with different application statuses.
-                  </p>
-                  <div className="mt-2 text-xs text-blue-600">
-                    <span className="font-medium">✨ New:</span> Flexible column mapping! Upload works with different column names and orders.
-                  </div>
-                </div>
-                <a
-                  href="/api/applications/template"
-                  download="ecell_applications_template.csv"
-                  className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium whitespace-nowrap ml-4"
-                >
-                  📥 Download
-                </a>
-              </div>
-            </div>
-
-            {/* Flexible Upload Info */}
-            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-              <h3 className="font-medium text-green-900 mb-2">🚀 Smart Column Detection</h3>
-              <p className="text-sm text-green-700 mb-2">
-                Our system automatically detects columns even if they&apos;re in different order or have different names!
-              </p>
-              <div className="text-xs text-green-600 space-y-1">
-                <div><span className="font-medium">✅ Column names:</span> &quot;Full Name&quot;, &quot;Student Name&quot;, &quot;name&quot;, &quot;fullName&quot; all work</div>
-                <div><span className="font-medium">✅ Any order:</span> Columns can be in any sequence</div>
-                <div><span className="font-medium">✅ Extra columns:</span> Additional columns are automatically ignored</div>
-                <div><span className="font-medium">✅ Case insensitive:</span> &quot;EMAIL&quot;, &quot;email&quot;, &quot;Email&quot; all work</div>
-              </div>
-            </div>
-
-            <div>
-              <label className="block font-medium mb-2">📁 Upload CSV File</label>
-              <input
-                type="file"
-                accept=".csv"
-                onChange={(e) => setFile(e.target.files[0])}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              />
-              <div className="mt-2 text-sm text-gray-600">
-                <p className="font-medium mb-1">📋 Core fields (flexible column names accepted):</p>
-                <div className="grid grid-cols-2 gap-1 text-xs">
-                  <span>• Full Name</span>
-                  <span>• Email address</span>
-                  <span>• Whatsapp Number</span>
-                  <span>• Branch</span>
-                  <span>• Year</span>
-                  <span>• Primary Role</span>
-                  <span>• Secondary Role</span>
-                  <span>• Why this role? What&apos;s the vibe?</span>
-                  <span>• Flex a little.</span>
-                  <span>• Already juggling other clubs?</span>
-                  <span>• Time Availability</span>
-                  <span>• Status (optional)</span>
-                  <span>• Admin Remarks (optional)</span>
-                </div>
-                <p className="mt-2 text-green-600">
-                  ✨ <span className="font-medium">Smart Upload:</span> System will auto-detect your column format!
-                </p>
-              </div>
-            </div>
-
-            {result && (
-              <div className={`p-4 rounded-lg border ${result.error
-                ? 'bg-red-50 text-red-700 border-red-200'
-                : 'bg-green-50 text-green-700 border-green-200'
-                }`}>
-                {result.error ? (
-                  <div className="flex items-start gap-2">
-                    <span className="text-red-500">❌</span>
-                    <div>
-                      <div className="font-medium">Upload Failed</div>
-                      <div className="text-sm">{result.error}</div>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="flex items-start gap-2">
-                    <span className="text-green-500">✅</span>
-                    <div>
-                      <div className="font-medium">Upload Successful!</div>
-                      <div className="text-sm">
-                        Successfully imported: {result.successful} applications
-                        {result.errors > 0 && (
-                          <div className="text-yellow-600 mt-1">
-                            ⚠️ {result.errors} errors occurred during import
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
-
-            <div className="flex flex-col sm:flex-row justify-end gap-3 sm:gap-4">
-              <button
-                onClick={onClose}
-                className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors font-medium"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleUpload}
-                disabled={!file || loading}
-                className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
-              >
-                {loading ? '⏳ Uploading...' : '📤 Upload CSV'}
-              </button>
             </div>
           </div>
         </div>

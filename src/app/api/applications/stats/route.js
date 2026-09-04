@@ -1,71 +1,68 @@
 import dbConnect from '../../../../../lib/mongodb';
-import Application from '../../../../../models/Application';
 import { requireAuth } from '../../../../../lib/auth';
+import Application2026 from '../../../../../models/Application2026';
+import {
+  RECRUITMENT_CYCLE,
+  STATUS_IDS,
+  TEAM_IDS,
+  YEAR_IDS
+} from '../../../../../lib/recruitment2026';
+
+function seedCounts(ids) {
+  return Object.fromEntries(ids.map(id => [id, 0]));
+}
+
+function toCountObject(rows, seed = {}) {
+  return rows.reduce((counts, row) => {
+    if (row._id) {
+      counts[row._id] = row.count;
+    }
+
+    return counts;
+  }, { ...seed });
+}
 
 export const GET = requireAuth(async function GET() {
   try {
     await dbConnect();
 
-    const stats = await Application.aggregate([
-      {
-        $group: {
-          _id: '$status',
-          count: { $sum: 1 }
-        }
-      }
+    const cycleFilter = { recruitmentCycle: RECRUITMENT_CYCLE };
+    const [statusRows, teamRows, branchRows, yearRows, total] = await Promise.all([
+      Application2026.aggregate([
+        { $match: cycleFilter },
+        { $group: { _id: '$status', count: { $sum: 1 } } }
+      ]),
+      Application2026.aggregate([
+        { $match: cycleFilter },
+        { $group: { _id: '$primaryTeam', count: { $sum: 1 } } },
+        { $sort: { count: -1 } }
+      ]),
+      Application2026.aggregate([
+        { $match: cycleFilter },
+        { $group: { _id: '$branch', count: { $sum: 1 } } },
+        { $sort: { count: -1 } }
+      ]),
+      Application2026.aggregate([
+        { $match: cycleFilter },
+        { $group: { _id: '$yearOfStudy', count: { $sum: 1 } } }
+      ]),
+      Application2026.countDocuments(cycleFilter)
     ]);
 
-    const roleStats = await Application.aggregate([
-      {
-        $group: {
-          _id: '$primaryRole',
-          count: { $sum: 1 }
-        }
-      },
-      {
-        $sort: { count: -1 }
-      }
-    ]);
-
-    const branchStats = await Application.aggregate([
-      {
-        $group: {
-          _id: '$branch',
-          count: { $sum: 1 }
-        }
-      }
-    ]);
-
-    const yearStats = await Application.aggregate([
-      {
-        $group: {
-          _id: '$year',
-          count: { $sum: 1 }
-        }
-      }
-    ]);
-
-    // Format stats
-    const statusStats = stats.reduce((acc, stat) => {
-      // Map 'approved' to 'selected' for counting
-      const status = stat._id === 'approved' ? 'selected' : stat._id;
-      acc[status] = (acc[status] || 0) + stat.count;
-      return acc;
-    }, {
-      pending: 0,
-      shortlisted: 0,
-      selected: 0,
-      rejected: 0
-    });
-
-    const total = await Application.countDocuments();
+    const statusStats = toCountObject(statusRows, seedCounts(STATUS_IDS));
+    const teamStats = toCountObject(teamRows, seedCounts(TEAM_IDS));
+    const yearStatsObject = toCountObject(yearRows, seedCounts(YEAR_IDS));
 
     return Response.json({
       total,
       statusStats,
-      roleStats,
-      branchStats,
-      yearStats
+      teamStats,
+      primaryTeamStats: teamRows,
+      branchStats: branchRows,
+      yearStats: Object.entries(yearStatsObject).map(([yearOfStudy, count]) => ({
+        _id: yearOfStudy,
+        count
+      }))
     });
   } catch (error) {
     console.error('Stats error:', error);

@@ -1,10 +1,10 @@
 import dbConnect from '../../../../lib/mongodb';
-import Application from '../../../../models/Application';
 import Application2026 from '../../../../models/Application2026';
 import { requireAuth } from '../../../../lib/auth';
 import {
   AVAILABILITY_IDS,
   RECRUITMENT_CYCLE,
+  STATUS_IDS,
   TEAM_IDS,
   YEAR_IDS,
   normalizePhoneNumber
@@ -40,6 +40,9 @@ const FORBIDDEN_SUBMISSION_FIELDS = [
 const UNSAFE_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const APPLICATION_CODE_COLLISION_ATTEMPTS = 3;
+const DEFAULT_PAGE = 1;
+const DEFAULT_LIMIT = 25;
+const MAX_LIMIT = 100;
 
 function jsonError(error, status = 400) {
   return Response.json({ error }, { status });
@@ -469,39 +472,92 @@ export const GET = requireAuth(async function GET(request) {
     await dbConnect();
 
     const { searchParams } = new URL(request.url);
-    const status = searchParams.get('status');
-    const search = searchParams.get('search');
-    const role = searchParams.get('role');
+    const page = Math.max(parseInt(searchParams.get('page') || `${DEFAULT_PAGE}`, 10) || DEFAULT_PAGE, 1);
+    const requestedLimit = parseInt(searchParams.get('limit') || `${DEFAULT_LIMIT}`, 10) || DEFAULT_LIMIT;
+    const limit = Math.min(Math.max(requestedLimit, 1), MAX_LIMIT);
+    const status = cleanString(searchParams.get('status'));
+    const primaryTeam = cleanString(searchParams.get('primaryTeam') || searchParams.get('team') || searchParams.get('role')).toLowerCase();
+    const yearOfStudy = cleanString(searchParams.get('yearOfStudy') || searchParams.get('year')).toLowerCase();
+    const branch = cleanString(searchParams.get('branch'));
+    const search = cleanString(searchParams.get('search'));
+    const sort = cleanString(searchParams.get('sort') || 'newest');
 
-    // Build filter object
-    const filter = {};
-    if (status) filter.status = status;
-    if (role) {
-      filter.$or = [
-        { primaryRole: { $regex: role, $options: 'i' } },
-        { secondaryRole: { $regex: role, $options: 'i' } }
-      ];
+    const filter = { recruitmentCycle: RECRUITMENT_CYCLE };
+
+    if (status) {
+      if (!STATUS_IDS.includes(status)) {
+        return jsonError('status is invalid', 400);
+      }
+
+      filter.status = status;
     }
+
+    if (primaryTeam) {
+      if (!TEAM_IDS.includes(primaryTeam)) {
+        return jsonError('primaryTeam is invalid', 400);
+      }
+
+      filter.primaryTeam = primaryTeam;
+    }
+
+    if (yearOfStudy) {
+      if (!YEAR_IDS.includes(yearOfStudy)) {
+        return jsonError('yearOfStudy is invalid', 400);
+      }
+
+      filter.yearOfStudy = yearOfStudy;
+    }
+
+    if (branch) {
+      filter.branch = branch;
+    }
+
     if (search) {
+      const escapedSearch = search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       filter.$or = [
-        { fullName: { $regex: search, $options: 'i' } },
-        { email: { $regex: search, $options: 'i' } },
-        { whatsappNumber: { $regex: search, $options: 'i' } }
+        { fullName: { $regex: escapedSearch, $options: 'i' } },
+        { email: { $regex: escapedSearch, $options: 'i' } },
+        { whatsappNumber: { $regex: escapedSearch, $options: 'i' } },
+        { applicationCode: { $regex: escapedSearch, $options: 'i' } }
       ];
     }
 
-    console.log('Filter:', JSON.stringify(filter));
+    const sortMap = {
+      newest: { submittedAt: -1 },
+      oldest: { submittedAt: 1 },
+      name_asc: { fullName: 1 }
+    };
+    const sortQuery = sortMap[sort] || sortMap.newest;
+    const skip = (page - 1) * limit;
 
-    const applications = await Application.find(filter)
-      .sort({ submittedAt: -1 });
-
-    console.log('Applications found:', applications.length);
-
-    const total = applications.length;
+    const [applications, total] = await Promise.all([
+      Application2026.find(filter)
+        .sort(sortQuery)
+        .skip(skip)
+        .limit(limit)
+        .select('-__v')
+        .lean(),
+      Application2026.countDocuments(filter)
+    ]);
 
     return Response.json({
       applications,
-      total
+      total,
+      pagination: {
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+        hasNextPage: page * limit < total,
+        hasPreviousPage: page > 1
+      },
+      filters: {
+        search,
+        status,
+        primaryTeam,
+        yearOfStudy,
+        branch,
+        sort
+      }
     });
   } catch (error) {
     console.error('Fetch applications error:', error);
