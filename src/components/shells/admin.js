@@ -1,16 +1,20 @@
 import Link from 'next/link';
-import { Button } from '../ui/forms';
 import { Container, PageShell, Stack, cn } from '../ui/layout';
 
-const adminNav = ['Overview', 'Candidates', 'Teams', 'Analytics'];
+const adminNav = [
+  { id: 'overview', label: 'Overview' },
+  { id: 'candidates', label: 'Candidates' },
+  { id: 'teams', label: 'Teams' },
+  { id: 'analytics', label: 'Analytics' }
+];
 
-export function AdminShell({ children, title = 'Recruitment 2026-27', subtitle, actions, adminSlot, logoutSlot }) {
+export function AdminShell({ children, title = 'Recruitment 2026-27', subtitle, actions, adminSlot, logoutSlot, activeView = 'overview', onNavigate }) {
   return (
     <PageShell variant="admin">
       <div className="lg:grid lg:min-h-screen lg:grid-cols-[248px_1fr]">
-        <AdminSidebar adminSlot={adminSlot} logoutSlot={logoutSlot} />
+        <AdminSidebar activeView={activeView} adminSlot={adminSlot} logoutSlot={logoutSlot} onNavigate={onNavigate} />
         <div className="min-w-0">
-          <AdminMobileNav />
+          <AdminMobileNav activeView={activeView} onNavigate={onNavigate} />
           <main className="py-6 lg:py-10">
             <Container width="admin">
               <Stack gap="lg">
@@ -25,7 +29,7 @@ export function AdminShell({ children, title = 'Recruitment 2026-27', subtitle, 
   );
 }
 
-export function AdminSidebar({ adminSlot = 'Admin', logoutSlot }) {
+export function AdminSidebar({ activeView = 'overview', adminSlot = 'Admin', logoutSlot, onNavigate }) {
   return (
     <aside className="hidden border-r border-border bg-[var(--color-ivory-50)] p-6 lg:flex lg:flex-col lg:justify-between">
       <Stack gap="lg">
@@ -33,18 +37,19 @@ export function AdminSidebar({ adminSlot = 'Admin', logoutSlot }) {
           E-CELL
         </Link>
         <nav aria-label="Admin workspace" className="grid gap-1">
-          {adminNav.map((item, index) => (
-            <a
-              aria-current={index === 0 ? 'page' : undefined}
+          {adminNav.map((item) => (
+            <button
+              aria-current={activeView === item.id ? 'page' : undefined}
               className={cn(
                 'min-h-11 rounded-[var(--radius-control)] px-3 py-2 text-sm text-muted hover:bg-[var(--color-surface-muted)] hover:text-foreground',
-                index === 0 && 'bg-[var(--color-surface-muted)] text-foreground'
+                activeView === item.id && 'bg-[var(--color-surface-muted)] text-foreground'
               )}
-              href="#"
-              key={item}
+              onClick={() => onNavigate?.(item.id)}
+              key={item.id}
+              type="button"
             >
-              {item}
-            </a>
+              {item.label}
+            </button>
           ))}
         </nav>
       </Stack>
@@ -56,22 +61,20 @@ export function AdminSidebar({ adminSlot = 'Admin', logoutSlot }) {
   );
 }
 
-export function AdminMobileNav() {
+export function AdminMobileNav({ activeView = 'overview', onNavigate }) {
   return (
     <header className="border-b border-border bg-[var(--color-ivory-50)] p-4 lg:hidden">
       <div className="flex items-center justify-between gap-4">
         <Link className="label" href="/">
           E-CELL
         </Link>
-        <Button className="min-h-11 px-4 py-2 sm:min-h-11" href="/admin" variant="secondary">
-          Admin
-        </Button>
+        <span className="body-small text-muted">{adminNav.find((item) => item.id === activeView)?.label}</span>
       </div>
       <nav aria-label="Admin mobile workspace" className="mt-4 flex gap-2 overflow-x-auto">
         {adminNav.map((item) => (
-          <a className="min-h-11 shrink-0 rounded-[var(--radius-control)] border border-border bg-surface px-3 py-2 text-sm text-muted" href="#" key={item}>
-            {item}
-          </a>
+          <button aria-current={activeView === item.id ? 'page' : undefined} className={cn('min-h-11 shrink-0 rounded-[var(--radius-control)] border border-border bg-surface px-3 py-2 text-sm', activeView === item.id ? 'text-foreground' : 'text-muted')} key={item.id} onClick={() => onNavigate?.(item.id)} type="button">
+            {item.label}
+          </button>
         ))}
       </nav>
     </header>

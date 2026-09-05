@@ -2,6 +2,10 @@ import dbConnect from '../../../../../lib/mongodb';
 import Admin from '../../../../../models/Admin';
 import jwt from 'jsonwebtoken';
 
+function cleanString(value) {
+  return typeof value === 'string' ? value.trim() : '';
+}
+
 export async function POST(request) {
   try {
     if (!process.env.JWT_SECRET) {
@@ -13,10 +17,35 @@ export async function POST(request) {
 
     await dbConnect();
 
-    const { username, password } = await request.json();
+    let body;
+
+    try {
+      body = await request.json();
+    } catch {
+      return Response.json(
+        { error: 'Login failed' },
+        { status: 400 }
+      );
+    }
+
+    const usernameOrEmail = cleanString(body?.username).toLowerCase();
+    const password = typeof body?.password === 'string' ? body.password : '';
+
+    if (!usernameOrEmail || !password) {
+      return Response.json(
+        { error: 'Invalid credentials' },
+        { status: 401 }
+      );
+    }
 
     // Find admin by username
-    const admin = await Admin.findOne({ username, isActive: true });
+    const admin = await Admin.findOne({
+      isActive: true,
+      $or: [
+        { username: usernameOrEmail },
+        { email: usernameOrEmail }
+      ]
+    });
 
     if (!admin) {
       return Response.json(

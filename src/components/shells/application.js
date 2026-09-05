@@ -104,12 +104,12 @@ export function ApplicationActions({
   );
 }
 
-export function ReviewSection({ title, children, onEditLabel = 'Edit' }) {
+export function ReviewSection({ title, children, onEdit, onEditLabel = 'Edit' }) {
   return (
     <section className="rounded-[var(--radius-card)] border border-border bg-[var(--color-ivory-50)] p-4">
       <div className="mb-3 flex items-center justify-between gap-3">
         <h2 className="eyebrow text-muted">{title}</h2>
-        <button className="min-h-11 rounded-[var(--radius-control)] px-3 text-sm text-muted hover:bg-[var(--color-surface-muted)] hover:text-foreground" type="button">
+        <button className="min-h-11 rounded-[var(--radius-control)] px-3 text-sm text-muted hover:bg-[var(--color-surface-muted)] hover:text-foreground" onClick={onEdit} type="button">
           {onEditLabel}
         </button>
       </div>

@@ -61,22 +61,22 @@ export const STATUS_COPY = {
   under_review: {
     label: 'Under Review',
     title: 'Under review',
-    description: 'The team is currently going through your application.'
+    description: 'The team is going through your application.'
   },
   shortlisted: {
     label: 'Shortlisted',
     title: "You've been shortlisted",
-    description: "You've moved to the next stage. Keep an eye on your registered contact details for further information."
+    description: "You've moved to the next stage. Keep an eye on your registered contact details."
   },
   interview: {
     label: 'Interview',
     title: 'Interaction stage',
-    description: 'Your application has moved to the interaction/interview stage.'
+    description: 'Your application has moved to the interaction or interview stage.'
   },
   selected: {
     label: 'Selected',
     title: "You're in.",
-    description: "Congratulations-you've been selected for E-CELL MET."
+    description: "Congratulations—you've been selected for E-CELL MET."
   },
   rejected: {
     label: 'Rejected',

@@ -24,6 +24,8 @@ const ALLOWED_FIELDS = [
   'confirmationAccepted'
 ];
 
+const TEAM_ANSWER_FIELDS = ['answerText', 'selectedOptions', 'link'];
+
 export function createEmptyApplicationData(initialTeam = '') {
   return {
     fullName: '',
@@ -73,6 +75,32 @@ function sanitizeTeamAnswers(value) {
       link: cleanString(answer.link)
     }))
     .filter(answer => answer.questionId);
+}
+
+function sanitizeTeamAnswersByTeam(value) {
+  if (!isObject(value)) {
+    return {};
+  }
+
+  return Object.fromEntries(
+    TEAM_IDS
+      .filter(teamId => Array.isArray(value[teamId]))
+      .map(teamId => [teamId, value[teamId].filter(isObject).map(answer => {
+        const safeAnswer = { questionId: cleanString(answer.questionId).toLowerCase() };
+
+        for (const field of TEAM_ANSWER_FIELDS) {
+          if (field === 'selectedOptions') {
+            safeAnswer.selectedOptions = Array.isArray(answer.selectedOptions)
+              ? answer.selectedOptions.filter(option => typeof option === 'string').map(option => option.trim()).filter(Boolean)
+              : [];
+          } else if (typeof answer[field] === 'string') {
+            safeAnswer[field] = answer[field].trim();
+          }
+        }
+
+        return safeAnswer;
+      }).filter(answer => answer.questionId)])
+  );
 }
 
 export function sanitizeApplicationData(value, initialTeam = '') {
@@ -189,6 +217,7 @@ export function parseDraft(rawValue) {
   return {
     version: APPLICATION_DRAFT_VERSION,
     data,
+    teamAnswersByTeam: sanitizeTeamAnswersByTeam(parsed.teamAnswersByTeam),
     currentStep,
     updatedAt: typeof parsed.updatedAt === 'string' ? parsed.updatedAt : ''
   };
@@ -209,7 +238,7 @@ export function loadApplicationDraft() {
   return draft;
 }
 
-export function saveApplicationDraft(data, currentStep) {
+export function saveApplicationDraft(data, currentStep, teamAnswersByTeam = {}) {
   if (typeof window === 'undefined') {
     return;
   }
@@ -223,6 +252,7 @@ export function saveApplicationDraft(data, currentStep) {
   const draft = {
     version: APPLICATION_DRAFT_VERSION,
     data: safeData,
+    teamAnswersByTeam: sanitizeTeamAnswersByTeam(teamAnswersByTeam),
     currentStep: Math.min(Math.max(currentStep, 0), APPLICATION_STEP_COUNT - 1),
     updatedAt: new Date().toISOString()
   };

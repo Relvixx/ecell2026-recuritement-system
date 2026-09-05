@@ -1,4 +1,5 @@
 import { BRANCH_OPTIONS, YEAR_OPTIONS } from '@/config/application-options';
+import { getTeamById } from '@/config/teams';
 
 export const STEP_ONE_FIELDS = [
   'fullName',
@@ -110,4 +111,82 @@ export function validateStepOne(data) {
 
 export function hasValidationErrors(errors) {
   return Object.keys(errors).length > 0;
+}
+
+export function normalizeAnswerValue(question, value) {
+  if (question.type === 'multiselect') {
+    return Array.isArray(value) ? value.filter(option => typeof option === 'string') : [];
+  }
+
+  return cleanString(value);
+}
+
+export function validateUrl(value) {
+  const normalized = cleanString(value);
+
+  if (!normalized) {
+    return true;
+  }
+
+  try {
+    const url = new URL(normalized);
+    return ['http:', 'https:'].includes(url.protocol);
+  } catch {
+    return false;
+  }
+}
+
+export function validateStepTwo(data, teamAnswers = {}) {
+  const errors = {};
+  const primaryTeam = getTeamById(data.primaryTeam);
+
+  if (!primaryTeam) {
+    errors.primaryTeam = 'Choose a primary team.';
+  }
+
+  if (data.secondaryTeam && data.secondaryTeam === data.primaryTeam) {
+    errors.secondaryTeam = 'Choose a different team for your second preference.';
+  }
+
+  if (!cleanString(data.whyEcell)) {
+    errors.whyEcell = 'This field is required.';
+  }
+
+  if (!cleanString(data.whyPrimaryTeam)) {
+    errors.whyPrimaryTeam = 'This field is required.';
+  }
+
+  if (!cleanString(data.experience)) {
+    errors.experience = 'This field is required.';
+  }
+
+  if (!cleanString(data.availability)) {
+    errors.availability = 'This field is required.';
+  }
+
+  if (data.secondaryTeam && !cleanString(data.secondaryTeamReason)) {
+    // The second-preference explanation is intentionally optional.
+    delete errors.secondaryTeamReason;
+  }
+
+  if (primaryTeam) {
+    const answers = Array.isArray(teamAnswers[primaryTeam.id]) ? teamAnswers[primaryTeam.id] : [];
+    const answersById = new Map(answers.map(answer => [answer.questionId, answer]));
+
+    for (const question of primaryTeam.questions) {
+      const answer = answersById.get(question.id);
+      const value = question.type === 'multiselect' ? answer?.selectedOptions : question.type === 'url' ? answer?.link : answer?.answerText;
+      const empty = question.type === 'multiselect' ? !Array.isArray(value) || value.length === 0 : !cleanString(value);
+
+      if (question.required && empty) {
+        errors[`team_${question.id}`] = 'This field is required.';
+      } else if (question.type === 'multiselect' && Array.isArray(value) && value.some(option => !question.options.includes(option))) {
+        errors[`team_${question.id}`] = 'Choose valid options.';
+      } else if (question.type === 'url' && !validateUrl(value)) {
+        errors[`team_${question.id}`] = 'Enter a valid URL.';
+      }
+    }
+  }
+
+  return errors;
 }

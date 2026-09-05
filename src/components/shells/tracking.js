@@ -1,35 +1,143 @@
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { getTeamById } from '@/config/teams';
 import { STATUS_COPY, STATUS_TOKENS } from '@/lib/design-system';
 import { Button, FormField, Input } from '../ui/forms';
 import { Container, PageShell, PaperCard, Section, Stack } from '../ui/layout';
 
-export function TrackingShell({ status = 'submitted' }) {
+const APPLICATION_CODE_PATTERN = /^EC26-[ABCDEFGHJKMNPQRSTUVWXYZ23456789]{5}$/;
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const TRACKING_ERROR = 'We couldn\'t find an application with those details.';
+const TRACKING_ERROR_HELPER = 'Check your Application ID and registered email, then try again.';
+const NETWORK_ERROR = 'We couldn\'t check your application right now. Please try again.';
+
+function normalizeApplicationCode(value) {
+  return typeof value === 'string' ? value.trim().toUpperCase() : '';
+}
+
+function validateTrackingForm(data) {
+  const errors = {};
+  const applicationCode = normalizeApplicationCode(data.applicationCode);
+  const email = typeof data.email === 'string' ? data.email.trim().toLowerCase() : '';
+
+  if (!applicationCode) errors.applicationCode = 'This field is required.';
+  else if (!APPLICATION_CODE_PATTERN.test(applicationCode)) errors.applicationCode = 'Enter a valid Application ID.';
+  if (!email) errors.email = 'This field is required.';
+  else if (!EMAIL_PATTERN.test(email)) errors.email = 'Enter a valid email address.';
+  return errors;
+}
+
+function isSafeResult(value) {
+  return value && typeof value === 'object'
+    && typeof value.applicationCode === 'string'
+    && APPLICATION_CODE_PATTERN.test(value.applicationCode)
+    && typeof value.firstName === 'string'
+    && typeof value.primaryTeam === 'string'
+    && Object.hasOwn(STATUS_COPY, value.status);
+}
+
+export function TrackingShell({ loading = false }) {
+  const searchParams = useSearchParams();
+  const [form, setForm] = useState({ applicationCode: '', email: '' });
+  const [errors, setErrors] = useState({});
+  const [result, setResult] = useState(null);
+  const [formError, setFormError] = useState('');
+  const [loadingRequest, setLoadingRequest] = useState(false);
+  const resultRef = useRef(null);
+
+  useEffect(() => {
+    const queryCode = normalizeApplicationCode(searchParams.get('id'));
+    if (APPLICATION_CODE_PATTERN.test(queryCode)) setForm(previous => ({ ...previous, applicationCode: queryCode }));
+  }, [searchParams]);
+
+  useEffect(() => {
+    if (result && resultRef.current) resultRef.current.focus();
+  }, [result]);
+
+  function updateField(field, value) {
+    const nextValue = field === 'applicationCode' ? normalizeApplicationCode(value) : value;
+    setForm(previous => ({ ...previous, [field]: nextValue }));
+    setErrors(previous => ({ ...previous, [field]: undefined }));
+    setFormError('');
+  }
+
+  async function checkStatus(event) {
+    event.preventDefault();
+    if (loadingRequest) return;
+
+    const normalizedForm = {
+      applicationCode: normalizeApplicationCode(form.applicationCode),
+      email: typeof form.email === 'string' ? form.email.trim().toLowerCase() : ''
+    };
+    const validationErrors = validateTrackingForm(normalizedForm);
+    setForm(normalizedForm);
+    setErrors(validationErrors);
+    setResult(null);
+    setFormError('');
+    if (Object.keys(validationErrors).length > 0) return;
+
+    setLoadingRequest(true);
+    try {
+      const response = await fetch('/api/applications/track', {
+        body: JSON.stringify(normalizedForm),
+        headers: { 'Content-Type': 'application/json' },
+        method: 'POST'
+      });
+      const body = await response.json().catch(() => ({}));
+      if (response.status === 404) {
+        setFormError(TRACKING_ERROR);
+        return;
+      }
+      if (!response.ok || !isSafeResult(body.application)) {
+        setFormError(NETWORK_ERROR);
+        return;
+      }
+      setResult(body.application);
+    } catch {
+      setFormError(NETWORK_ERROR);
+    } finally {
+      setLoadingRequest(false);
+    }
+  }
+
+  function clearResult() {
+    setResult(null);
+    setFormError('');
+    setErrors({});
+  }
+
+  if (loading) {
+    return <PageShell><Section spacing="compact"><Container width="form"><PaperCard><p className="body text-muted">Preparing application tracking.</p></PaperCard></Container></Section></PageShell>;
+  }
+
   return (
-    <PageShell>
+    <PageShell className="tracking-experience">
       <Section spacing="compact">
         <Container width="form">
           <div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
-            <PaperCard>
+            <PaperCard className="tracking-card">
               <Stack gap="lg">
                 <Stack gap="sm">
-                  <p className="eyebrow text-muted">Tracking shell</p>
+                  <p className="eyebrow text-muted">E-CELL MET / Recruitment 2026-27</p>
                   <h1 className="display-section">Track your application</h1>
-                  <p className="body-large text-muted">
-                    Enter the Application ID you received after submitting and the email you applied with.
-                  </p>
+                  <p className="body-large text-muted">Enter your Application ID and the email address you used while applying.</p>
                 </Stack>
-                <form className="grid gap-5" aria-label="Track application placeholder form">
-                  <FormField id="applicationId" label="Application ID">
-                    {(fieldProps) => <Input placeholder="ECR26-0000" type="text" {...fieldProps} disabled />}
+                <form aria-describedby={formError ? 'tracking-form-error' : undefined} aria-label="Track application" className="grid gap-5" noValidate onSubmit={checkStatus}>
+                  <FormField error={errors.applicationCode} id="applicationCode" label="Application ID" required>
+                    {(fieldProps) => <Input {...fieldProps} autoComplete="off" error={Boolean(errors.applicationCode)} onChange={(event) => updateField('applicationCode', event.target.value)} placeholder="EC26-XXXXXX" type="text" value={form.applicationCode} />}
                   </FormField>
-                  <FormField id="trackingEmail" label="Email address">
-                    {(fieldProps) => <Input placeholder="you@example.com" type="email" {...fieldProps} disabled />}
+                  <FormField error={errors.email} id="trackingEmail" label="Email address" required>
+                    {(fieldProps) => <Input {...fieldProps} autoComplete="email" error={Boolean(errors.email)} onChange={(event) => updateField('email', event.target.value)} placeholder="you@example.com" type="email" value={form.email} />}
                   </FormField>
-                  <Button disabled>Check status &rarr;</Button>
+                  {formError ? <div aria-live="assertive" className="rounded-[var(--radius-control)] border border-error bg-[var(--color-error-surface)]/35 p-3" id="tracking-form-error" role="alert"><p className="body-small text-error">{formError}</p>{formError === TRACKING_ERROR ? <p className="helper mt-1">{TRACKING_ERROR_HELPER}</p> : null}</div> : null}
+                  <Button disabled={loadingRequest} type="submit">{loadingRequest ? 'Checking...' : 'Check status'} &rarr;</Button>
                 </form>
+                {result ? <Button onClick={clearResult} type="button" variant="ghost">Change details</Button> : null}
               </Stack>
             </PaperCard>
-
-            <StatusDisplay status={status} />
+            {result ? <StatusDisplay className="tracking-result" result={result} resultRef={resultRef} /> : <TrackingHint />}
           </div>
         </Container>
       </Section>
@@ -37,28 +145,14 @@ export function TrackingShell({ status = 'submitted' }) {
   );
 }
 
-export function StatusDisplay({ status = 'submitted', className = '' }) {
-  const copy = STATUS_COPY[status] || STATUS_COPY.submitted;
-  const accent = STATUS_TOKENS[status] || STATUS_TOKENS.submitted;
+function TrackingHint() {
+  return <aside aria-label="Application tracking information" className="rounded-[var(--radius-paper)] border border-border bg-[var(--color-ivory-50)] p-5 sm:p-7"><Stack gap="md"><p className="eyebrow text-muted">PRIVATE LOOKUP</p><h2 className="heading">Your status, when you need it.</h2><p className="body text-muted">Your Application ID and registered email are both needed to check an application.</p></Stack></aside>;
+}
 
-  return (
-    <aside
-      aria-label={`Application status: ${copy.label}`}
-      className={`rounded-[var(--radius-paper)] border border-border bg-[var(--color-ivory-50)] p-5 shadow-[var(--shadow-soft)] sm:p-7 ${className}`}
-    >
-      <Stack gap="md">
-        <span
-          className="inline-flex min-h-11 w-fit items-center rounded-full border border-border px-4 py-2 text-sm font-medium"
-          style={{ background: `color-mix(in srgb, ${accent} 58%, var(--color-ivory-50))` }}
-        >
-          {copy.label}
-        </span>
-        <div>
-          <h2 className="heading">{copy.title}</h2>
-          <p className="body mt-3 text-muted">{copy.description}</p>
-        </div>
-        <p className="helper">Status uses color plus text, so the stage is never communicated by color alone.</p>
-      </Stack>
-    </aside>
-  );
+export function StatusDisplay({ result, resultRef, className = '' }) {
+  const copy = STATUS_COPY[result.status];
+  const accent = STATUS_TOKENS[result.status];
+  const team = getTeamById(result.primaryTeam);
+
+  return <aside aria-label={`Application status: ${copy.label}`} className={`rounded-[var(--radius-paper)] border border-border bg-[var(--color-ivory-50)] p-5 shadow-[var(--shadow-soft)] sm:p-7 ${className}`} ref={resultRef} tabIndex="-1"><Stack gap="md"><p className="eyebrow text-muted">APPLICATION STATUS</p><span className="inline-flex min-h-11 w-fit items-center rounded-full border border-border px-4 py-2 text-sm font-medium" style={{ background: `color-mix(in srgb, ${accent} 58%, var(--color-ivory-50))` }}>{copy.label}</span><div><p className="helper">{result.applicationCode}</p><h2 className="heading mt-2">{copy.title}</h2><p className="body mt-3 text-muted">{copy.description}</p></div><dl className="grid gap-4 border-t border-border pt-4 sm:grid-cols-2"><div><dt className="helper">Applicant</dt><dd className="body mt-1 break-words">{result.firstName}</dd></div><div><dt className="helper">Primary team</dt><dd className="body mt-1 break-words">{team?.name || 'Team'}</dd></div></dl></Stack></aside>;
 }

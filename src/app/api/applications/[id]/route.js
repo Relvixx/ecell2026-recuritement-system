@@ -1,8 +1,10 @@
 import dbConnect from '../../../../../lib/mongodb';
 import { requireAuth } from '../../../../../lib/auth';
 import Application2026 from '../../../../../models/Application2026';
+import mongoose from 'mongoose';
 import {
   AVAILABILITY_IDS,
+  RECRUITMENT_CYCLE,
   STATUS_IDS,
   TEAM_IDS,
   YEAR_IDS,
@@ -17,6 +19,10 @@ function cleanString(value) {
 
 function jsonError(error, status = 400) {
   return Response.json({ error }, { status });
+}
+
+function isValidApplicationId(id) {
+  return mongoose.isValidObjectId(id);
 }
 
 function normalizeEmail(value) {
@@ -142,7 +148,14 @@ export const GET = requireAuth(async function GET(request, { params }) {
     await dbConnect();
 
     const { id } = await params;
-    const application = await Application2026.findById(id).select('-__v').lean();
+    if (!isValidApplicationId(id)) {
+      return jsonError('Application not found', 404);
+    }
+
+    const application = await Application2026.findOne({
+      _id: id,
+      recruitmentCycle: RECRUITMENT_CYCLE
+    }).select('-__v').lean();
 
     if (!application) {
       return jsonError('Application not found', 404);
@@ -174,7 +187,14 @@ export const PUT = requireAuth(async function PUT(request, { params }) {
     }
 
     const { id } = await params;
-    const application = await Application2026.findById(id).select('-__v');
+    if (!isValidApplicationId(id)) {
+      return jsonError('Application not found', 404);
+    }
+
+    const application = await Application2026.findOne({
+      _id: id,
+      recruitmentCycle: RECRUITMENT_CYCLE
+    }).select('-__v');
 
     if (!application) {
       return jsonError('Application not found', 404);
@@ -213,7 +233,14 @@ export const DELETE = requireAuth(async function DELETE(request, { params }) {
     await dbConnect();
 
     const { id } = await params;
-    const application = await Application2026.findByIdAndDelete(id);
+    if (!isValidApplicationId(id)) {
+      return jsonError('Application not found', 404);
+    }
+
+    const application = await Application2026.findOneAndDelete({
+      _id: id,
+      recruitmentCycle: RECRUITMENT_CYCLE
+    });
 
     if (!application) {
       return jsonError('Application not found', 404);
