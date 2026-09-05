@@ -52,6 +52,39 @@ export const STATUS_TOKENS = {
   rejected: 'var(--status-rejected)'
 };
 
+export const STATUS_COPY = {
+  submitted: {
+    label: 'Submitted',
+    title: 'Application received',
+    description: 'Your application is safely with us.'
+  },
+  under_review: {
+    label: 'Under Review',
+    title: 'Under review',
+    description: 'The team is currently going through your application.'
+  },
+  shortlisted: {
+    label: 'Shortlisted',
+    title: "You've been shortlisted",
+    description: "You've moved to the next stage. Keep an eye on your registered contact details for further information."
+  },
+  interview: {
+    label: 'Interview',
+    title: 'Interaction stage',
+    description: 'Your application has moved to the interaction/interview stage.'
+  },
+  selected: {
+    label: 'Selected',
+    title: "You're in.",
+    description: "Congratulations-you've been selected for E-CELL MET."
+  },
+  rejected: {
+    label: 'Rejected',
+    title: 'Application update',
+    description: "Your application hasn't been selected for this recruitment cycle. Thank you for taking the time to apply and putting yourself forward."
+  }
+};
+
 export const MEDIA_PLACEHOLDERS = {
   heroMain: {
     key: 'hero-main',

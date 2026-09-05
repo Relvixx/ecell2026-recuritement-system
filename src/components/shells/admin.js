@@ -1,0 +1,115 @@
+import Link from 'next/link';
+import { Button } from '../ui/forms';
+import { Container, PageShell, Stack, cn } from '../ui/layout';
+
+const adminNav = ['Overview', 'Candidates', 'Teams', 'Analytics'];
+
+export function AdminShell({ children, title = 'Recruitment 2026-27', subtitle, actions, adminSlot, logoutSlot }) {
+  return (
+    <PageShell variant="admin">
+      <div className="lg:grid lg:min-h-screen lg:grid-cols-[248px_1fr]">
+        <AdminSidebar adminSlot={adminSlot} logoutSlot={logoutSlot} />
+        <div className="min-w-0">
+          <AdminMobileNav />
+          <main className="py-6 lg:py-10">
+            <Container width="admin">
+              <Stack gap="lg">
+                <AdminHeader actions={actions} subtitle={subtitle} title={title} />
+                {children}
+              </Stack>
+            </Container>
+          </main>
+        </div>
+      </div>
+    </PageShell>
+  );
+}
+
+export function AdminSidebar({ adminSlot = 'Admin', logoutSlot }) {
+  return (
+    <aside className="hidden border-r border-border bg-[var(--color-ivory-50)] p-6 lg:flex lg:flex-col lg:justify-between">
+      <Stack gap="lg">
+        <Link className="label min-h-11 inline-flex items-center" href="/">
+          E-CELL
+        </Link>
+        <nav aria-label="Admin workspace" className="grid gap-1">
+          {adminNav.map((item, index) => (
+            <a
+              aria-current={index === 0 ? 'page' : undefined}
+              className={cn(
+                'min-h-11 rounded-[var(--radius-control)] px-3 py-2 text-sm text-muted hover:bg-[var(--color-surface-muted)] hover:text-foreground',
+                index === 0 && 'bg-[var(--color-surface-muted)] text-foreground'
+              )}
+              href="#"
+              key={item}
+            >
+              {item}
+            </a>
+          ))}
+        </nav>
+      </Stack>
+      <div className="grid gap-3 border-t border-border pt-5">
+        <div className="body-small text-muted">{adminSlot}</div>
+        {logoutSlot || <button className="min-h-11 rounded-[var(--radius-control)] text-left text-sm text-muted hover:text-foreground" type="button">Logout</button>}
+      </div>
+    </aside>
+  );
+}
+
+export function AdminMobileNav() {
+  return (
+    <header className="border-b border-border bg-[var(--color-ivory-50)] p-4 lg:hidden">
+      <div className="flex items-center justify-between gap-4">
+        <Link className="label" href="/">
+          E-CELL
+        </Link>
+        <Button className="min-h-11 px-4 py-2 sm:min-h-11" href="/admin" variant="secondary">
+          Admin
+        </Button>
+      </div>
+      <nav aria-label="Admin mobile workspace" className="mt-4 flex gap-2 overflow-x-auto">
+        {adminNav.map((item) => (
+          <a className="min-h-11 shrink-0 rounded-[var(--radius-control)] border border-border bg-surface px-3 py-2 text-sm text-muted" href="#" key={item}>
+            {item}
+          </a>
+        ))}
+      </nav>
+    </header>
+  );
+}
+
+export function AdminHeader({ title, subtitle, actions }) {
+  return (
+    <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div>
+        <p className="eyebrow text-muted">Recruitment 2026-27</p>
+        <h1 className="heading mt-2">{title}</h1>
+        {subtitle ? <p className="body mt-2 max-w-[680px] text-muted">{subtitle}</p> : null}
+      </div>
+      {actions ? <div className="flex flex-wrap gap-3">{actions}</div> : null}
+    </header>
+  );
+}
+
+export function MetricCard({ label, value = '--', accent = 'var(--color-powder-blue)' }) {
+  return (
+    <article className="rounded-[var(--radius-card)] border border-border bg-surface p-5" style={{ borderTop: `5px solid ${accent}` }}>
+      <p className="body-small text-muted">{label}</p>
+      <p className="heading mt-3">{value}</p>
+    </article>
+  );
+}
+
+export function EmptyState({ title = 'No applications yet.', description = 'New candidates will appear here once recruitment opens.', action }) {
+  return (
+    <section className="rounded-[var(--radius-paper)] border border-dashed border-border bg-[var(--color-ivory-50)] p-6 text-center sm:p-10">
+      <h2 className="heading">{title}</h2>
+      <p className="body mx-auto mt-3 max-w-[520px] text-muted">{description}</p>
+      {action ? <div className="mt-6">{action}</div> : null}
+    </section>
+  );
+}
+
+export function SkeletonBlock({ className = '' }) {
+  return <div aria-hidden="true" className={cn('min-h-11 animate-pulse rounded-[var(--radius-control)] bg-[var(--color-surface-muted)]', className)} />;
+}
