@@ -1,31 +1,14 @@
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 export const metadata = {
-  title: "E-CELL MET — 2025 Team Application",
-  description: "Where Ideas Meet Execution — E-Cell MET 2025–26 application portal",
+  title: "E-CELL MET Recruitment 2026-27",
+  description: "E-CELL MET recruitment application and tracking platform for 2026-27.",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        {children}
-        <footer className="text-center text-sm text-gray-600 py-4 border-t">
-          © {new Date().getFullYear()} E-CELL MET — Where Ideas Meet Execution
-          <br /> Built by <a href="https://linked.com/in/hirodkar">Tanmay Hirodkar</a>
-        </footer>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

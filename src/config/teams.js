@@ -1,4 +1,5 @@
 import { TEAM_IDS } from '../../lib/recruitment2026';
+import { TEAM_ACCENT_TOKENS } from '../lib/design-system';
 
 export const TEAM_REASSURANCE = "You don't need to know everything already. Curiosity and willingness to learn matter.";
 
@@ -375,6 +376,12 @@ export const TEAMS = [
 ];
 
 export const TEAMS_BY_ID = Object.fromEntries(TEAMS.map(team => [team.id, team]));
+
+export const TEAM_VISUAL_TOKENS = TEAM_ACCENT_TOKENS;
+
+export function getTeamAccent(teamId) {
+  return TEAM_VISUAL_TOKENS[teamId] || null;
+}
 
 export function getTeamById(teamId) {
   return TEAMS_BY_ID[teamId] || null;
