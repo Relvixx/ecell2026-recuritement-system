@@ -27,6 +27,7 @@ export function ParticipantHeader({ onMenuChange }) {
 
   useEffect(() => {
     onMenuChange?.(open);
+    window.dispatchEvent(new CustomEvent('participant-menu-change', { detail: { open } }));
   }, [onMenuChange, open]);
 
   useEffect(() => {
@@ -59,7 +60,7 @@ export function ParticipantHeader({ onMenuChange }) {
 
         <div className="hidden md:block">
           <Button className="min-h-11 sm:min-h-11" href="/apply">
-            Apply Now <span className="arrow-shift" aria-hidden="true">&rarr;</span>
+            Apply Now <span className="arrow-shift" aria-hidden="true">&#8599;</span>
           </Button>
         </div>
 
@@ -96,7 +97,7 @@ export function ParticipantHeader({ onMenuChange }) {
                 </a>
               ))}
               <Button className="mt-4 w-full" href="/apply" onClick={() => setOpen(false)}>
-                Start Application <span className="arrow-shift" aria-hidden="true">&rarr;</span>
+                Start Application <span className="arrow-shift" aria-hidden="true">&#8599;</span>
               </Button>
             </nav>
           </Container>
@@ -115,7 +116,7 @@ export function ParticipantFooter() {
         <div className="grid gap-8 sm:grid-cols-[1fr_auto] sm:items-start">
           <div>
             <p className="label">E-CELL MET</p>
-            <p className="body-small mt-2 text-muted">Recruitment 2026-27</p>
+            <p className="body-small mt-2 text-muted">Recruitment 2026&ndash;27</p>
           </div>
           <nav aria-label="Footer" className="flex flex-wrap gap-4 text-sm text-muted">
             {footerLinks.map((label) => (

@@ -2,10 +2,20 @@
 
 import { useEffect, useState } from 'react';
 import { TEAMS } from '@/config/teams';
-import { MobileStickyApply, TeamDetailPanel, TeamSelectorCard, FeaturedTeamCard, Button } from '@/components';
+import { Button } from '@/components/ui/forms';
+import { MobileStickyApply } from '@/components/shells/participant';
+import { FeaturedTeamCard, TeamDetailPanel, TeamSelectorCard } from '@/components/shells/teams';
 
 export function LandingStickyApplyController() {
   const [hidden, setHidden] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleMenuChange = (event) => setMenuOpen(Boolean(event.detail?.open));
+
+    window.addEventListener('participant-menu-change', handleMenuChange);
+    return () => window.removeEventListener('participant-menu-change', handleMenuChange);
+  }, []);
 
   useEffect(() => {
     const heroCta = document.querySelector('[data-hero-cta]');
@@ -39,7 +49,7 @@ export function LandingStickyApplyController() {
     return () => observer.disconnect();
   }, []);
 
-  return <MobileStickyApply hidden={hidden} />;
+  return <MobileStickyApply hidden={hidden || menuOpen} />;
 }
 
 export function TeamExplorer() {
@@ -48,30 +58,38 @@ export function TeamExplorer() {
   const selectedTeam = TEAMS.find((team) => team.id === selectedTeamId) || TEAMS[0];
 
   return (
-    <div className="grid gap-5 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
-      <div className="motion-fade-up">
+    <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
+      <div className="motion-fade-up lg:sticky lg:top-28">
         <FeaturedTeamCard team={selectedTeam} />
         <div className="mt-4 flex flex-col gap-3 sm:flex-row">
           <Button onClick={() => setDetailsOpen(true)} variant="secondary">
             View team details
           </Button>
-          <Button href={`/apply?team=${selectedTeam.id}`}>
-            Apply for this team &rarr;
-          </Button>
         </div>
       </div>
 
-      <div className="grid gap-3 sm:grid-cols-2">
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:flex lg:flex-wrap lg:items-start lg:gap-3">
         {TEAMS.map((team, index) => (
-          <TeamSelectorCard
+          <div
+            className={[
+              'lg:basis-[calc(50%-0.4rem)]',
+              index === 1 || index === 4 ? 'lg:translate-y-5' : '',
+              index === 2 ? 'lg:basis-[58%]' : '',
+              index === 5 ? 'lg:basis-[42%]' : ''
+            ].join(' ')}
             key={team.id}
-            onSelect={(teamId) => {
-              setSelectedTeamId(teamId);
-              setDetailsOpen(false);
-            }}
-            selected={team.id === selectedTeamId}
-            team={team}
-          />
+          >
+            <TeamSelectorCard
+              compact
+              index={index}
+              onSelect={(teamId) => {
+                setSelectedTeamId(teamId);
+                setDetailsOpen(false);
+              }}
+              selected={team.id === selectedTeamId}
+              team={team}
+            />
+          </div>
         ))}
       </div>
 
@@ -101,7 +119,7 @@ export function FAQAccordion({ items }) {
             <button
               aria-controls={panelId}
               aria-expanded={open}
-              className="flex min-h-16 w-full items-center justify-between gap-5 py-4 text-left"
+              className="flex min-h-[72px] w-full items-center justify-between gap-5 py-5 text-left"
               id={buttonId}
               onClick={() => setOpenIndex(open ? -1 : index)}
               type="button"
@@ -116,7 +134,7 @@ export function FAQAccordion({ items }) {
               role="region"
             >
               <div className="overflow-hidden">
-                <p className="body max-w-[720px] pb-5 text-muted">{item.answer}</p>
+                <p className="body max-w-[720px] pb-7 text-muted">{item.answer}</p>
               </div>
             </div>
           </section>

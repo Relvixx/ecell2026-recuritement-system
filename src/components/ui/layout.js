@@ -32,7 +32,7 @@ export function Container({ children, className = '', width = 'default' }) {
   );
 }
 
-export function Section({ children, className = '', tone = 'neutral', spacing = 'major' }) {
+export function Section({ children, className = '', tone = 'neutral', spacing = 'major', ...props }) {
   const tones = {
     neutral: '',
     surface: 'bg-[var(--color-ivory-100)]',
@@ -46,7 +46,7 @@ export function Section({ children, className = '', tone = 'neutral', spacing = 
     hero: 'py-10 sm:py-16 lg:py-20'
   };
 
-  return <section className={cn(tones[tone], spacings[spacing], className)}>{children}</section>;
+  return <section className={cn(tones[tone], spacings[spacing], className)} {...props}>{children}</section>;
 }
 
 export function Stack({ children, className = '', gap = 'md' }) {

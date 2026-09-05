@@ -15,7 +15,7 @@ export function TeamBadge({ teamId, className = '' }) {
   );
 }
 
-export function TeamSelectorCard({ team, selected = false, disabled = false, secondary = false, onSelect }) {
+export function TeamSelectorCard({ team, selected = false, disabled = false, secondary = false, compact = false, index, className = '', onSelect }) {
   const accent = getTeamAccent(team.id);
   const interactive = typeof onSelect === 'function';
   const Component = interactive ? 'button' : 'div';
@@ -24,25 +24,29 @@ export function TeamSelectorCard({ team, selected = false, disabled = false, sec
     <Component
       aria-pressed={interactive ? selected : undefined}
       className={cn(
-        'w-full rounded-[var(--radius-card)] border p-4 text-left transition duration-200',
+        'relative w-full overflow-hidden rounded-[var(--radius-card)] border text-left transition duration-200',
+        compact ? 'min-h-16 p-3 md:min-h-24 md:p-4' : 'p-4',
         selected ? 'border-foreground bg-[var(--team-accent)]' : 'border-border bg-[var(--color-ivory-50)]',
         secondary && 'opacity-85',
         disabled && 'cursor-not-allowed opacity-50',
-        interactive && 'min-h-28 hover:-translate-y-0.5 hover:border-foreground'
+        interactive && 'hover:-translate-y-0.5 hover:border-foreground',
+        className
       )}
       disabled={interactive ? disabled : undefined}
       onClick={interactive ? () => onSelect(team.id) : undefined}
       style={{ '--team-accent': accent?.surface || 'var(--color-surface-muted)' }}
       type={interactive ? 'button' : undefined}
     >
-      <div className="flex items-start justify-between gap-3">
+      <span aria-hidden="true" className="absolute -right-5 -top-5 h-16 w-16 rounded-full bg-[var(--team-accent)] opacity-45" />
+      <div className="relative flex items-start justify-between gap-3">
         <div>
-          <p className="body-small text-muted">{team.tagline}</p>
-          <h3 className="heading mt-1 text-[1.35rem]">{team.name}</h3>
+          {typeof index === 'number' ? <p className="body-small text-muted">{String(index + 1).padStart(2, '0')}</p> : null}
+          <p className={compact ? 'body-small hidden text-muted md:block' : 'body-small text-muted'}>{team.tagline}</p>
+          <h3 className={compact ? 'label mt-1 text-[0.98rem] md:text-[1.08rem]' : 'heading mt-1 text-[1.35rem]'}>{team.name}</h3>
         </div>
-        {selected ? <span className="label rounded-full bg-[var(--color-ivory-50)] px-3 py-1">Selected</span> : null}
+        {selected ? <span className="body-small rounded-full bg-[var(--color-ivory-50)] px-2.5 py-1">Selected</span> : null}
       </div>
-      <p className="body-small mt-4 text-muted">{team.shortDescription}</p>
+      {compact ? null : <p className="body-small mt-4 text-muted">{team.shortDescription}</p>}
     </Component>
   );
 }
@@ -51,7 +55,9 @@ export function FeaturedTeamCard({ team = TEAMS[0] }) {
   const accent = getTeamAccent(team.id);
 
   return (
-    <EditorialCard accent={accent?.surface} className="min-h-[320px]">
+    <EditorialCard accent={accent?.surface} className="relative min-h-[320px] overflow-hidden">
+      <span aria-hidden="true" className="absolute -right-12 top-8 h-36 w-36 rounded-full border border-foreground/10" />
+      <span aria-hidden="true" className="absolute bottom-8 right-10 h-px w-28 rotate-[-8deg] bg-foreground/20" />
       <Stack gap="md">
         <TeamBadge teamId={team.id} />
         <div>
@@ -61,7 +67,7 @@ export function FeaturedTeamCard({ team = TEAMS[0] }) {
         <p className="body-large text-muted">{team.description}</p>
         <p className="body">{team.idealFor}</p>
         <Button href={`/apply?team=${team.id}`} variant="secondary">
-          Apply for this team &rarr;
+          Apply for this team &#8599;
         </Button>
       </Stack>
     </EditorialCard>
@@ -110,7 +116,7 @@ export function TeamDetailPanel({ team = TEAMS[0], onClose }) {
           </ul>
         </div>
         <p className="helper">{team.reassurance}</p>
-        <Button href={`/apply?team=${team.id}`}>Apply for this team &rarr;</Button>
+        <Button href={`/apply?team=${team.id}`}>Apply for this team &#8599;</Button>
       </Stack>
     </section>
   );

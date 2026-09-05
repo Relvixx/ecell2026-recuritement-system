@@ -1,7 +1,7 @@
 import { MEDIA_PLACEHOLDERS } from '@/lib/design-system';
 import { cn } from '../ui/layout';
 
-export function EditorialPhotoFrame({ mediaKey = 'heroMain', caption, className = '', rotate = 'none' }) {
+export function EditorialPhotoFrame({ mediaKey = 'heroMain', caption, className = '', mediaClassName = '', rotate = 'none' }) {
   const media = MEDIA_PLACEHOLDERS[mediaKey];
   const rotations = {
     none: '',
@@ -11,7 +11,7 @@ export function EditorialPhotoFrame({ mediaKey = 'heroMain', caption, className 
 
   return (
     <figure className={cn('relative rounded-[1.75rem] border border-border bg-surface p-2 shadow-[var(--shadow-soft)]', rotations[rotate], className)}>
-      <div className="aspect-[4/3] overflow-hidden rounded-[1.35rem] bg-[linear-gradient(135deg,var(--color-ivory-50),var(--color-powder-blue),var(--color-peach))]" />
+      <div className={cn('aspect-[4/3] overflow-hidden rounded-[1.35rem] bg-[linear-gradient(135deg,var(--color-ivory-50),var(--color-powder-blue),var(--color-peach))]', mediaClassName)} />
       {caption || media?.label ? <MediaCaption>{caption || media.label}</MediaCaption> : null}
     </figure>
   );

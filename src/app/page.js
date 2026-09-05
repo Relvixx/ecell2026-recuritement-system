@@ -1,0 +1,366 @@
+import { Button } from '@/components/ui/forms';
+import { Container, EditorialCard, Eyebrow, PageShell, Section, Stack } from '@/components/ui/layout';
+import { AnnotationLabel, EditorialPhotoFrame, EditorialUnderline, IrregularPaperBlock, TapeAccent } from '@/components/shells/editorial';
+import { ParticipantFooter, ParticipantHeader } from '@/components/shells/participant';
+import { FAQAccordion, LandingStickyApplyController, TeamExplorer } from '@/components/landing/LandingInteractions';
+
+const lifeMoments = [
+  {
+    key: 'lifePrep',
+    caption: 'the calm before the event',
+    className: 'w-full lg:col-span-7 lg:row-span-2',
+    mediaClassName: 'aspect-[1.18/1] lg:aspect-[1.28/1]'
+  },
+  {
+    key: 'lifeTeam',
+    caption: '',
+    className: 'ml-auto w-[74%] lg:col-span-4 lg:col-start-9 lg:row-span-2 lg:w-full lg:translate-y-12',
+    mediaClassName: 'aspect-[3/4] lg:aspect-[3/4.45]'
+  },
+  {
+    key: 'lifeEvent',
+    caption: 'this is what execution looks like',
+    className: 'w-[92%] lg:col-span-5 lg:col-start-2 lg:w-full lg:-translate-y-2',
+    mediaClassName: 'aspect-[1.35/1] lg:aspect-[1.45/1]'
+  },
+  {
+    key: 'lifeBts',
+    caption: 'behind the scenes >',
+    className: 'ml-8 w-[68%] lg:col-span-3 lg:col-start-8 lg:ml-0 lg:w-full lg:-translate-y-10',
+    mediaClassName: 'aspect-[1/1]'
+  },
+  {
+    key: 'lifeCelebration',
+    caption: '',
+    className: 'ml-auto w-[82%] lg:col-span-4 lg:col-start-1 lg:w-full lg:translate-y-8',
+    mediaClassName: 'aspect-[4/3]'
+  },
+  {
+    key: 'lifeVideoPoster',
+    caption: 'video poster placeholder',
+    className: 'w-full lg:col-span-6 lg:col-start-6 lg:w-full',
+    mediaClassName: 'aspect-[16/10]'
+  }
+];
+
+const benefits = [
+  {
+    title: 'Build things that matter',
+    body: 'Work on projects, events and systems that other people will actually experience.',
+    accent: 'var(--color-powder-blue)',
+    className: 'lg:col-span-5'
+  },
+  {
+    title: 'Own real responsibility',
+    body: "Your contribution won't stay inside an assignment folder. People will depend on it.",
+    accent: 'var(--color-peach)',
+    className: 'lg:col-span-4 lg:translate-y-10'
+  },
+  {
+    title: 'Learn outside your branch',
+    body: "Work with people who think differently from you and pick up skills classrooms don't always teach.",
+    accent: 'var(--color-sage)',
+    className: 'lg:col-span-3'
+  },
+  {
+    title: 'Meet people who execute',
+    body: 'Surround yourself with students who like turning ideas into action.',
+    accent: 'var(--color-blush)',
+    className: 'lg:col-span-6 lg:-translate-y-4'
+  },
+  {
+    title: 'Get comfortable figuring things out',
+    body: "You won't always know the answer before you start. That's part of the point.",
+    accent: 'var(--color-butter)',
+    className: 'lg:col-span-6 lg:translate-y-8'
+  }
+];
+
+const journeyStages = [
+  {
+    number: '01',
+    title: 'APPLY',
+    body: "Tell us about yourself, what you'd like to work on and why."
+  },
+  {
+    number: '02',
+    title: 'WE REVIEW',
+    body: 'The team goes through your application and understands where you may fit best.'
+  },
+  {
+    number: '03',
+    title: 'INTERACTION',
+    body: 'Shortlisted applicants move to a conversation or interview with the team.'
+  },
+  {
+    number: '04',
+    title: 'FINAL CALL',
+    body: 'After interaction, final selections are made.'
+  },
+  {
+    number: '05',
+    title: 'WELCOME IN',
+    body: 'If selected, your E-CELL journey starts here.'
+  }
+];
+
+const faqItems = [
+  {
+    question: 'Do I need previous experience?',
+    answer: "No. Previous experience can help, but it isn't the only thing we're looking for. Curiosity, effort, thinking and willingness to learn matter too."
+  },
+  {
+    question: 'Can first-year students apply?',
+    answer: 'Yes. Recruitment is open to 1st, 2nd and 3rd-year students.'
+  },
+  {
+    question: 'Can I choose two teams?',
+    answer: "Yes. You'll choose one primary team and can optionally select a second preference."
+  },
+  {
+    question: "What if I'm unsure which team to choose?",
+    answer: "Explore the team descriptions first and choose the kind of work you'd genuinely enjoy trying. You don't need to have everything figured out already."
+  },
+  {
+    question: 'What happens after I submit?',
+    answer: "We'll review your application. If you're shortlisted, you'll receive details about the next interaction or interview stage."
+  },
+  {
+    question: 'How much time will E-CELL require?',
+    answer: "It depends on the team and what's happening that week. During events, things can get busier. In the application, we'll ask how much time you can realistically contribute."
+  },
+  {
+    question: 'Can I edit my application after submitting?',
+    answer: 'Please review your application carefully before submitting. If something important needs correcting later, contact the recruitment team.'
+  },
+  {
+    question: 'How will I know my application status?',
+    answer: "After submitting, you'll receive an Application ID that you can use with your registered email to track your current recruitment status."
+  }
+];
+
+export default function Home() {
+  return (
+    <PageShell className="overflow-x-hidden pb-24 md:pb-0">
+      <ParticipantHeader />
+
+      <Section spacing="hero">
+        <Container className="grid items-center gap-12 lg:min-h-[86svh] lg:grid-cols-[0.98fr_1.02fr] xl:gap-16">
+          <Stack gap="lg" className="motion-settle">
+            <div className="flex flex-wrap items-center gap-3">
+              <Eyebrow>Recruitment 2026&ndash;27</Eyebrow>
+              <span className="body-small inline-flex min-h-11 items-center gap-2 rounded-full bg-[var(--color-sage)] px-4 text-foreground">
+                <span aria-hidden="true">&#9679;</span>
+                Applications Open
+              </span>
+              <span className="body-small inline-flex min-h-11 items-center rounded-full border border-border bg-surface px-4 text-muted">
+                For 1st, 2nd &amp; 3rd year students
+              </span>
+            </div>
+
+            <h1 className="display-hero max-w-[760px]">
+              Don&apos;t just
+              <br />
+              join a club.
+              <br />
+              <EditorialUnderline>Build one.</EditorialUnderline>
+            </h1>
+
+            <p className="body-large max-w-[620px] text-muted">
+              Join the people behind the ideas, events, stories, systems and execution that make E-CELL happen.
+            </p>
+
+            <div className="flex flex-col gap-3 sm:flex-row" data-hero-cta>
+              <Button href="/apply">
+                Start your application <span className="arrow-shift" aria-hidden="true">&#8599;</span>
+              </Button>
+              <Button href="#teams" variant="ghost">
+                Explore the teams <span aria-hidden="true">&darr;</span>
+              </Button>
+            </div>
+          </Stack>
+
+          <div className="relative min-h-[430px] pt-4 sm:min-h-[500px] lg:min-h-[610px]">
+            <TapeAccent className="absolute left-10 top-2 z-10 lg:left-20" />
+            <EditorialPhotoFrame
+              className="motion-fade-up absolute left-0 top-8 w-[88%] lg:left-3 lg:top-4 lg:w-[82%]"
+              mediaClassName="aspect-[4/3] lg:aspect-[4/3.35]"
+              mediaKey="heroMain"
+            />
+            <div className="absolute bottom-0 right-0 w-[58%] max-w-[260px] lg:bottom-10 lg:w-[46%] lg:max-w-none">
+              <AnnotationLabel className="absolute -top-5 right-2 z-10">apply here &rarr;</AnnotationLabel>
+              <EditorialPhotoFrame className="motion-fade-up" mediaClassName="aspect-[1/1]" mediaKey="heroSecondary" rotate="left" />
+            </div>
+          </div>
+        </Container>
+      </Section>
+
+      <Section id="about" spacing="major" className="bg-[var(--color-peach)]/22">
+        <Container className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-center">
+          <Stack gap="lg">
+            <Stack gap="sm">
+              <Eyebrow>ABOUT US</Eyebrow>
+              <h2 className="display-section">What even is E-CELL?</h2>
+            </Stack>
+            <IrregularPaperBlock className="bg-[var(--color-ivory-50)]/88">
+              <p className="heading">Ideas are easy. Execution is the interesting part.</p>
+              <p className="body-large mt-5 text-muted">
+                E-CELL MET is a student-led community where ideas turn into events, projects, collaborations and real responsibility. Different teams bring different strengths&mdash;but everything comes together through execution.
+              </p>
+            </IrregularPaperBlock>
+            <div className="flex flex-wrap gap-x-5 gap-y-2 text-xs text-muted">
+              {['BUILD', 'CREATE', 'CONNECT', 'EXECUTE'].map((word) => (
+                <span className="border-b border-foreground/20 py-1" key={word}>
+                  {word}
+                </span>
+              ))}
+            </div>
+          </Stack>
+          <div className="relative">
+            <TapeAccent className="absolute -top-3 right-10 z-10 rotate-3" />
+            <EditorialPhotoFrame mediaKey="aboutTeam" rotate="right" />
+          </div>
+        </Container>
+      </Section>
+
+      <Section id="life" spacing="major" className="bg-[var(--color-blush)]/18">
+        <Container>
+          <div className="grid gap-10 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
+            <Stack gap="sm" className="lg:sticky lg:top-28">
+              <Eyebrow>BEHIND THE SCENES</Eyebrow>
+              <h2 className="display-section">Life at E-CELL</h2>
+              <p className="body-large max-w-[560px] text-muted">
+                Somewhere between planning, deadlines, ideas and a little chaos&mdash;things get built.
+              </p>
+            </Stack>
+
+            <div className="grid gap-5 lg:grid-cols-12 lg:grid-rows-[auto_auto_auto]">
+              {lifeMoments.map((moment, index) => (
+                <EditorialPhotoFrame
+                  caption={moment.caption || undefined}
+                  className={moment.className}
+                  key={moment.key}
+                  mediaClassName={moment.mediaClassName}
+                  mediaKey={moment.key}
+                  rotate={index === 1 ? 'left' : index === 3 ? 'right' : 'none'}
+                />
+              ))}
+            </div>
+          </div>
+        </Container>
+      </Section>
+
+      <Section id="teams" spacing="major">
+        <Container>
+          <Stack gap="lg">
+            <div className="grid gap-5 lg:grid-cols-[0.75fr_1.25fr] lg:items-end">
+              <Stack gap="sm">
+                <Eyebrow>THE TEAMS</Eyebrow>
+                <h2 className="display-section">Find your squad</h2>
+              </Stack>
+              <p className="body-large max-w-[680px] text-muted lg:justify-self-end">
+                Seven teams. Different strengths. Same mission. Pick the kind of work you&apos;d actually enjoy doing.
+              </p>
+            </div>
+            <TeamExplorer />
+          </Stack>
+        </Container>
+      </Section>
+
+      <Section spacing="major" className="bg-[var(--color-ivory-100)]">
+        <Container>
+          <Stack gap="lg">
+            <div className="max-w-[760px]">
+              <Eyebrow>WHY E-CELL?</Eyebrow>
+              <h2 className="display-section mt-3">What you&apos;ll actually get</h2>
+              <p className="body-large mt-5 text-muted">
+                The point isn&apos;t just being part of another club. It&apos;s getting the chance to do work that asks something from you.
+              </p>
+            </div>
+
+            <div className="grid gap-4 lg:grid-cols-12 lg:items-start">
+              {benefits.map((benefit, index) => (
+                <EditorialCard
+                  accent={benefit.accent}
+                  className={`${benefit.className} ${index % 2 === 1 ? 'max-lg:ml-6' : ''}`}
+                  key={benefit.title}
+                >
+                  <p className="body-small text-muted">{String(index + 1).padStart(2, '0')}</p>
+                  <h3 className="heading mt-4">{benefit.title}</h3>
+                  <p className="body mt-4 text-muted">{benefit.body}</p>
+                </EditorialCard>
+              ))}
+            </div>
+          </Stack>
+        </Container>
+      </Section>
+
+      <Section id="journey" spacing="major" className="bg-[var(--color-butter)]/24">
+        <Container>
+          <Stack gap="lg">
+            <div className="max-w-[780px]">
+              <Eyebrow>WHAT HAPPENS NEXT?</Eyebrow>
+              <h2 className="display-section mt-3">Here&apos;s what happens after you apply</h2>
+            </div>
+            <ol className="relative grid gap-8 lg:grid-cols-5 lg:gap-x-8 lg:gap-y-12 lg:pb-16">
+              <span aria-hidden="true" className="absolute left-5 top-6 hidden h-[calc(100%-3rem)] w-px bg-foreground/20 max-lg:block" />
+              <span aria-hidden="true" className="absolute left-8 right-8 top-8 hidden h-px bg-foreground/20 lg:block" />
+              {journeyStages.map((stage, index) => (
+                <li className="relative pl-14 lg:pl-0 lg:pt-16" key={stage.number}>
+                  <span className="absolute left-0 top-1 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full border border-border bg-surface text-sm font-medium lg:top-0">
+                    {stage.number}
+                  </span>
+                  <div className={index % 2 === 1 ? 'lg:translate-y-12' : ''}>
+                    <h3 className="label">{stage.title}</h3>
+                    <p className="body mt-3 text-muted lg:max-w-[210px]">{stage.body}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </Stack>
+        </Container>
+      </Section>
+
+      <Section id="faq" spacing="major">
+        <Container width="faq">
+          <Stack gap="lg">
+            <Stack gap="sm">
+              <Eyebrow>FAQ</Eyebrow>
+              <h2 className="display-section">A few things you might be wondering</h2>
+            </Stack>
+            <FAQAccordion items={faqItems} />
+          </Stack>
+        </Container>
+      </Section>
+
+      <Section spacing="compact" className="bg-[var(--color-lavender)]/32">
+        <Container>
+          <div className="relative overflow-hidden rounded-[var(--radius-paper)] border border-border bg-[var(--color-ivory-50)] p-6 shadow-[var(--shadow-soft)] sm:p-10 lg:p-12">
+            <TapeAccent className="absolute right-10 top-6 rotate-2" />
+            <Stack gap="lg" className="max-w-[760px]" data-final-cta>
+              <div>
+                <h2 className="display-section">
+                  Still scrolling?
+                  <br />
+                  <span className="text-muted">Might as well apply.</span>
+                </h2>
+                <p className="body-large mt-5 text-muted">
+                  Find the team you&apos;d enjoy working with and tell us what you can bring to it.
+                </p>
+              </div>
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                <Button href="/apply">
+                  Start your application <span className="arrow-shift" aria-hidden="true">&#8599;</span>
+                </Button>
+                <p className="body-small text-muted">For 1st, 2nd &amp; 3rd year students.</p>
+              </div>
+            </Stack>
+          </div>
+        </Container>
+      </Section>
+
+      <ParticipantFooter />
+      <LandingStickyApplyController />
+    </PageShell>
+  );
+}

@@ -1,4 +1,4 @@
-import { TEAM_IDS } from '../../lib/recruitment2026';
+import { TEAM_IDS } from './canonical';
 import { TEAM_ACCENT_TOKENS } from '../lib/design-system';
 
 export const TEAM_REASSURANCE = "You don't need to know everything already. Curiosity and willingness to learn matter.";
