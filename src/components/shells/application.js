@@ -71,13 +71,33 @@ export function ApplicationStepHeader({ eyebrow = 'E-CELL MET / Recruitment 2026
   );
 }
 
-export function ApplicationActions({ backLabel = 'Back', nextLabel = 'Continue', nextDisabled = false }) {
+export function ApplicationActions({
+  backLabel = 'Back',
+  nextLabel = 'Continue',
+  nextDisabled = false,
+  nextForm,
+  nextType = 'button',
+  onBack,
+  onNext,
+  showBack = true,
+  showNext = true
+}) {
   return (
     <div className="fixed inset-x-0 bottom-0 z-20 border-t border-border bg-background/95 px-4 py-3 pb-[calc(0.75rem+var(--safe-area-bottom))] sm:static sm:border-0 sm:bg-transparent sm:px-0 sm:pb-0">
       <Container width="form" className="px-0 sm:px-0 lg:px-0 xl:px-0">
         <div className="flex items-center justify-between gap-3">
-          <Button variant="secondary">{backLabel}</Button>
-          <Button disabled={nextDisabled}>{nextLabel} &rarr;</Button>
+          {showBack ? (
+            <Button onClick={onBack} type="button" variant="secondary">
+              {backLabel}
+            </Button>
+          ) : (
+            <span aria-hidden="true" />
+          )}
+          {showNext ? (
+            <Button disabled={nextDisabled} form={nextForm} onClick={onNext} type={nextType}>
+              {nextLabel} &rarr;
+            </Button>
+          ) : null}
         </div>
       </Container>
     </div>
