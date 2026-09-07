@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import {
   AVAILABILITY_IDS,
+  BRANCH_IDS,
   RECRUITMENT_CYCLE,
   STATUS_IDS,
   TEAM_IDS,
@@ -70,7 +71,8 @@ const Application2026Schema = new mongoose.Schema({
   branch: {
     type: String,
     required: true,
-    trim: true
+    trim: true,
+    enum: BRANCH_IDS
   },
   yearOfStudy: {
     type: String,

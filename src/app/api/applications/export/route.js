@@ -13,7 +13,12 @@ function cleanString(value) {
 }
 
 function csvEscape(value) {
-  const text = value === undefined || value === null ? '' : String(value);
+  let text = value === undefined || value === null ? '' : String(value);
+
+  if (/^[=+\-@]/.test(text)) {
+    text = `'${text}`;
+  }
+
   return `"${text.replace(/"/g, '""')}"`;
 }
 
