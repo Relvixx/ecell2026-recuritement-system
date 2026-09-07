@@ -2,9 +2,9 @@ import Link from 'next/link';
 import { cn } from './layout';
 
 const buttonVariants = {
-  primary: 'bg-foreground text-[var(--color-ivory-50)] hover:bg-[#3a3632]',
-  secondary: 'border border-border bg-surface text-foreground hover:bg-[var(--color-surface-muted)]',
-  ghost: 'text-foreground hover:bg-[var(--color-surface-muted)]'
+  primary: 'bg-foreground text-[#fffdf9] visited:text-[#fffdf9] hover:bg-[#3a3632] hover:text-[#fffdf9] focus-visible:text-[#fffdf9]',
+  secondary: 'border border-border bg-surface text-foreground visited:text-foreground hover:bg-[var(--color-surface-muted)]',
+  ghost: 'text-foreground visited:text-foreground hover:bg-[var(--color-surface-muted)]'
 };
 
 export function Button({
@@ -14,9 +14,12 @@ export function Button({
   isLoading = false,
   disabled = false,
   href,
+  style,
   type = 'button',
   ...props
 }) {
+  const primaryStyle = variant === 'primary' ? { color: 'var(--color-ivory-50)' } : null;
+  const resolvedStyle = primaryStyle || style ? { ...primaryStyle, ...style } : undefined;
   const classes = cn(
     'group inline-flex min-h-11 items-center justify-center gap-2 rounded-[1.15rem] px-5 py-3 text-center text-sm font-medium transition duration-200 ease-out disabled:pointer-events-none disabled:opacity-55 sm:min-h-[52px] sm:px-6',
     buttonVariants[variant],
@@ -27,14 +30,14 @@ export function Button({
 
   if (href) {
     return (
-      <Link className={classes} href={href} {...props}>
+      <Link className={classes} href={href} style={resolvedStyle} {...props}>
         {content}
       </Link>
     );
   }
 
   return (
-    <button className={classes} disabled={disabled || isLoading} type={type} {...props}>
+    <button className={classes} disabled={disabled || isLoading} style={resolvedStyle} type={type} {...props}>
       {content}
     </button>
   );

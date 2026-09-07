@@ -1,35 +1,54 @@
+import { NextResponse } from 'next/server';
 import dbConnect from '../../../../../lib/mongodb';
 import Admin from '../../../../../models/Admin';
-import jwt from 'jsonwebtoken';
+import { adminSessionCookieOptions, ADMIN_SESSION_COOKIE, createAdminToken } from '../../../../../lib/auth';
+import { validateServerEnv } from '../../../../../lib/env';
+import { enforceEphemeralRateLimit } from '../../../../../lib/rateLimit';
+import { parseJsonRequest } from '../../../../../lib/request';
 
 function cleanString(value) {
   return typeof value === 'string' ? value.trim() : '';
 }
 
+const LOGIN_BODY_LIMIT_BYTES = 8 * 1024;
+const LOGIN_RATE_LIMIT = {
+  limit: 8,
+  windowMs: 15 * 60 * 1000
+};
+
 export async function POST(request) {
   try {
-    if (!process.env.JWT_SECRET) {
+    try {
+      validateServerEnv(['MONGODB_URI', 'JWT_SECRET']);
+    } catch {
       return Response.json(
         { error: 'Login failed' },
         { status: 500 }
       );
     }
 
-    await dbConnect();
+    const parseResult = await parseJsonRequest(request, LOGIN_BODY_LIMIT_BYTES);
 
-    let body;
-
-    try {
-      body = await request.json();
-    } catch {
+    if (parseResult.errorResponse) {
       return Response.json(
         { error: 'Login failed' },
-        { status: 400 }
+        { status: parseResult.errorResponse.status }
       );
     }
 
+    const body = parseResult.body;
     const usernameOrEmail = cleanString(body?.username).toLowerCase();
     const password = typeof body?.password === 'string' ? body.password : '';
+    const rateLimitResponse = enforceEphemeralRateLimit(
+      request,
+      'admin-login',
+      LOGIN_RATE_LIMIT,
+      usernameOrEmail
+    );
+
+    if (rateLimitResponse) {
+      return rateLimitResponse;
+    }
 
     if (!usernameOrEmail || !password) {
       return Response.json(
@@ -37,6 +56,8 @@ export async function POST(request) {
         { status: 401 }
       );
     }
+
+    await dbConnect();
 
     // Find admin by username
     const admin = await Admin.findOne({
@@ -64,32 +85,25 @@ export async function POST(request) {
       );
     }
 
-    // Generate JWT token
-    const token = jwt.sign(
-      { 
-        adminId: admin._id,
-        username: admin.username,
-        role: admin.role 
-      },
-      process.env.JWT_SECRET,
-      { expiresIn: '24h' }
-    );
-
-    return Response.json({
+    const token = createAdminToken(admin);
+    const response = NextResponse.json({
       message: 'Login successful',
-      token,
       admin: {
-        id: admin._id,
+        id: admin._id.toString(),
         username: admin.username,
         email: admin.email,
         role: admin.role
       }
     });
+
+    response.cookies.set(ADMIN_SESSION_COOKIE, token, adminSessionCookieOptions());
+
+    return response;
   } catch (error) {
     console.error('Login error:', error);
-    return Response.json(
-      { error: 'Login failed' },
-      { status: 500 }
-    );
+      return NextResponse.json(
+        { error: 'Login failed' },
+        { status: 500 }
+      );
   }
 }

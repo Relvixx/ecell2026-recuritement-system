@@ -3,12 +3,15 @@ import Application2026 from '../../../../models/Application2026';
 import { requireAuth } from '../../../../lib/auth';
 import {
   AVAILABILITY_IDS,
+  BRANCH_IDS,
   RECRUITMENT_CYCLE,
   STATUS_IDS,
   TEAM_IDS,
   YEAR_IDS,
   normalizePhoneNumber
 } from '../../../../lib/recruitment2026';
+import { enforceEphemeralRateLimit } from '../../../../lib/rateLimit';
+import { parseJsonRequest } from '../../../../lib/request';
 import { getTeamById } from '../../../config/teams';
 
 const MAX_LENGTHS = {
@@ -43,6 +46,11 @@ const APPLICATION_CODE_COLLISION_ATTEMPTS = 3;
 const DEFAULT_PAGE = 1;
 const DEFAULT_LIMIT = 25;
 const MAX_LIMIT = 100;
+const SUBMISSION_BODY_LIMIT_BYTES = 64 * 1024;
+const SUBMISSION_RATE_LIMIT = {
+  limit: 5,
+  windowMs: 15 * 60 * 1000
+};
 
 function jsonError(error, status = 400) {
   return Response.json({ error }, { status });
@@ -305,6 +313,10 @@ function normalizeSubmissionBody(body) {
     errors.push('Enter a valid WhatsApp number');
   }
 
+  if (!BRANCH_IDS.includes(data.branch)) {
+    errors.push('branch is invalid');
+  }
+
   if (!YEAR_IDS.includes(data.yearOfStudy)) {
     errors.push('yearOfStudy is invalid');
   }
@@ -401,16 +413,25 @@ async function createApplicationWithCodeRetry(applicationData) {
 
 export async function POST(request) {
   try {
-    await dbConnect();
+    const rateLimitResponse = enforceEphemeralRateLimit(
+      request,
+      'application-submit',
+      SUBMISSION_RATE_LIMIT
+    );
 
-    let body;
-
-    try {
-      body = await request.json();
-    } catch {
-      return jsonError('Invalid JSON payload', 400);
+    if (rateLimitResponse) {
+      return rateLimitResponse;
     }
 
+    await dbConnect();
+
+    const parseResult = await parseJsonRequest(request, SUBMISSION_BODY_LIMIT_BYTES);
+
+    if (parseResult.errorResponse) {
+      return parseResult.errorResponse;
+    }
+
+    const body = parseResult.body;
     const validation = normalizeSubmissionBody(body);
 
     if (validation.errors.length > 0) {

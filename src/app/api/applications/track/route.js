@@ -1,9 +1,16 @@
 import dbConnect from '../../../../../lib/mongodb';
 import Application2026 from '../../../../../models/Application2026';
 import { RECRUITMENT_CYCLE } from '../../../../../lib/recruitment2026';
+import { enforceEphemeralRateLimit } from '../../../../../lib/rateLimit';
+import { parseJsonRequest } from '../../../../../lib/request';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const APPLICATION_CODE_PATTERN = /^EC26-[ABCDEFGHJKMNPQRSTUVWXYZ23456789]{5}$/;
+const TRACK_BODY_LIMIT_BYTES = 8 * 1024;
+const TRACK_RATE_LIMIT = {
+  limit: 12,
+  windowMs: 15 * 60 * 1000
+};
 
 function cleanString(value) {
   return typeof value === 'string' ? value.trim() : '';
@@ -30,19 +37,25 @@ function getFirstName(fullName) {
 
 export async function POST(request) {
   try {
-    await dbConnect();
+    const rateLimitResponse = enforceEphemeralRateLimit(
+      request,
+      'application-track',
+      TRACK_RATE_LIMIT
+    );
 
-    let body;
-
-    try {
-      body = await request.json();
-    } catch {
-      return Response.json(
-        { error: 'Invalid JSON payload' },
-        { status: 400 }
-      );
+    if (rateLimitResponse) {
+      return rateLimitResponse;
     }
 
+    await dbConnect();
+
+    const parseResult = await parseJsonRequest(request, TRACK_BODY_LIMIT_BYTES);
+
+    if (parseResult.errorResponse) {
+      return parseResult.errorResponse;
+    }
+
+    const body = parseResult.body;
     const applicationCode = normalizeApplicationCode(body?.applicationCode);
     const email = normalizeEmail(body?.email);
 

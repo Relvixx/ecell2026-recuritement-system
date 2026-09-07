@@ -4,14 +4,17 @@ import Application2026 from '../../../../../models/Application2026';
 import mongoose from 'mongoose';
 import {
   AVAILABILITY_IDS,
+  BRANCH_IDS,
   RECRUITMENT_CYCLE,
   STATUS_IDS,
   TEAM_IDS,
   YEAR_IDS,
   normalizePhoneNumber
 } from '../../../../../lib/recruitment2026';
+import { parseJsonRequest } from '../../../../../lib/request';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const ADMIN_UPDATE_BODY_LIMIT_BYTES = 32 * 1024;
 
 function cleanString(value) {
   return typeof value === 'string' ? value.trim() : '';
@@ -58,7 +61,6 @@ function buildAdminUpdate(body) {
 
   appendStringUpdate(updateData, body, 'internalNotes');
   appendStringUpdate(updateData, body, 'fullName');
-  appendStringUpdate(updateData, body, 'branch');
   appendStringUpdate(updateData, body, 'otherClubDetails');
   appendStringUpdate(updateData, body, 'secondaryTeamReason');
   appendStringUpdate(updateData, body, 'whyEcell');
@@ -73,6 +75,16 @@ function buildAdminUpdate(body) {
     }
 
     updateData.email = email;
+  }
+
+  if (Object.hasOwn(body, 'branch')) {
+    const branch = cleanString(body.branch);
+
+    if (!BRANCH_IDS.includes(branch)) {
+      return { error: 'branch is invalid' };
+    }
+
+    updateData.branch = branch;
   }
 
   if (Object.hasOwn(body, 'whatsappNumber')) {
@@ -172,14 +184,13 @@ export const PUT = requireAuth(async function PUT(request, { params }) {
   try {
     await dbConnect();
 
-    let body;
+    const parseResult = await parseJsonRequest(request, ADMIN_UPDATE_BODY_LIMIT_BYTES);
 
-    try {
-      body = await request.json();
-    } catch {
-      return jsonError('Invalid JSON payload', 400);
+    if (parseResult.errorResponse) {
+      return parseResult.errorResponse;
     }
 
+    const body = parseResult.body;
     const { updateData, error } = buildAdminUpdate(body);
 
     if (error) {

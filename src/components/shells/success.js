@@ -36,17 +36,17 @@ export function SuccessShell({ loading = false }) {
 
   if (!applicationCode) {
     return (
-      <PageShell className="success-experience">
+      <PageShell className="success-experience utility-experience">
         <Section spacing="compact">
           <Container width="copy">
-            <PaperCard className="success-card motion-settle">
+            <PaperCard className="success-card utility-card motion-settle">
               <Stack gap="lg">
                 <Stack gap="sm">
                   <p className="eyebrow text-muted">E-CELL MET / Recruitment 2026-27</p>
                   <h1 className="display-section">We couldn&apos;t find an application ID in this link.</h1>
                   <p className="body-large text-muted">Open the confirmation link from your submission, or continue to application tracking.</p>
                 </Stack>
-                <div className="success-actions flex flex-col gap-3 sm:flex-row sm:gap-4">
+                <div className="success-actions utility-actions flex flex-col gap-3 sm:flex-row sm:gap-4">
                   <Button href="/apply" variant="secondary">Back to application</Button>
                   <Button href="/track">Track application &rarr;</Button>
                 </div>
@@ -59,10 +59,10 @@ export function SuccessShell({ loading = false }) {
   }
 
   return (
-    <PageShell className="success-experience">
+    <PageShell className="success-experience utility-experience">
       <Section spacing="compact">
         <Container width="copy">
-          <PaperCard className="success-card motion-settle">
+          <PaperCard className="success-card utility-card motion-settle">
             <Stack gap="lg">
               <Stack gap="sm">
                 <p className="eyebrow text-muted">E-CELL MET / Recruitment 2026-27</p>
@@ -85,14 +85,14 @@ export function SuccessShell({ loading = false }) {
                 <ol className="success-journey mt-5 grid gap-3">
                   {nextStages.map((stage, index) => (
                     <li className="success-stage rounded-[var(--radius-control)] border border-border bg-[var(--color-ivory-50)] px-4 py-3" key={stage}>
-                      <span className="body-small text-muted">{String(index + 1).padStart(2, '0')}</span>
+                      <span className="success-stage-number body-small text-muted">{String(index + 1).padStart(2, '0')}</span>
                       <span className="label">{stage}</span>
                     </li>
                   ))}
                 </ol>
               </section>
 
-              <div className="success-actions flex flex-col gap-3 sm:flex-row sm:gap-4">
+              <div className="success-actions utility-actions flex flex-col gap-3 sm:flex-row sm:gap-4">
                 <Button href={`/track?id=${encodeURIComponent(applicationCode)}`}>Track your application &rarr;</Button>
                 <Button href="/" variant="secondary">Back to E-CELL</Button>
               </div>

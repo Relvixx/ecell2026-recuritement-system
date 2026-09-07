@@ -18,10 +18,10 @@ export function LandingStickyApplyController() {
   }, []);
 
   useEffect(() => {
-    const heroCta = document.querySelector('[data-hero-cta]');
+    const heroSection = document.querySelector('[data-hero-section]');
     const finalCta = document.querySelector('[data-final-cta]');
 
-    if (!heroCta || !finalCta || !('IntersectionObserver' in window)) {
+    if (!heroSection || !finalCta || !('IntersectionObserver' in window)) {
       setHidden(false);
       return undefined;
     }
@@ -35,15 +35,15 @@ export function LandingStickyApplyController() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.target === heroCta) visibility.hero = entry.isIntersecting;
+          if (entry.target === heroSection) visibility.hero = entry.isIntersecting;
           if (entry.target === finalCta) visibility.final = entry.isIntersecting;
         });
         update();
       },
-      { threshold: 0.08 }
+      { rootMargin: '0px 0px -12% 0px', threshold: 0 }
     );
 
-    observer.observe(heroCta);
+    observer.observe(heroSection);
     observer.observe(finalCta);
 
     return () => observer.disconnect();
@@ -58,7 +58,7 @@ export function TeamExplorer() {
   const selectedTeam = TEAMS.find((team) => team.id === selectedTeamId) || TEAMS[0];
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
+    <div className="grid gap-6 lg:grid-cols-[0.94fr_1.06fr] lg:items-start lg:gap-12">
       <div className="motion-fade-up lg:sticky lg:top-28">
         <FeaturedTeamCard team={selectedTeam} />
         <div className="mt-4 flex flex-col gap-3 sm:flex-row">
@@ -68,18 +68,19 @@ export function TeamExplorer() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:flex lg:flex-wrap lg:items-start lg:gap-3">
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-2 lg:gap-x-5 lg:gap-y-4">
         {TEAMS.map((team, index) => (
           <div
             className={[
-              'lg:basis-[calc(50%-0.4rem)]',
               index === 1 || index === 4 ? 'lg:translate-y-5' : '',
-              index === 2 ? 'lg:basis-[58%]' : '',
-              index === 5 ? 'lg:basis-[42%]' : ''
+              index === 2 ? 'lg:col-span-2 lg:max-w-[68%]' : '',
+              index === 5 ? 'lg:-translate-y-1' : '',
+              index === 6 ? 'lg:col-span-2 lg:ml-auto lg:max-w-[68%]' : ''
             ].join(' ')}
             key={team.id}
           >
             <TeamSelectorCard
+              className="min-h-[76px] p-3 lg:min-h-[150px] lg:p-6"
               compact
               index={index}
               onSelect={(teamId) => {
@@ -119,13 +120,13 @@ export function FAQAccordion({ items }) {
             <button
               aria-controls={panelId}
               aria-expanded={open}
-              className="flex min-h-[72px] w-full items-center justify-between gap-5 py-5 text-left"
+              className="flex min-h-[72px] w-full items-center justify-between gap-5 py-5 text-left lg:min-h-[92px] lg:py-7"
               id={buttonId}
               onClick={() => setOpenIndex(open ? -1 : index)}
               type="button"
             >
-              <span className="label text-[1rem]">{item.question}</span>
-              <span aria-hidden="true" className="text-xl">{open ? '-' : '+'}</span>
+              <span className="label text-[1rem] lg:text-[1.22rem]">{item.question}</span>
+              <span aria-hidden="true" className="text-xl lg:text-2xl">{open ? '-' : '+'}</span>
             </button>
             <div
               aria-labelledby={buttonId}
@@ -134,7 +135,7 @@ export function FAQAccordion({ items }) {
               role="region"
             >
               <div className="overflow-hidden">
-                <p className="body max-w-[720px] pb-7 text-muted">{item.answer}</p>
+                <p className="body max-w-[820px] pb-7 text-muted lg:pb-8 lg:text-[1.12rem] lg:leading-[1.78]">{item.answer}</p>
               </div>
             </div>
           </section>

@@ -9,14 +9,14 @@ export function StepOneYou({ data, errors, touched, onBlur, onChange, onSubmit, 
   const radioError = visibleError('hasOtherClubs');
 
   return (
-    <form className="motion-settle space-y-8" id={STEP_ONE_FORM_ID} noValidate onSubmit={onSubmit}>
+    <form className="motion-settle application-step-one space-y-8" id={STEP_ONE_FORM_ID} noValidate onSubmit={onSubmit}>
       <Stack gap="sm">
         <p className="eyebrow text-muted">E-CELL MET / Recruitment 2026-27</p>
         <h1 className="display-section">Tell us about yourself</h1>
         <p className="body-large text-muted">Just the basics first.</p>
       </Stack>
 
-      <div className="grid gap-5 sm:grid-cols-2">
+      <div className="grid gap-5 sm:grid-cols-2 lg:gap-x-6 lg:gap-y-6">
         <FormField error={visibleError('fullName')} id="fullName" label="Full name" required>
           {(fieldProps) => (
             <Input
@@ -108,9 +108,9 @@ export function StepOneYou({ data, errors, touched, onBlur, onChange, onSubmit, 
           )}
         </FormField>
 
-        <fieldset className="sm:col-span-2">
+        <fieldset className="sm:col-span-2 lg:col-span-1">
           <legend className="label mb-2 text-foreground">Part of another club? <span aria-hidden="true">*</span></legend>
-          <div className="grid gap-3 sm:grid-cols-2" aria-describedby={radioError ? 'hasOtherClubs-error' : undefined}>
+          <div className="grid grid-cols-2 gap-3" aria-describedby={radioError ? 'hasOtherClubs-error' : undefined}>
             {[
               { value: true, label: 'Yes' },
               { value: false, label: 'No' }
@@ -119,7 +119,7 @@ export function StepOneYou({ data, errors, touched, onBlur, onChange, onSubmit, 
               return (
                 <label
                   className={cn(
-                    'flex min-h-11 cursor-pointer items-center justify-between gap-3 rounded-[var(--radius-control)] border px-4 py-3 transition duration-200',
+                    'flex min-h-11 cursor-pointer items-center justify-between gap-3 rounded-[var(--radius-control)] border px-4 py-3 transition duration-200 lg:min-h-[54px]',
                     selected
                       ? 'border-foreground bg-[var(--color-butter)]/50 text-foreground'
                       : 'border-border bg-[var(--color-ivory-50)] text-muted hover:bg-[var(--color-surface-muted)]'
@@ -127,7 +127,7 @@ export function StepOneYou({ data, errors, touched, onBlur, onChange, onSubmit, 
                   key={option.label}
                 >
                   <span className="label">{option.label}</span>
-                  <span className="body-small">{selected ? 'Selected' : 'Tap to choose'}</span>
+                  <span className="body-small text-muted">{selected ? 'Selected' : 'Choose'}</span>
                   <input
                     aria-describedby={radioError ? 'hasOtherClubs-error' : undefined}
                     checked={selected}

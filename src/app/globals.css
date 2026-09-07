@@ -163,6 +163,886 @@ textarea {
   color: var(--color-muted);
 }
 
+@media (max-width: 767px) {
+  .landing-desktop {
+    padding-bottom: 6.5rem;
+  }
+
+  .landing-desktop .display-section {
+    font-size: clamp(2.25rem, 11vw, 2.9rem);
+    line-height: 1;
+  }
+
+  .landing-desktop .body-large {
+    font-size: 1.05rem;
+    line-height: 1.65;
+  }
+
+  .landing-desktop .body {
+    font-size: 1rem;
+    line-height: 1.68;
+  }
+
+  .life-mobile-feed {
+    gap: 1.75rem;
+  }
+
+  .life-mobile-feed figure {
+    max-width: 100%;
+  }
+
+  .life-mobile-feed figcaption {
+    font-size: 0.92rem;
+    line-height: 1.45;
+  }
+
+  .landing-desktop #journey ol {
+    gap: 1.65rem;
+  }
+
+  .landing-desktop #journey li {
+    padding-left: 3.75rem;
+  }
+
+  .landing-desktop #journey h3 {
+    font-size: 1rem;
+    line-height: 1.35;
+  }
+
+  .landing-desktop #journey p {
+    margin-top: 0.45rem;
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+
+  .landing-desktop #faq button {
+    min-height: 4rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .landing-desktop #faq button .label {
+    font-size: 1rem;
+    line-height: 1.45;
+  }
+
+  .team-selected-indicator {
+    min-height: 0.72rem;
+    width: 0.72rem;
+    flex-shrink: 0;
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--color-ink) 18%, transparent);
+    padding: 0;
+    color: transparent;
+  }
+
+  .application-experience .display-section {
+    font-size: clamp(2.35rem, 11vw, 2.85rem);
+    line-height: 1;
+  }
+
+  .application-experience .body-large {
+    font-size: 1.02rem;
+    line-height: 1.62;
+  }
+
+  .application-experience .heading {
+    font-size: clamp(1.6rem, 7vw, 2rem);
+  }
+
+  .application-experience .label {
+    font-size: 0.95rem;
+  }
+
+  .application-experience .helper,
+  .application-experience .body-small {
+    font-size: 0.86rem;
+    line-height: 1.48;
+  }
+
+  .application-experience section.py-14 {
+    padding-top: 1.5rem;
+  }
+
+  .application-card {
+    padding: 1rem;
+    border-radius: 1.25rem;
+  }
+
+  .application-progress {
+    padding: 0.45rem;
+    border-radius: 1.1rem;
+  }
+
+  .application-progress ol {
+    gap: 0.35rem;
+  }
+
+  .application-progress li {
+    min-height: 2.75rem;
+    padding: 0.45rem 0.5rem;
+  }
+
+  .application-progress .label {
+    font-size: 0.82rem;
+    line-height: 1.2;
+  }
+
+  .application-progress li > span:first-child {
+    font-size: 0.68rem;
+  }
+
+  .application-step-one {
+    gap: 0;
+  }
+
+  .application-team-card h3,
+  .application-secondary-team-card h3 {
+    font-size: 0.98rem;
+    line-height: 1.18;
+  }
+
+  .application-team-card .body-small,
+  .application-secondary-team-card .body-small {
+    font-size: 0.78rem;
+    line-height: 1.35;
+  }
+
+  .application-step-two .heading {
+    font-size: 1.65rem;
+  }
+
+  .application-step-two textarea {
+    min-height: 6.25rem !important;
+  }
+
+  .review-section {
+    padding: 0.9rem;
+    border-radius: 1rem;
+  }
+
+  .review-section > div:first-child {
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.6rem;
+  }
+
+  .review-detail-list {
+    gap: 0.8rem;
+  }
+}
+
+@media (max-width: 1023px) {
+  .admin-workspace {
+    overflow-x: clip;
+  }
+
+  .admin-workspace main {
+    min-width: 0;
+    padding-top: 1.25rem;
+    padding-bottom: 2rem;
+  }
+
+  .admin-workspace .heading {
+    font-size: clamp(1.75rem, 8vw, 2.15rem);
+    line-height: 1.08;
+  }
+
+  .admin-workspace .body {
+    font-size: 1rem;
+    line-height: 1.58;
+  }
+
+  .admin-workspace .body-small,
+  .admin-workspace .helper {
+    font-size: 0.88rem;
+    line-height: 1.45;
+  }
+
+  .admin-mobile-header {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+  }
+
+  .admin-mobile-logout button {
+    min-height: 2.75rem;
+    border-radius: var(--radius-control);
+    padding-inline: 0.75rem;
+  }
+
+  .admin-mobile-tabs {
+    scrollbar-width: thin;
+    scroll-padding-inline: 1rem;
+  }
+
+  .admin-mobile-tabs::after,
+  .admin-status-tabs::after {
+    content: "";
+    flex: 0 0 0.5rem;
+  }
+
+  .admin-workspace [class*="max-w-7xl"],
+  .admin-workspace [class*="max-w-admin"] {
+    min-width: 0;
+  }
+
+  .admin-overview {
+    gap: 1rem;
+  }
+
+  .admin-overview > .grid:first-child {
+    gap: 0.85rem;
+  }
+
+  .admin-overview > .grid:first-child article {
+    padding: 1rem;
+  }
+
+  .admin-total-metric .heading {
+    font-size: clamp(2.15rem, 10vw, 2.7rem);
+  }
+
+  .admin-candidates-view {
+    gap: 1rem;
+    min-width: 0;
+  }
+
+  .admin-candidates-toolbar {
+    gap: 0.9rem;
+  }
+
+  .admin-candidates-toolbar input,
+  .admin-filter-row input,
+  .admin-filter-row select {
+    min-height: 3rem;
+    width: 100%;
+  }
+
+  .admin-candidate-actions {
+    align-items: center;
+  }
+
+  .admin-candidate-actions button {
+    min-height: 2.75rem;
+  }
+
+  .admin-status-tabs {
+    margin-inline: -1rem;
+    padding-inline: 1rem;
+    scrollbar-width: thin;
+  }
+
+  .admin-status-tabs button {
+    min-width: max-content;
+    padding-inline: 0.65rem;
+  }
+
+  .admin-filter-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .admin-candidate-mobile-card {
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    padding: 1rem;
+    overflow-wrap: anywhere;
+  }
+
+  .admin-candidate-mobile-card .body-small {
+    overflow-wrap: anywhere;
+  }
+
+  .admin-candidate-card-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) max-content;
+    align-items: start;
+    column-gap: 0.75rem;
+  }
+
+  .admin-candidate-name {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .admin-candidate-status {
+    width: max-content;
+    max-width: calc(100vw - 2rem);
+    flex: 0 0 auto;
+    justify-self: end;
+    white-space: nowrap;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+  .admin-team-card {
+    min-height: 0;
+    padding: 1rem;
+  }
+
+  .admin-team-card .heading {
+    font-size: clamp(1.55rem, 7vw, 2rem);
+    overflow-wrap: anywhere;
+  }
+
+  .admin-team-card > div:last-child {
+    align-items: center;
+  }
+
+  .admin-analytics-columns,
+  .admin-analytics-columns > div {
+    gap: 1rem;
+    min-width: 0;
+  }
+
+  .admin-analytics-card {
+    padding: 1rem;
+  }
+
+  .admin-analytics-card .heading {
+    font-size: clamp(1.45rem, 7vw, 1.85rem);
+  }
+
+  .admin-detail-drawer {
+    inset: 0;
+    max-width: none;
+    border-left: 0;
+    overscroll-behavior: contain;
+  }
+
+  .admin-detail-title {
+    overflow-wrap: anywhere;
+    white-space: normal;
+    font-size: clamp(1.5rem, 7vw, 1.85rem);
+    line-height: 1.12;
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+
+  .admin-detail-meta {
+    overflow-wrap: anywhere;
+    white-space: normal;
+  }
+
+  .admin-detail-content {
+    display: grid;
+    gap: 1rem;
+    padding-bottom: calc(2rem + var(--safe-area-bottom));
+  }
+
+  .admin-detail-section-title {
+    font-size: 0.78rem;
+    line-height: 1.2;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .admin-detail-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .admin-detail-label {
+    display: block;
+    font-size: 0.82rem;
+    line-height: 1.38;
+    color: var(--color-muted);
+  }
+
+  .admin-detail-value {
+    display: block;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+    font-size: 0.98rem;
+    line-height: 1.58;
+    color: var(--color-ink);
+  }
+
+  .admin-status-panel select,
+  .admin-notes-section textarea {
+    font-size: 1rem;
+  }
+
+  .admin-status-panel {
+    display: block;
+  }
+
+  .admin-save-note,
+  .admin-more-actions {
+    width: 100%;
+    min-height: 2.75rem;
+  }
+
+  .admin-login-experience section {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .admin-login-section > div {
+    min-height: calc(100svh - 3rem);
+  }
+
+  .admin-login-card {
+    padding: 1.35rem;
+  }
+
+  .admin-login-title {
+    font-size: clamp(2rem, 11vw, 2.65rem);
+    line-height: 1.02;
+  }
+}
+
+@media (max-width: 767px) {
+  .admin-mobile-header > div {
+    padding-bottom: 0.65rem;
+    padding-top: 0.85rem;
+  }
+
+  .admin-mobile-brand {
+    min-width: 0;
+  }
+
+  .admin-mobile-logout button {
+    padding-inline: 0.6rem;
+  }
+
+  .admin-mobile-tabs {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.3rem;
+    overflow-x: visible;
+    padding-inline: 0.75rem;
+    padding-bottom: 0.65rem;
+  }
+
+  .admin-mobile-tabs::after {
+    display: none;
+  }
+
+  .admin-mobile-tabs button {
+    min-width: 0;
+    padding-inline: 0.35rem;
+    font-size: 0.82rem;
+    line-height: 1.2;
+  }
+
+  .admin-status-panel {
+    padding: 1rem;
+    border-radius: 1rem;
+  }
+
+  .admin-team-card {
+    padding: 0.85rem;
+  }
+
+  .admin-team-card .heading {
+    font-size: clamp(1.45rem, 6.5vw, 1.85rem);
+  }
+
+  .admin-team-card span[style] {
+    width: 2.55rem;
+    height: 2.55rem;
+    font-size: 1rem;
+  }
+
+  .admin-team-card > div:last-child {
+    margin-top: 0.85rem;
+    padding-top: 0.75rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .landing-desktop .text-muted {
+    color: #57514c;
+  }
+
+  .landing-desktop .body {
+    font-size: 1.105rem;
+    line-height: 1.75;
+  }
+
+  .landing-desktop .body-large {
+    font-size: 1.225rem;
+    line-height: 1.72;
+  }
+
+  .landing-desktop .body-small {
+    font-size: 0.98rem;
+    line-height: 1.62;
+  }
+
+  .landing-desktop .label {
+    font-size: 1.04rem;
+  }
+
+  .landing-desktop .eyebrow {
+    font-size: 0.78rem;
+  }
+
+  .landing-desktop .landing-benefit-card {
+    padding: 1.75rem;
+  }
+
+  .application-experience .display-section {
+    font-size: clamp(3.125rem, 4vw, 3.625rem);
+    line-height: 1;
+  }
+
+  .application-experience .body-large {
+    font-size: 1.125rem;
+    line-height: 1.68;
+    max-width: 44rem;
+  }
+
+  .application-experience .body {
+    font-size: 1.04rem;
+    line-height: 1.72;
+  }
+
+  .application-experience .body-small,
+  .application-experience .helper {
+    font-size: 0.94rem;
+    line-height: 1.56;
+  }
+
+  .application-experience .label {
+    font-size: 1rem;
+    line-height: 1.42;
+  }
+
+  .application-topbar {
+    margin-bottom: -0.25rem;
+  }
+
+  .application-card {
+    padding: 2rem;
+    border-radius: 1.65rem;
+    box-shadow: 0 14px 38px rgba(40, 38, 38, 0.055);
+  }
+
+  .application-progress li {
+    min-height: 3.75rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .application-actions button,
+  .application-actions a {
+    min-height: 3.25rem;
+    padding-left: 1.6rem;
+    padding-right: 1.6rem;
+  }
+
+  .application-experience input,
+  .application-experience select {
+    min-height: 3.375rem;
+  }
+
+  .application-experience input,
+  .application-experience select,
+  .application-experience textarea {
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+
+  .application-step-two .application-chapter {
+    scroll-margin-top: 2rem;
+  }
+
+  .application-team-card h3 {
+    font-size: 1.18rem;
+    line-height: 1.18;
+  }
+
+  .application-secondary-team-card h3 {
+    font-size: 1.04rem;
+    line-height: 1.2;
+  }
+
+  .application-secondary-team-card .body-small {
+    font-size: 0.88rem;
+  }
+
+  .review-section {
+    box-shadow: none;
+  }
+
+  .review-detail-list .helper,
+  .review-section > .space-y-5 .helper {
+    font-size: 0.88rem;
+    line-height: 1.42;
+  }
+
+  .utility-experience .display-section {
+    font-size: clamp(2.85rem, 3.8vw, 3.75rem);
+    line-height: 1.02;
+  }
+
+  .utility-experience .body-large {
+    font-size: 1.12rem;
+    line-height: 1.66;
+  }
+
+  .utility-experience .body {
+    font-size: 1.04rem;
+    line-height: 1.7;
+  }
+
+  .utility-experience .helper,
+  .utility-experience .body-small {
+    font-size: 0.94rem;
+    line-height: 1.55;
+  }
+
+  .utility-card {
+    padding: 2rem;
+    border-radius: 1.6rem;
+    box-shadow: 0 14px 38px rgba(40, 38, 38, 0.055);
+  }
+
+  .utility-actions {
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .utility-actions a,
+  .utility-actions button {
+    min-height: 3.25rem;
+    padding-left: 1.55rem;
+    padding-right: 1.55rem;
+  }
+
+  .success-card {
+    max-width: 43rem;
+  }
+
+  .success-id {
+    padding: 1.5rem;
+  }
+
+  .success-id .font-mono {
+    font-size: clamp(1.8rem, 3vw, 2.25rem);
+    line-height: 1.12;
+  }
+
+  .success-stage {
+    min-height: 3.75rem;
+    grid-template-columns: 2.5rem minmax(0, 1fr);
+    column-gap: 1rem;
+    padding: 0.85rem 1rem;
+  }
+
+  .success-stage-number {
+    display: inline-flex;
+    min-height: 2rem;
+    width: 2rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background: var(--color-surface-muted);
+  }
+
+  .tracking-experience .display-section {
+    font-size: clamp(2.5rem, 3.1vw, 3rem);
+    line-height: 1.04;
+  }
+
+  .tracking-layout {
+    max-width: 58rem;
+    margin-left: auto;
+    margin-right: auto;
+    gap: 1.5rem;
+  }
+
+  .tracking-card {
+    min-height: 30rem;
+  }
+
+  .tracking-hint,
+  .tracking-result-card {
+    align-self: start;
+    padding: 2rem;
+    box-shadow: 0 12px 32px rgba(40, 38, 38, 0.045);
+  }
+
+  .tracking-form {
+    gap: 1.15rem;
+  }
+
+  .tracking-experience input {
+    min-height: 3.375rem;
+    font-size: 1rem;
+  }
+
+  .tracking-submit {
+    margin-top: 0.25rem;
+  }
+
+  .tracking-change-details {
+    margin-top: -1rem;
+  }
+
+  .tracking-status-chip {
+    min-height: 2.75rem;
+  }
+
+  .tracking-meta {
+    margin-top: 0.25rem;
+    padding-top: 1.25rem;
+  }
+
+  .admin-login-section {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+
+  .admin-login-card {
+    max-width: 32.5rem;
+  }
+
+  .admin-login-title {
+    font-size: clamp(2.45rem, 3.1vw, 3rem);
+    line-height: 1.02;
+  }
+
+  .admin-login-form {
+    padding-top: 0.25rem;
+  }
+
+  .admin-login-experience input {
+    min-height: 3.375rem;
+    font-size: 1rem;
+  }
+
+  .admin-workspace .heading {
+    font-size: clamp(1.55rem, 2.3vw, 2.05rem);
+    line-height: 1.12;
+  }
+
+  .admin-workspace .body {
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+
+  .admin-workspace .body-small,
+  .admin-workspace .helper {
+    font-size: 0.88rem;
+    line-height: 1.48;
+  }
+
+  .admin-workspace .label {
+    font-size: 0.95rem;
+  }
+
+  .admin-workspace main {
+    min-width: 0;
+  }
+
+  .admin-overview > .grid:first-child article {
+    padding: 1.15rem;
+  }
+
+  .admin-total-metric {
+    background: color-mix(in srgb, var(--color-powder-blue) 18%, var(--color-surface));
+  }
+
+  .admin-total-metric .heading {
+    font-size: clamp(2rem, 3vw, 2.65rem);
+  }
+
+  .admin-candidates-view {
+    margin-top: -0.5rem;
+  }
+
+  .admin-candidates-toolbar {
+    padding-top: 0.25rem;
+  }
+
+  .admin-filter-row input,
+  .admin-filter-row select,
+  .admin-candidates-toolbar input {
+    min-height: 3rem;
+  }
+
+  .admin-candidate-table table {
+    font-size: 0.95rem;
+  }
+
+  .admin-candidate-table tr[role="button"] {
+    outline-offset: -2px;
+  }
+
+  .admin-team-card {
+    border-top-width: 5px;
+    min-height: 13.5rem;
+  }
+
+  .admin-analytics-columns {
+    align-items: start;
+  }
+
+  .admin-analytics-columns > div {
+    align-content: start;
+  }
+
+  .admin-analytics-card {
+    padding: 1.35rem;
+  }
+
+  .admin-detail-drawer {
+    max-width: 38.75rem;
+  }
+
+  .admin-detail-title {
+    font-size: clamp(1.75rem, 2.5vw, 2.125rem);
+    line-height: 1.08;
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+
+  .admin-detail-content {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .admin-detail-section-title {
+    font-size: 0.8rem;
+    line-height: 1.2;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .admin-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 1.25rem;
+  }
+
+  .admin-detail-label {
+    display: block;
+    font-size: 0.82rem;
+    line-height: 1.4;
+    color: var(--color-muted);
+  }
+
+  .admin-detail-value {
+    display: block;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+    font-size: 0.98rem;
+    line-height: 1.62;
+    color: var(--color-ink);
+  }
+
+  .admin-status-panel select,
+  .admin-notes-section textarea {
+    font-size: 0.98rem;
+  }
+}
+
 .motion-settle {
   animation: paper-settle 360ms var(--ease-settle) both;
 }

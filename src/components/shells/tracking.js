@@ -113,28 +113,28 @@ export function TrackingShell({ loading = false }) {
   }
 
   return (
-    <PageShell className="tracking-experience">
+    <PageShell className="tracking-experience utility-experience">
       <Section spacing="compact">
         <Container width="form">
-          <div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
-            <PaperCard className="tracking-card">
+          <div className="tracking-layout grid gap-6 lg:grid-cols-[0.96fr_1.04fr] lg:items-start">
+            <PaperCard className="tracking-card utility-card">
               <Stack gap="lg">
                 <Stack gap="sm">
                   <p className="eyebrow text-muted">E-CELL MET / Recruitment 2026-27</p>
                   <h1 className="display-section">Track your application</h1>
                   <p className="body-large text-muted">Enter your Application ID and the email address you used while applying.</p>
                 </Stack>
-                <form aria-describedby={formError ? 'tracking-form-error' : undefined} aria-label="Track application" className="grid gap-5" noValidate onSubmit={checkStatus}>
+                <form aria-describedby={formError ? 'tracking-form-error' : undefined} aria-label="Track application" className="tracking-form grid gap-5" noValidate onSubmit={checkStatus}>
                   <FormField error={errors.applicationCode} id="applicationCode" label="Application ID" required>
-                    {(fieldProps) => <Input {...fieldProps} autoComplete="off" error={Boolean(errors.applicationCode)} onChange={(event) => updateField('applicationCode', event.target.value)} placeholder="EC26-XXXXXX" type="text" value={form.applicationCode} />}
+            {(fieldProps) => <Input {...fieldProps} autoComplete="off" error={Boolean(errors.applicationCode)} onChange={(event) => updateField('applicationCode', event.target.value)} placeholder="EC26-XXXXX" type="text" value={form.applicationCode} />}
                   </FormField>
                   <FormField error={errors.email} id="trackingEmail" label="Email address" required>
                     {(fieldProps) => <Input {...fieldProps} autoComplete="email" error={Boolean(errors.email)} onChange={(event) => updateField('email', event.target.value)} placeholder="you@example.com" type="email" value={form.email} />}
                   </FormField>
                   {formError ? <div aria-live="assertive" className="rounded-[var(--radius-control)] border border-error bg-[var(--color-error-surface)]/35 p-3" id="tracking-form-error" role="alert"><p className="body-small text-error">{formError}</p>{formError === TRACKING_ERROR ? <p className="helper mt-1">{TRACKING_ERROR_HELPER}</p> : null}</div> : null}
-                  <Button disabled={loadingRequest} type="submit">{loadingRequest ? 'Checking...' : 'Check status'} &rarr;</Button>
+                  <Button className="tracking-submit" disabled={loadingRequest} type="submit">{loadingRequest ? 'Checking...' : 'Check status'} &rarr;</Button>
                 </form>
-                {result ? <Button onClick={clearResult} type="button" variant="ghost">Change details</Button> : null}
+                {result ? <button className="tracking-change-details label w-fit rounded-full px-1 py-2 text-muted transition hover:text-foreground focus-visible:text-foreground" onClick={clearResult} type="button">Change details</button> : null}
               </Stack>
             </PaperCard>
             {result ? <StatusDisplay className="tracking-result" result={result} resultRef={resultRef} /> : <TrackingHint />}
@@ -146,7 +146,7 @@ export function TrackingShell({ loading = false }) {
 }
 
 function TrackingHint() {
-  return <aside aria-label="Application tracking information" className="rounded-[var(--radius-paper)] border border-border bg-[var(--color-ivory-50)] p-5 sm:p-7"><Stack gap="md"><p className="eyebrow text-muted">PRIVATE LOOKUP</p><h2 className="heading">Your status, when you need it.</h2><p className="body text-muted">Your Application ID and registered email are both needed to check an application.</p></Stack></aside>;
+  return <aside aria-label="Application tracking information" className="tracking-hint rounded-[var(--radius-paper)] border border-border bg-[var(--color-ivory-50)] p-5 sm:p-7"><Stack gap="md"><p className="eyebrow text-muted">PRIVATE LOOKUP</p><h2 className="heading">Your status, when you need it.</h2><p className="body text-muted">Your Application ID and registered email are both needed to check an application.</p></Stack></aside>;
 }
 
 export function StatusDisplay({ result, resultRef, className = '' }) {
@@ -154,5 +154,5 @@ export function StatusDisplay({ result, resultRef, className = '' }) {
   const accent = STATUS_TOKENS[result.status];
   const team = getTeamById(result.primaryTeam);
 
-  return <aside aria-label={`Application status: ${copy.label}`} className={`rounded-[var(--radius-paper)] border border-border bg-[var(--color-ivory-50)] p-5 shadow-[var(--shadow-soft)] sm:p-7 ${className}`} ref={resultRef} tabIndex="-1"><Stack gap="md"><p className="eyebrow text-muted">APPLICATION STATUS</p><span className="inline-flex min-h-11 w-fit items-center rounded-full border border-border px-4 py-2 text-sm font-medium" style={{ background: `color-mix(in srgb, ${accent} 58%, var(--color-ivory-50))` }}>{copy.label}</span><div><p className="helper">{result.applicationCode}</p><h2 className="heading mt-2">{copy.title}</h2><p className="body mt-3 text-muted">{copy.description}</p></div><dl className="grid gap-4 border-t border-border pt-4 sm:grid-cols-2"><div><dt className="helper">Applicant</dt><dd className="body mt-1 break-words">{result.firstName}</dd></div><div><dt className="helper">Primary team</dt><dd className="body mt-1 break-words">{team?.name || 'Team'}</dd></div></dl></Stack></aside>;
+  return <aside aria-label={`Application status: ${copy.label}`} className={`tracking-result-card rounded-[var(--radius-paper)] border border-border bg-[var(--color-ivory-50)] p-5 shadow-[var(--shadow-soft)] sm:p-7 ${className}`} ref={resultRef} tabIndex="-1"><Stack gap="md"><div className="flex flex-wrap items-center justify-between gap-3"><p className="eyebrow text-muted">APPLICATION STATUS</p><span className="tracking-status-chip inline-flex min-h-11 w-fit items-center rounded-full border border-border px-4 py-2 text-sm font-medium" style={{ background: `color-mix(in srgb, ${accent} 58%, var(--color-ivory-50))` }}>{copy.label}</span></div><div><p className="helper font-mono tracking-[0.08em]">{result.applicationCode}</p><h2 className="heading mt-2">{copy.title}</h2><p className="body mt-3 text-muted">{copy.description}</p></div><dl className="tracking-meta grid gap-4 border-t border-border pt-4 sm:grid-cols-2"><div><dt className="helper">Applicant</dt><dd className="body mt-1 break-words">{result.firstName}</dd></div><div><dt className="helper">Primary team</dt><dd className="body mt-1 break-words">{team?.name || 'Team'}</dd></div></dl></Stack></aside>;
 }

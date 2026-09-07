@@ -1,6 +1,5 @@
 'use client';
 
-const TOKEN_KEY = 'adminToken';
 const USER_KEY = 'adminUser';
 
 export class AdminAuthError extends Error {
@@ -10,29 +9,47 @@ export class AdminAuthError extends Error {
   }
 }
 
-export function getAdminToken() {
-  if (typeof window === 'undefined') return '';
-  return window.localStorage.getItem(TOKEN_KEY) || '';
-}
-
 export function getAdminUser() {
   if (typeof window === 'undefined') return null;
   try {
-    return JSON.parse(window.localStorage.getItem(USER_KEY) || 'null');
+    return JSON.parse(window.sessionStorage.getItem(USER_KEY) || 'null');
   } catch {
     return null;
   }
 }
 
-export function setAdminSession(token, admin) {
-  window.localStorage.setItem(TOKEN_KEY, token);
-  if (admin) window.localStorage.setItem(USER_KEY, JSON.stringify(admin));
+export function setAdminSession(admin) {
+  window.localStorage.removeItem('adminToken');
+  window.localStorage.removeItem(USER_KEY);
+  if (admin) window.sessionStorage.setItem(USER_KEY, JSON.stringify(admin));
 }
 
 export function clearAdminSession() {
   if (typeof window === 'undefined') return;
-  window.localStorage.removeItem(TOKEN_KEY);
+  window.localStorage.removeItem('adminToken');
   window.localStorage.removeItem(USER_KEY);
+  window.sessionStorage.removeItem(USER_KEY);
+}
+
+export async function fetchAdminProfile() {
+  const response = await fetch('/api/auth/me', {
+    credentials: 'include',
+    cache: 'no-store'
+  });
+
+  if (response.status === 401 || response.status === 403) {
+    clearAdminSession();
+    throw new AdminAuthError();
+  }
+
+  const data = await responsePayload(response);
+
+  if (!response.ok) {
+    throw new Error(typeof data?.error === 'string' ? data.error : 'Request failed.');
+  }
+
+  setAdminSession(data.admin);
+  return data.admin;
 }
 
 async function responsePayload(response) {
@@ -42,13 +59,11 @@ async function responsePayload(response) {
 }
 
 export async function adminFetch(path, options = {}) {
-  const token = getAdminToken();
-  if (!token) throw new AdminAuthError();
   const response = await fetch(path, {
     ...options,
+    credentials: 'include',
     headers: {
       ...(options.headers || {}),
-      Authorization: `Bearer ${token}`,
       ...(options.body ? { 'Content-Type': 'application/json' } : {})
     }
   });
@@ -66,9 +81,7 @@ export async function adminFetch(path, options = {}) {
 }
 
 export async function adminFetchBlob(path) {
-  const token = getAdminToken();
-  if (!token) throw new AdminAuthError();
-  const response = await fetch(path, { headers: { Authorization: `Bearer ${token}` } });
+  const response = await fetch(path, { credentials: 'include' });
   if (response.status === 401 || response.status === 403) {
     clearAdminSession();
     throw new AdminAuthError();

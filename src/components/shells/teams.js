@@ -15,7 +15,7 @@ export function TeamBadge({ teamId, className = '' }) {
   );
 }
 
-export function TeamSelectorCard({ team, selected = false, disabled = false, secondary = false, compact = false, index, className = '', onSelect }) {
+export function TeamSelectorCard({ team, selected = false, disabled = false, secondary = false, compact = false, compactDescription = false, index, className = '', onSelect }) {
   const accent = getTeamAccent(team.id);
   const interactive = typeof onSelect === 'function';
   const Component = interactive ? 'button' : 'div';
@@ -41,12 +41,13 @@ export function TeamSelectorCard({ team, selected = false, disabled = false, sec
       <div className="relative flex items-start justify-between gap-3">
         <div>
           {typeof index === 'number' ? <p className="body-small text-muted">{String(index + 1).padStart(2, '0')}</p> : null}
-          <p className={compact ? 'body-small hidden text-muted md:block' : 'body-small text-muted'}>{team.tagline}</p>
-          <h3 className={compact ? 'label mt-1 text-[0.98rem] md:text-[1.08rem]' : 'heading mt-1 text-[1.35rem]'}>{team.name}</h3>
+          <p className={compact ? 'body-small hidden text-muted md:block lg:text-[1rem]' : 'body-small text-muted'}>{team.tagline}</p>
+          <h3 className={compact ? 'label mt-1 text-[0.98rem] md:text-[1.08rem] lg:mt-2 lg:text-[1.28rem]' : 'heading mt-1 text-[1.35rem]'}>{team.name}</h3>
         </div>
-        {selected ? <span className="body-small rounded-full bg-[var(--color-ivory-50)] px-2.5 py-1">Selected</span> : null}
+        {selected ? <span className="team-selected-indicator body-small rounded-full bg-[var(--color-ivory-50)] px-2.5 py-1">Selected</span> : null}
       </div>
-      {compact ? null : <p className="body-small mt-4 text-muted">{team.shortDescription}</p>}
+      {compact && compactDescription ? <p className="body-small mt-3 hidden text-muted lg:block">{team.shortDescription}</p> : null}
+      {!compact ? <p className="body-small mt-4 text-muted">{team.shortDescription}</p> : null}
     </Component>
   );
 }
@@ -55,7 +56,7 @@ export function FeaturedTeamCard({ team = TEAMS[0] }) {
   const accent = getTeamAccent(team.id);
 
   return (
-    <EditorialCard accent={accent?.surface} className="relative min-h-[320px] overflow-hidden">
+    <EditorialCard accent={accent?.surface} className="relative min-h-[320px] overflow-hidden lg:min-h-[430px] lg:p-8">
       <span aria-hidden="true" className="absolute -right-12 top-8 h-36 w-36 rounded-full border border-foreground/10" />
       <span aria-hidden="true" className="absolute bottom-8 right-10 h-px w-28 rotate-[-8deg] bg-foreground/20" />
       <Stack gap="md">
@@ -64,9 +65,9 @@ export function FeaturedTeamCard({ team = TEAMS[0] }) {
           <p className="body-small text-muted">{team.tagline}</p>
           <h2 className="display-section mt-2">{team.name}</h2>
         </div>
-        <p className="body-large text-muted">{team.description}</p>
-        <p className="body">{team.idealFor}</p>
-        <Button href={`/apply?team=${team.id}`} variant="secondary">
+        <p className="body-large text-muted lg:text-[1.14rem]">{team.description}</p>
+        <p className="body lg:text-[1.04rem] lg:leading-[1.7]">{team.idealFor}</p>
+        <Button className="lg:w-fit" href={`/apply?team=${team.id}`} variant="secondary">
           Apply for this team &#8599;
         </Button>
       </Stack>

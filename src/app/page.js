@@ -8,37 +8,37 @@ const lifeMoments = [
   {
     key: 'lifePrep',
     caption: 'the calm before the event',
-    className: 'w-full lg:col-span-7 lg:row-span-2',
+    className: 'w-[92%] lg:col-span-7 lg:row-span-2 lg:w-full',
     mediaClassName: 'aspect-[1.18/1] lg:aspect-[1.28/1]'
   },
   {
     key: 'lifeTeam',
     caption: '',
-    className: 'ml-auto w-[74%] lg:col-span-4 lg:col-start-9 lg:row-span-2 lg:w-full lg:translate-y-12',
+    className: 'ml-auto w-[64%] lg:col-span-4 lg:col-start-9 lg:row-span-2 lg:w-full lg:translate-y-12',
     mediaClassName: 'aspect-[3/4] lg:aspect-[3/4.45]'
   },
   {
     key: 'lifeEvent',
     caption: 'this is what execution looks like',
-    className: 'w-[92%] lg:col-span-5 lg:col-start-2 lg:w-full lg:-translate-y-2',
+    className: 'w-[78%] lg:col-span-5 lg:col-start-2 lg:w-full lg:-translate-y-2',
     mediaClassName: 'aspect-[1.35/1] lg:aspect-[1.45/1]'
   },
   {
     key: 'lifeBts',
     caption: 'behind the scenes >',
-    className: 'ml-8 w-[68%] lg:col-span-3 lg:col-start-8 lg:ml-0 lg:w-full lg:-translate-y-10',
+    className: 'ml-auto w-[60%] lg:col-span-3 lg:col-start-8 lg:ml-0 lg:w-full lg:-translate-y-10',
     mediaClassName: 'aspect-[1/1]'
   },
   {
     key: 'lifeCelebration',
     caption: '',
-    className: 'ml-auto w-[82%] lg:col-span-4 lg:col-start-1 lg:w-full lg:translate-y-8',
+    className: 'w-[70%] lg:col-span-4 lg:col-start-1 lg:w-full lg:translate-y-8',
     mediaClassName: 'aspect-[4/3]'
   },
   {
     key: 'lifeVideoPoster',
     caption: 'video poster placeholder',
-    className: 'w-full lg:col-span-6 lg:col-start-6 lg:w-full',
+    className: 'ml-auto w-[90%] lg:col-span-6 lg:col-start-6 lg:w-full',
     mediaClassName: 'aspect-[16/10]'
   }
 ];
@@ -141,11 +141,11 @@ const faqItems = [
 
 export default function Home() {
   return (
-    <PageShell className="overflow-x-hidden pb-24 md:pb-0">
+    <PageShell className="landing-desktop overflow-x-hidden pb-24 md:pb-0">
       <ParticipantHeader />
 
-      <Section spacing="hero">
-        <Container className="grid items-center gap-12 lg:min-h-[86svh] lg:grid-cols-[0.98fr_1.02fr] xl:gap-16">
+      <Section spacing="hero" data-hero-section>
+        <Container className="grid items-center gap-12 lg:min-h-[86svh] lg:grid-cols-[1.04fr_0.96fr] lg:gap-14 xl:gap-20">
           <Stack gap="lg" className="motion-settle">
             <div className="flex flex-wrap items-center gap-3">
               <Eyebrow>Recruitment 2026&ndash;27</Eyebrow>
@@ -166,28 +166,28 @@ export default function Home() {
               <EditorialUnderline>Build one.</EditorialUnderline>
             </h1>
 
-            <p className="body-large max-w-[620px] text-muted">
+            <p className="body-large max-w-[650px] text-muted lg:text-[1.28rem] lg:leading-[1.72]">
               Join the people behind the ideas, events, stories, systems and execution that make E-CELL happen.
             </p>
 
-            <div className="flex flex-col gap-3 sm:flex-row" data-hero-cta>
-              <Button href="/apply">
+            <div className="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center lg:gap-4" data-hero-cta>
+              <Button className="lg:px-7" href="/apply">
                 Start your application <span className="arrow-shift" aria-hidden="true">&#8599;</span>
               </Button>
-              <Button href="#teams" variant="ghost">
+              <Button className="lg:px-6" href="#teams" variant="ghost">
                 Explore the teams <span aria-hidden="true">&darr;</span>
               </Button>
             </div>
           </Stack>
 
-          <div className="relative min-h-[430px] pt-4 sm:min-h-[500px] lg:min-h-[610px]">
+          <div className="relative min-h-[430px] pt-4 sm:min-h-[500px] lg:min-h-[640px]">
             <TapeAccent className="absolute left-10 top-2 z-10 lg:left-20" />
             <EditorialPhotoFrame
-              className="motion-fade-up absolute left-0 top-8 w-[88%] lg:left-3 lg:top-4 lg:w-[82%]"
+              className="motion-fade-up absolute left-0 top-8 w-[88%] lg:left-2 lg:top-6 lg:w-[84%]"
               mediaClassName="aspect-[4/3] lg:aspect-[4/3.35]"
               mediaKey="heroMain"
             />
-            <div className="absolute bottom-0 right-0 w-[58%] max-w-[260px] lg:bottom-10 lg:w-[46%] lg:max-w-none">
+            <div className="absolute bottom-0 right-0 w-[58%] max-w-[260px] lg:bottom-7 lg:w-[44%] lg:max-w-none">
               <AnnotationLabel className="absolute -top-5 right-2 z-10">apply here &rarr;</AnnotationLabel>
               <EditorialPhotoFrame className="motion-fade-up" mediaClassName="aspect-[1/1]" mediaKey="heroSecondary" rotate="left" />
             </div>
@@ -196,19 +196,19 @@ export default function Home() {
       </Section>
 
       <Section id="about" spacing="major" className="bg-[var(--color-peach)]/22">
-        <Container className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-center">
+        <Container className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-center lg:gap-16">
           <Stack gap="lg">
             <Stack gap="sm">
               <Eyebrow>ABOUT US</Eyebrow>
               <h2 className="display-section">What even is E-CELL?</h2>
             </Stack>
-            <IrregularPaperBlock className="bg-[var(--color-ivory-50)]/88">
-              <p className="heading">Ideas are easy. Execution is the interesting part.</p>
-              <p className="body-large mt-5 text-muted">
+            <IrregularPaperBlock className="bg-[var(--color-ivory-50)]/88 lg:p-8">
+              <p className="heading lg:max-w-[560px]">Ideas are easy. Execution is the interesting part.</p>
+              <p className="body-large mt-5 max-w-[620px] text-muted lg:text-[1.16rem]">
                 E-CELL MET is a student-led community where ideas turn into events, projects, collaborations and real responsibility. Different teams bring different strengths&mdash;but everything comes together through execution.
               </p>
             </IrregularPaperBlock>
-            <div className="flex flex-wrap gap-x-5 gap-y-2 text-xs text-muted">
+            <div className="flex flex-wrap gap-x-6 gap-y-2 text-xs text-muted lg:text-[0.82rem]">
               {['BUILD', 'CREATE', 'CONNECT', 'EXECUTE'].map((word) => (
                 <span className="border-b border-foreground/20 py-1" key={word}>
                   {word}
@@ -225,16 +225,16 @@ export default function Home() {
 
       <Section id="life" spacing="major" className="bg-[var(--color-blush)]/18">
         <Container>
-          <div className="grid gap-10 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
-            <Stack gap="sm" className="lg:sticky lg:top-28">
+          <div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-start lg:gap-14">
+            <Stack gap="sm" className="lg:sticky lg:top-32 lg:pt-8">
               <Eyebrow>BEHIND THE SCENES</Eyebrow>
               <h2 className="display-section">Life at E-CELL</h2>
-              <p className="body-large max-w-[560px] text-muted">
+              <p className="body-large max-w-[580px] text-muted lg:text-[1.18rem]">
                 Somewhere between planning, deadlines, ideas and a little chaos&mdash;things get built.
               </p>
             </Stack>
 
-            <div className="grid gap-5 lg:grid-cols-12 lg:grid-rows-[auto_auto_auto]">
+            <div className="life-mobile-feed grid gap-7 lg:grid-cols-12 lg:grid-rows-[auto_auto_auto] lg:gap-6">
               {lifeMoments.map((moment, index) => (
                 <EditorialPhotoFrame
                   caption={moment.caption || undefined}
@@ -253,12 +253,12 @@ export default function Home() {
       <Section id="teams" spacing="major">
         <Container>
           <Stack gap="lg">
-            <div className="grid gap-5 lg:grid-cols-[0.75fr_1.25fr] lg:items-end">
+            <div className="grid gap-5 lg:grid-cols-[0.72fr_1.28fr] lg:items-end lg:gap-10">
               <Stack gap="sm">
                 <Eyebrow>THE TEAMS</Eyebrow>
                 <h2 className="display-section">Find your squad</h2>
               </Stack>
-              <p className="body-large max-w-[680px] text-muted lg:justify-self-end">
+              <p className="body-large max-w-[720px] text-muted lg:justify-self-end lg:text-[1.18rem]">
                 Seven teams. Different strengths. Same mission. Pick the kind of work you&apos;d actually enjoy doing.
               </p>
             </div>
@@ -273,21 +273,21 @@ export default function Home() {
             <div className="max-w-[760px]">
               <Eyebrow>WHY E-CELL?</Eyebrow>
               <h2 className="display-section mt-3">What you&apos;ll actually get</h2>
-              <p className="body-large mt-5 text-muted">
+              <p className="body-large mt-5 text-muted lg:text-[1.16rem]">
                 The point isn&apos;t just being part of another club. It&apos;s getting the chance to do work that asks something from you.
               </p>
             </div>
 
-            <div className="grid gap-4 lg:grid-cols-12 lg:items-start">
+            <div className="grid gap-4 lg:grid-cols-12 lg:items-start lg:gap-5">
               {benefits.map((benefit, index) => (
                 <EditorialCard
                   accent={benefit.accent}
-                  className={`${benefit.className} ${index % 2 === 1 ? 'max-lg:ml-6' : ''}`}
+                  className={`landing-benefit-card ${benefit.className} ${index % 2 === 1 ? 'max-lg:ml-6' : ''}`}
                   key={benefit.title}
                 >
                   <p className="body-small text-muted">{String(index + 1).padStart(2, '0')}</p>
                   <h3 className="heading mt-4">{benefit.title}</h3>
-                  <p className="body mt-4 text-muted">{benefit.body}</p>
+                  <p className="body mt-4 text-muted lg:text-[1.04rem] lg:leading-[1.72]">{benefit.body}</p>
                 </EditorialCard>
               ))}
             </div>
@@ -302,17 +302,17 @@ export default function Home() {
               <Eyebrow>WHAT HAPPENS NEXT?</Eyebrow>
               <h2 className="display-section mt-3">Here&apos;s what happens after you apply</h2>
             </div>
-            <ol className="relative grid gap-8 lg:grid-cols-5 lg:gap-x-8 lg:gap-y-12 lg:pb-16">
+            <ol className="relative grid gap-8 lg:grid-cols-5 lg:gap-x-8 lg:gap-y-12 lg:pb-20 lg:pt-2">
               <span aria-hidden="true" className="absolute left-5 top-6 hidden h-[calc(100%-3rem)] w-px bg-foreground/20 max-lg:block" />
               <span aria-hidden="true" className="absolute left-8 right-8 top-8 hidden h-px bg-foreground/20 lg:block" />
               {journeyStages.map((stage, index) => (
                 <li className="relative pl-14 lg:pl-0 lg:pt-16" key={stage.number}>
-                  <span className="absolute left-0 top-1 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full border border-border bg-surface text-sm font-medium lg:top-0">
+                  <span className="absolute left-0 top-1 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full border border-border bg-surface text-sm font-medium lg:top-0 lg:h-12 lg:w-12">
                     {stage.number}
                   </span>
                   <div className={index % 2 === 1 ? 'lg:translate-y-12' : ''}>
-                    <h3 className="label">{stage.title}</h3>
-                    <p className="body mt-3 text-muted lg:max-w-[210px]">{stage.body}</p>
+                    <h3 className="label lg:text-[1.08rem]">{stage.title}</h3>
+                    <p className="body mt-3 text-muted lg:max-w-[250px] lg:text-[1.14rem] lg:leading-[1.72]">{stage.body}</p>
                   </div>
                 </li>
               ))}
@@ -335,7 +335,7 @@ export default function Home() {
 
       <Section spacing="compact" className="bg-[var(--color-lavender)]/32">
         <Container>
-          <div className="relative overflow-hidden rounded-[var(--radius-paper)] border border-border bg-[var(--color-ivory-50)] p-6 shadow-[var(--shadow-soft)] sm:p-10 lg:p-12">
+          <div className="relative overflow-hidden rounded-[var(--radius-paper)] border border-border bg-[var(--color-ivory-50)] p-6 shadow-[var(--shadow-soft)] sm:p-10 lg:p-14">
             <TapeAccent className="absolute right-10 top-6 rotate-2" />
             <Stack gap="lg" className="max-w-[760px]" data-final-cta>
               <div>
@@ -344,15 +344,15 @@ export default function Home() {
                   <br />
                   <span className="text-muted">Might as well apply.</span>
                 </h2>
-                <p className="body-large mt-5 text-muted">
+                <p className="body-large mt-5 max-w-[620px] text-muted lg:text-[1.18rem]">
                   Find the team you&apos;d enjoy working with and tell us what you can bring to it.
                 </p>
               </div>
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-                <Button href="/apply">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center lg:gap-5">
+                <Button className="lg:px-7" href="/apply">
                   Start your application <span className="arrow-shift" aria-hidden="true">&#8599;</span>
                 </Button>
-                <p className="body-small text-muted">For 1st, 2nd &amp; 3rd year students.</p>
+                <p className="body-small text-muted lg:text-[0.98rem]">For 1st, 2nd &amp; 3rd year students.</p>
               </div>
             </Stack>
           </div>

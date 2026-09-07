@@ -17,13 +17,13 @@ function AnswerValue({ answer, question }) {
   return answer?.link || answer?.answerText || 'Not provided';
 }
 
-function DetailList({ items }) {
+function DetailList({ items, compactPairs = false }) {
   return (
-    <dl className="grid gap-4 sm:grid-cols-2">
+    <dl className={compactPairs ? 'review-detail-list grid grid-cols-2 gap-4 lg:gap-x-6 lg:gap-y-5' : 'review-detail-list grid gap-4 sm:grid-cols-2 lg:gap-x-6 lg:gap-y-5'}>
       {items.map(item => (
-        <div key={item.label}>
+        <div className={item.wide ? 'col-span-2' : ''} key={item.label}>
           <dt className="helper">{item.label}</dt>
-          <dd className="body mt-1 whitespace-pre-wrap break-words">{item.value || 'Not provided'}</dd>
+          <dd className="body mt-1 whitespace-pre-wrap break-words text-foreground">{item.value || 'Not provided'}</dd>
         </div>
       ))}
     </dl>
@@ -32,6 +32,7 @@ function DetailList({ items }) {
 
 export function ApplicationReview({ answersByTeam, data, errors, onChangeConfirmation, onEdit, onSubmit, submissionError, submissionErrorRef, submitting }) {
   const primaryTeam = getTeamById(data.primaryTeam);
+  const secondaryTeam = getTeamById(data.secondaryTeam);
   const activeAnswers = primaryTeam ? answersByTeam[primaryTeam.id] || [] : [];
 
   return (
@@ -41,21 +42,21 @@ export function ApplicationReview({ answersByTeam, data, errors, onChangeConfirm
 
         <ReviewSection onEdit={() => onEdit(0)} title="ABOUT YOU">
           <DetailList items={[
-            { label: 'Full name', value: data.fullName },
-            { label: 'Email', value: data.email },
-            { label: 'WhatsApp', value: data.whatsappNumber },
+            { label: 'Full name', value: data.fullName, wide: true },
+            { label: 'Email', value: data.email, wide: true },
+            { label: 'WhatsApp', value: data.whatsappNumber, wide: true },
             { label: 'Branch', value: displayOption(BRANCH_OPTIONS, data.branch) },
             { label: 'Year', value: displayOption(YEAR_OPTIONS, data.yearOfStudy) },
-            { label: 'Other club information', value: data.hasOtherClubs ? data.otherClubDetails : 'No' }
-          ]} />
+            { label: 'Other club information', value: data.hasOtherClubs ? data.otherClubDetails : 'No', wide: true }
+          ]} compactPairs />
         </ReviewSection>
 
         <ReviewSection onEdit={() => onEdit(1)} title="YOUR SQUAD">
           <DetailList items={[
             { label: 'Primary team', value: primaryTeam?.name || data.primaryTeam },
-            { label: 'Second preference', value: getTeamById(data.secondaryTeam)?.name || 'None selected' },
-            { label: 'Availability', value: displayOption(AVAILABILITY_OPTIONS, data.availability) }
-          ]} />
+            { label: 'Second preference', value: secondaryTeam?.name || 'None selected' },
+            { label: 'Availability', value: displayOption(AVAILABILITY_OPTIONS, data.availability), wide: true }
+          ]} compactPairs />
         </ReviewSection>
 
         <ReviewSection onEdit={() => onEdit(1)} title="YOUR STORY">
@@ -64,7 +65,7 @@ export function ApplicationReview({ answersByTeam, data, errors, onChangeConfirm
               { label: 'Why E-CELL MET?', value: data.whyEcell },
               { label: 'Why this primary team?', value: data.whyPrimaryTeam },
               { label: 'Experience', value: data.experience },
-              ...(data.secondaryTeamReason ? [{ label: 'Second-choice team', value: data.secondaryTeamReason }] : [])
+              ...(data.secondaryTeamReason ? [{ label: secondaryTeam ? `Why ${secondaryTeam.name} might also suit you` : 'Why your second-choice team might also suit you', value: data.secondaryTeamReason }] : [])
             ]} />
           </Stack>
         </ReviewSection>
@@ -75,14 +76,14 @@ export function ApplicationReview({ answersByTeam, data, errors, onChangeConfirm
               {primaryTeam.questions.map(question => (
                 <div key={question.id}>
                   <p className="helper">{question.label}</p>
-                  <p className="body mt-1 whitespace-pre-wrap break-words"><AnswerValue answer={activeAnswers.find(item => item.questionId === question.id)} question={question} /></p>
+                  <p className="body mt-1 whitespace-pre-wrap break-words text-foreground"><AnswerValue answer={activeAnswers.find(item => item.questionId === question.id)} question={question} /></p>
                 </div>
               ))}
             </Stack>
           </ReviewSection>
         ) : null}
 
-        <div className="border-t border-border pt-6">
+        <div className="rounded-[1.15rem] border border-border bg-[var(--color-butter)]/18 p-4 lg:p-5">
           <Checkbox
             checked={data.confirmationAccepted}
             id="confirmationAccepted"
