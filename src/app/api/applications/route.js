@@ -10,8 +10,9 @@ import {
   YEAR_IDS,
   normalizePhoneNumber
 } from '../../../../lib/recruitment2026';
-import { enforceEphemeralRateLimit } from '../../../../lib/rateLimit';
+import { enforceRateLimit } from '../../../../lib/rateLimit';
 import { parseJsonRequest } from '../../../../lib/request';
+import { getRecruitmentWindowStatus } from '../../../config/recruitment';
 import { getTeamById } from '../../../config/teams';
 
 const MAX_LENGTHS = {
@@ -413,7 +414,7 @@ async function createApplicationWithCodeRetry(applicationData) {
 
 export async function POST(request) {
   try {
-    const rateLimitResponse = enforceEphemeralRateLimit(
+    const rateLimitResponse = await enforceRateLimit(
       request,
       'application-submit',
       SUBMISSION_RATE_LIMIT
@@ -421,6 +422,19 @@ export async function POST(request) {
 
     if (rateLimitResponse) {
       return rateLimitResponse;
+    }
+
+    const windowStatus = getRecruitmentWindowStatus();
+
+    if (windowStatus !== 'open') {
+      return Response.json(
+        {
+          error: windowStatus === 'not_open'
+            ? 'Applications are not open yet.'
+            : 'Applications are closed.'
+        },
+        { status: 403 }
+      );
     }
 
     await dbConnect();

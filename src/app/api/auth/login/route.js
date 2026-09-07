@@ -3,7 +3,7 @@ import dbConnect from '../../../../../lib/mongodb';
 import Admin from '../../../../../models/Admin';
 import { adminSessionCookieOptions, ADMIN_SESSION_COOKIE, createAdminToken } from '../../../../../lib/auth';
 import { validateServerEnv } from '../../../../../lib/env';
-import { enforceEphemeralRateLimit } from '../../../../../lib/rateLimit';
+import { enforceRateLimit } from '../../../../../lib/rateLimit';
 import { parseJsonRequest } from '../../../../../lib/request';
 
 function cleanString(value) {
@@ -39,7 +39,7 @@ export async function POST(request) {
     const body = parseResult.body;
     const usernameOrEmail = cleanString(body?.username).toLowerCase();
     const password = typeof body?.password === 'string' ? body.password : '';
-    const rateLimitResponse = enforceEphemeralRateLimit(
+    const rateLimitResponse = await enforceRateLimit(
       request,
       'admin-login',
       LOGIN_RATE_LIMIT,

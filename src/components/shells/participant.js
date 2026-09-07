@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useId, useRef, useState } from 'react';
-import { APPLICATIONS_OPEN, RECRUITMENT_LINKS, RECRUITMENT_YEAR_LABEL } from '@/config/recruitment';
+import { RECRUITMENT_LINKS, RECRUITMENT_WINDOW_LABEL, RECRUITMENT_YEAR_LABEL } from '@/config/recruitment';
 import { Button } from '../ui/forms';
 import { Container, cn } from '../ui/layout';
 
@@ -181,7 +181,7 @@ export function ParticipantFooter() {
         </div>
         <div className="mt-10 hidden flex-col gap-3 border-t border-border pt-5 sm:flex-row sm:items-center sm:justify-between lg:flex">
           <p className="body-small text-muted">Built with care by E-CELL MET.</p>
-          <p className="body-small text-muted">Final contact and social links pending.</p>
+          <p className="body-small text-muted">Applications close {RECRUITMENT_LINKS.deadlineLabel}.</p>
         </div>
       </Container>
     </footer>
@@ -194,7 +194,7 @@ export function MobileStickyApply({ hidden = false, className = '' }) {
   return (
     <div className={cn('fixed inset-x-0 bottom-0 z-20 px-4 pb-[calc(1rem+var(--safe-area-bottom))] md:hidden', className)}>
       <div className="mx-auto flex max-w-[430px] items-center justify-between gap-3 rounded-[1.25rem] border border-border bg-[var(--color-ivory-50)] p-3 shadow-[var(--shadow-soft)]">
-        <span className="body-small text-muted">{APPLICATIONS_OPEN ? 'Recruitment open' : 'Recruitment closed'}</span>
+        <span className="body-small text-muted">{RECRUITMENT_WINDOW_LABEL}</span>
         <Button className="min-h-11 px-4 py-2 sm:min-h-11" href="/apply">
           Apply <span aria-hidden="true">&rarr;</span>
         </Button>

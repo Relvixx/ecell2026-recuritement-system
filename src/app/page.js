@@ -3,6 +3,7 @@ import { Container, EditorialCard, Eyebrow, PageShell, Section, Stack } from '@/
 import { AnnotationLabel, EditorialPhotoFrame, EditorialUnderline, IrregularPaperBlock, TapeAccent } from '@/components/shells/editorial';
 import { ParticipantFooter, ParticipantHeader } from '@/components/shells/participant';
 import { FAQAccordion, LandingStickyApplyController, TeamExplorer } from '@/components/landing/LandingInteractions';
+import { RECRUITMENT_WINDOW_LABEL } from '@/config/recruitment';
 
 const lifeMoments = [
   {
@@ -151,7 +152,7 @@ export default function Home() {
               <Eyebrow>Recruitment 2026&ndash;27</Eyebrow>
               <span className="body-small inline-flex min-h-11 items-center gap-2 rounded-full bg-[var(--color-sage)] px-4 text-foreground">
                 <span aria-hidden="true">&#9679;</span>
-                Applications Open
+                {RECRUITMENT_WINDOW_LABEL}
               </span>
               <span className="body-small inline-flex min-h-11 items-center rounded-full border border-border bg-surface px-4 text-muted">
                 For 1st, 2nd &amp; 3rd year students

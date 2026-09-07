@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { BRANCH_OPTIONS } from '@/config/recruitment';
 
 export default function CreateApplicationModal({ onClose, onSubmit }) {
   const [formData, setFormData] = useState({
@@ -28,7 +29,6 @@ export default function CreateApplicationModal({ onClose, onSubmit }) {
     'Media'
   ];
 
-  const branches = ['CSD', 'AnR', 'CEE'];
   const years = ['FE', 'SE', 'TE', 'BE'];
 
   const handleChange = (e) => {
@@ -116,8 +116,8 @@ export default function CreateApplicationModal({ onClose, onSubmit }) {
                     className="w-full border rounded px-3 py-2"
                   >
                     <option value="">Select Branch</option>
-                    {branches.map(branch => (
-                      <option key={branch} value={branch}>{branch}</option>
+                    {BRANCH_OPTIONS.map((branch) => (
+                      <option key={branch.value} value={branch.value}>{branch.label}</option>
                     ))}
                   </select>
                 </div>

@@ -1,7 +1,7 @@
 import dbConnect from '../../../../../lib/mongodb';
 import Application2026 from '../../../../../models/Application2026';
 import { RECRUITMENT_CYCLE } from '../../../../../lib/recruitment2026';
-import { enforceEphemeralRateLimit } from '../../../../../lib/rateLimit';
+import { enforceRateLimit } from '../../../../../lib/rateLimit';
 import { parseJsonRequest } from '../../../../../lib/request';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -37,7 +37,7 @@ function getFirstName(fullName) {
 
 export async function POST(request) {
   try {
-    const rateLimitResponse = enforceEphemeralRateLimit(
+    const rateLimitResponse = await enforceRateLimit(
       request,
       'application-track',
       TRACK_RATE_LIMIT
