@@ -6,7 +6,7 @@ export function DraftResumePrompt({ onContinue, onStartOver }) {
     <div
       aria-labelledby="draft-resume-title"
       aria-modal="true"
-      className="rounded-[var(--radius-paper)] border border-border bg-[var(--color-ivory-50)] p-5 shadow-[var(--shadow-soft)] sm:p-6"
+      className="rounded-[var(--radius-paper)] border border-border bg-[var(--paper)] p-5 shadow-[var(--shadow-soft)] sm:p-6"
       role="dialog"
     >
       <Stack gap="md">

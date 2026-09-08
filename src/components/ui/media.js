@@ -8,12 +8,12 @@ export function MediaPlaceholder({ mediaKey = 'heroMain', className = '', captio
   return (
     <figure
       className={cn(
-        'relative overflow-hidden rounded-[1.75rem] border border-border bg-[var(--color-surface-muted)]',
+        'relative overflow-hidden rounded-[1.75rem] border border-border bg-[var(--media-frame)]',
         className
       )}
     >
-      <div className="aspect-[4/3] min-h-52 w-full bg-[linear-gradient(135deg,var(--color-ivory-50),var(--color-powder-blue),var(--color-peach))]" />
-      <figcaption className="absolute bottom-4 left-4 rounded-full bg-[var(--color-ivory-50)] px-4 py-2 text-sm font-medium text-foreground shadow-[var(--shadow-soft)]">
+      <div className="aspect-[4/3] min-h-52 w-full bg-[linear-gradient(135deg,var(--paper),var(--color-powder-blue),var(--color-peach))]" />
+      <figcaption className="absolute bottom-4 left-4 rounded-full bg-[var(--paper)] px-4 py-2 text-sm font-medium text-foreground shadow-[var(--shadow-soft)]">
         {label}
       </figcaption>
     </figure>

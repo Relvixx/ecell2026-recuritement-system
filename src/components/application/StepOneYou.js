@@ -121,8 +121,8 @@ export function StepOneYou({ data, errors, touched, onBlur, onChange, onSubmit, 
                   className={cn(
                     'flex min-h-11 cursor-pointer items-center justify-between gap-3 rounded-[var(--radius-control)] border px-4 py-3 transition duration-200 lg:min-h-[54px]',
                     selected
-                      ? 'border-foreground bg-[var(--color-butter)]/50 text-foreground'
-                      : 'border-border bg-[var(--color-ivory-50)] text-muted hover:bg-[var(--color-surface-muted)]'
+                      ? 'border-foreground bg-[var(--accent-soft)]/50 text-foreground'
+                      : 'border-border bg-[var(--paper)] text-muted hover:bg-[var(--surface-muted)]'
                   )}
                   key={option.label}
                 >

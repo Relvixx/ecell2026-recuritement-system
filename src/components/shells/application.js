@@ -38,7 +38,7 @@ export function ApplicationShell({ children, actions, currentStep = 0 }) {
 
 export function ApplicationProgress({ currentStep = 0 }) {
   return (
-    <nav aria-label="Application progress" className="application-progress rounded-[var(--radius-card)] border border-border bg-[var(--color-ivory-50)] p-3">
+    <nav aria-label="Application progress" className="application-progress rounded-[var(--radius-card)] border border-border bg-[var(--paper)] p-3">
       <ol className="grid grid-cols-3 gap-2">
         {APPLICATION_STEPS.map((step, index) => {
           const active = index === currentStep;
@@ -49,7 +49,7 @@ export function ApplicationProgress({ currentStep = 0 }) {
               aria-current={active ? 'step' : undefined}
               className={cn(
                 'min-h-11 rounded-[var(--radius-control)] px-3 py-2 text-sm',
-                active && 'bg-[var(--color-butter)] text-foreground',
+                active && 'bg-[var(--accent-soft)] text-foreground',
                 complete && 'bg-[var(--color-sage)]/55 text-foreground',
                 !active && !complete && 'text-muted'
               )}
@@ -113,10 +113,10 @@ export function ApplicationActions({
 
 export function ReviewSection({ title, children, onEdit, onEditLabel = 'Edit' }) {
   return (
-    <section className="review-section rounded-[1.15rem] border border-border bg-[var(--color-ivory-50)] p-4 lg:p-5">
+    <section className="review-section rounded-[1.15rem] border border-border bg-[var(--paper)] p-4 lg:p-5">
       <div className="mb-4 flex items-start justify-between gap-3 border-b border-border/70 pb-3">
         <h2 className="eyebrow min-w-0 flex-1 text-muted">{title}</h2>
-        <button className="label min-h-10 shrink-0 whitespace-nowrap rounded-[var(--radius-control)] px-3 text-muted transition hover:bg-[var(--color-surface-muted)] hover:text-foreground focus-visible:text-foreground" onClick={onEdit} type="button">
+        <button className="label min-h-10 shrink-0 whitespace-nowrap rounded-[var(--radius-control)] px-3 text-muted transition hover:bg-[var(--surface-muted)] hover:text-foreground focus-visible:text-foreground" onClick={onEdit} type="button">
           {onEditLabel}
           <span aria-hidden="true"> &rarr;</span>
         </button>

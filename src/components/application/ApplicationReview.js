@@ -83,7 +83,7 @@ export function ApplicationReview({ answersByTeam, data, errors, onChangeConfirm
           </ReviewSection>
         ) : null}
 
-        <div className="rounded-[1.15rem] border border-border bg-[var(--color-butter)]/18 p-4 lg:p-5">
+        <div className="rounded-[1.15rem] border border-border bg-[var(--accent-soft)]/18 p-4 lg:p-5">
           <Checkbox
             checked={data.confirmationAccepted}
             id="confirmationAccepted"

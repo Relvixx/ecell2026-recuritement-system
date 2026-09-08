@@ -9,37 +9,37 @@ const lifeMoments = [
   {
     key: 'lifePrep',
     caption: 'the calm before the event',
-    className: 'w-[92%] lg:col-span-7 lg:row-span-2 lg:w-full',
-    mediaClassName: 'aspect-[1.18/1] lg:aspect-[1.28/1]'
+    className: 'life-primary w-[92%] lg:col-span-8 lg:row-span-2 lg:w-full',
+    mediaClassName: 'aspect-[1.18/1] lg:aspect-[1.34/1]'
   },
   {
     key: 'lifeTeam',
     caption: '',
-    className: 'ml-auto w-[64%] lg:col-span-4 lg:col-start-9 lg:row-span-2 lg:w-full lg:translate-y-12',
-    mediaClassName: 'aspect-[3/4] lg:aspect-[3/4.45]'
+    className: 'life-vertical ml-auto w-[64%] lg:col-span-4 lg:col-start-9 lg:row-span-3 lg:w-full lg:translate-y-[4.5rem]',
+    mediaClassName: 'aspect-[3/4] lg:aspect-[3/5.45]'
   },
   {
     key: 'lifeEvent',
     caption: 'this is what execution looks like',
-    className: 'w-[78%] lg:col-span-5 lg:col-start-2 lg:w-full lg:-translate-y-2',
+    className: 'life-support w-[78%] lg:col-span-5 lg:col-start-2 lg:w-full lg:-translate-y-8',
     mediaClassName: 'aspect-[1.35/1] lg:aspect-[1.45/1]'
   },
   {
     key: 'lifeBts',
     caption: 'behind the scenes >',
-    className: 'ml-auto w-[60%] lg:col-span-3 lg:col-start-8 lg:ml-0 lg:w-full lg:-translate-y-10',
+    className: 'life-detail ml-auto w-[60%] lg:col-span-3 lg:col-start-7 lg:ml-0 lg:w-full lg:-translate-y-20',
     mediaClassName: 'aspect-[1/1]'
   },
   {
     key: 'lifeCelebration',
     caption: '',
-    className: 'w-[70%] lg:col-span-4 lg:col-start-1 lg:w-full lg:translate-y-8',
+    className: 'life-support w-[70%] lg:col-span-4 lg:col-start-1 lg:w-full lg:-translate-y-4',
     mediaClassName: 'aspect-[4/3]'
   },
   {
     key: 'lifeVideoPoster',
     caption: 'video poster placeholder',
-    className: 'ml-auto w-[90%] lg:col-span-6 lg:col-start-6 lg:w-full',
+    className: 'life-wide ml-auto w-[90%] lg:col-span-6 lg:col-start-6 lg:w-full lg:-translate-y-10',
     mediaClassName: 'aspect-[16/10]'
   }
 ];
@@ -142,19 +142,19 @@ const faqItems = [
 
 export default function Home() {
   return (
-    <PageShell className="landing-desktop overflow-x-hidden pb-24 md:pb-0">
+    <PageShell className="landing-desktop landing-midnight overflow-x-hidden pb-24 md:pb-0" recruitmentTheme="midnight">
       <ParticipantHeader />
 
-      <Section spacing="hero" data-hero-section>
+      <Section className="landing-hero" spacing="hero" data-hero-section>
         <Container className="grid items-center gap-12 lg:min-h-[86svh] lg:grid-cols-[1.04fr_0.96fr] lg:gap-14 xl:gap-20">
           <Stack gap="lg" className="motion-settle">
             <div className="flex flex-wrap items-center gap-3">
               <Eyebrow>Recruitment 2026&ndash;27</Eyebrow>
-              <span className="body-small inline-flex min-h-11 items-center gap-2 rounded-full bg-[var(--color-sage)] px-4 text-foreground">
+              <span className="landing-status-pill body-small inline-flex min-h-11 items-center gap-2 rounded-full bg-[var(--color-sage)] px-4 text-foreground">
                 <span aria-hidden="true">&#9679;</span>
                 {RECRUITMENT_WINDOW_LABEL}
               </span>
-              <span className="body-small inline-flex min-h-11 items-center rounded-full border border-border bg-surface px-4 text-muted">
+              <span className="landing-audience-pill body-small inline-flex min-h-11 items-center rounded-full border border-border bg-surface px-4 text-muted">
                 For 1st, 2nd &amp; 3rd year students
               </span>
             </div>
@@ -196,14 +196,14 @@ export default function Home() {
         </Container>
       </Section>
 
-      <Section id="about" spacing="major" className="bg-[var(--color-peach)]/22">
+      <Section id="about" spacing="major" className="landing-about bg-[var(--surface)]">
         <Container className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-center lg:gap-16">
           <Stack gap="lg">
             <Stack gap="sm">
               <Eyebrow>ABOUT US</Eyebrow>
               <h2 className="display-section">What even is E-CELL?</h2>
             </Stack>
-            <IrregularPaperBlock className="bg-[var(--color-ivory-50)]/88 lg:p-8">
+            <IrregularPaperBlock className="landing-manifesto bg-[var(--paper)]/88 lg:p-8">
               <p className="heading lg:max-w-[560px]">Ideas are easy. Execution is the interesting part.</p>
               <p className="body-large mt-5 max-w-[620px] text-muted lg:text-[1.16rem]">
                 E-CELL MET is a student-led community where ideas turn into events, projects, collaborations and real responsibility. Different teams bring different strengths&mdash;but everything comes together through execution.
@@ -224,7 +224,7 @@ export default function Home() {
         </Container>
       </Section>
 
-      <Section id="life" spacing="major" className="bg-[var(--color-blush)]/18">
+      <Section id="life" spacing="major" className="landing-life bg-[var(--canvas)]">
         <Container>
           <div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-start lg:gap-14">
             <Stack gap="sm" className="lg:sticky lg:top-32 lg:pt-8">
@@ -235,7 +235,7 @@ export default function Home() {
               </p>
             </Stack>
 
-            <div className="life-mobile-feed grid gap-7 lg:grid-cols-12 lg:grid-rows-[auto_auto_auto] lg:gap-6">
+            <div className="life-mobile-feed grid gap-7 lg:grid-cols-12 lg:grid-rows-[auto_auto_auto_auto] lg:gap-x-5 lg:gap-y-8">
               {lifeMoments.map((moment, index) => (
                 <EditorialPhotoFrame
                   caption={moment.caption || undefined}
@@ -251,7 +251,7 @@ export default function Home() {
         </Container>
       </Section>
 
-      <Section id="teams" spacing="major">
+      <Section id="teams" spacing="major" className="landing-teams">
         <Container>
           <Stack gap="lg">
             <div className="grid gap-5 lg:grid-cols-[0.72fr_1.28fr] lg:items-end lg:gap-10">
@@ -268,7 +268,7 @@ export default function Home() {
         </Container>
       </Section>
 
-      <Section spacing="major" className="bg-[var(--color-ivory-100)]">
+      <Section spacing="major" className="landing-benefits bg-[var(--footer-bg)]">
         <Container>
           <Stack gap="lg">
             <div className="max-w-[760px]">
@@ -296,7 +296,7 @@ export default function Home() {
         </Container>
       </Section>
 
-      <Section id="journey" spacing="major" className="bg-[var(--color-butter)]/24">
+      <Section id="journey" spacing="major" className="landing-journey bg-[var(--surface)]">
         <Container>
           <Stack gap="lg">
             <div className="max-w-[780px]">
@@ -322,8 +322,8 @@ export default function Home() {
         </Container>
       </Section>
 
-      <Section id="faq" spacing="major">
-        <Container width="faq">
+      <Section id="faq" spacing="major" className="landing-faq">
+        <Container className="landing-faq-container" width="default">
           <Stack gap="lg">
             <Stack gap="sm">
               <Eyebrow>FAQ</Eyebrow>
@@ -334,11 +334,11 @@ export default function Home() {
         </Container>
       </Section>
 
-      <Section spacing="compact" className="bg-[var(--color-lavender)]/32">
+      <Section spacing="compact" className="landing-final-cta bg-[var(--canvas)]">
         <Container>
-          <div className="relative overflow-hidden rounded-[var(--radius-paper)] border border-border bg-[var(--color-ivory-50)] p-6 shadow-[var(--shadow-soft)] sm:p-10 lg:p-14">
+          <div className="landing-final-panel relative overflow-hidden rounded-[var(--radius-paper)] border border-border bg-[var(--paper)] p-6 shadow-[var(--shadow-soft)] sm:p-10 lg:p-14" data-final-cta>
             <TapeAccent className="absolute right-10 top-6 rotate-2" />
-            <Stack gap="lg" className="max-w-[760px]" data-final-cta>
+            <Stack gap="lg" className="max-w-[760px]">
               <div>
                 <h2 className="display-section">
                   Still scrolling?

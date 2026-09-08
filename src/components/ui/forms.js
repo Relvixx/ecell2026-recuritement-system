@@ -2,9 +2,9 @@ import Link from 'next/link';
 import { cn } from './layout';
 
 const buttonVariants = {
-  primary: 'bg-foreground text-[#fffdf9] visited:text-[#fffdf9] hover:bg-[#3a3632] hover:text-[#fffdf9] focus-visible:text-[#fffdf9]',
-  secondary: 'border border-border bg-surface text-foreground visited:text-foreground hover:bg-[var(--color-surface-muted)]',
-  ghost: 'text-foreground visited:text-foreground hover:bg-[var(--color-surface-muted)]'
+  primary: 'bg-[var(--accent)] text-[var(--text-inverse)] visited:text-[var(--text-inverse)] hover:bg-[var(--accent-hover)] hover:text-[var(--text-inverse)] focus-visible:text-[var(--text-inverse)]',
+  secondary: 'border border-border bg-surface text-foreground visited:text-foreground hover:bg-[var(--surface-muted)]',
+  ghost: 'text-foreground visited:text-foreground hover:bg-[var(--surface-muted)]'
 };
 
 export function Button({
@@ -18,7 +18,7 @@ export function Button({
   type = 'button',
   ...props
 }) {
-  const primaryStyle = variant === 'primary' ? { color: 'var(--color-ivory-50)' } : null;
+  const primaryStyle = variant === 'primary' ? { color: 'var(--text-inverse)' } : null;
   const resolvedStyle = primaryStyle || style ? { ...primaryStyle, ...style } : undefined;
   const classes = cn(
     'group inline-flex min-h-11 items-center justify-center gap-2 rounded-[1.15rem] px-5 py-3 text-center text-sm font-medium transition duration-200 ease-out disabled:pointer-events-none disabled:opacity-55 sm:min-h-[52px] sm:px-6',
@@ -80,7 +80,7 @@ export function FormField({ label, helper, error, id, children, required = false
 }
 
 const controlClasses =
-  'min-h-11 w-full rounded-[var(--radius-control)] border bg-[var(--color-ivory-50)] px-4 py-3 text-foreground placeholder:text-muted/70 transition duration-200 focus:border-focus focus:outline-none focus:ring-2 focus:ring-focus/20 disabled:cursor-not-allowed disabled:opacity-60';
+  'min-h-11 w-full rounded-[var(--radius-control)] border bg-[var(--input-bg)] px-4 py-3 text-foreground placeholder:text-muted/70 transition duration-200 focus:border-focus focus:outline-none focus:ring-2 focus:ring-focus/20 disabled:cursor-not-allowed disabled:opacity-60';
 
 export function Input({ className = '', error = false, ...props }) {
   return (
@@ -139,7 +139,7 @@ export function Pill({ children, className = '', accent }) {
   return (
     <span
       className={cn('inline-flex min-h-11 items-center rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium text-foreground', className)}
-      style={accent ? { background: `color-mix(in srgb, ${accent} 42%, var(--color-ivory-50))` } : undefined}
+      style={accent ? { background: `color-mix(in srgb, ${accent} 42%, var(--paper))` } : undefined}
     >
       {children}
     </span>

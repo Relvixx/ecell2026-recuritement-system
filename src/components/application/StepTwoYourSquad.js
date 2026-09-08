@@ -53,7 +53,7 @@ function TeamAnswerField({ answer, error, onBlur, onChange, question, touched })
               <label
                 className={cn(
                   'flex min-h-11 cursor-pointer items-center justify-between gap-3 rounded-[var(--radius-control)] border px-4 py-3 text-sm transition duration-200 lg:min-h-[50px] lg:text-[0.98rem]',
-                  selected ? 'border-foreground bg-[var(--color-lavender)]/55 text-foreground' : 'border-border bg-[var(--color-ivory-50)] text-muted hover:bg-[var(--color-surface-muted)]'
+                  selected ? 'border-foreground bg-[var(--color-lavender)]/55 text-foreground' : 'border-border bg-[var(--paper)] text-muted hover:bg-[var(--surface-muted)]'
                 )}
                 key={option}
               >
@@ -140,9 +140,9 @@ export function StepTwoYourSquad({ answersByTeam, data, errors, onBlur, onChange
               aria-pressed={!data.secondaryTeam}
               className={cn(
                 'label min-h-10 rounded-full border px-4 py-2 transition',
-                !data.secondaryTeam
-                  ? 'border-foreground bg-[var(--color-sage)]/55 text-foreground'
-                  : 'border-border bg-[var(--color-ivory-50)] text-muted hover:border-foreground hover:text-foreground'
+                  !data.secondaryTeam
+                    ? 'border-foreground bg-[var(--color-sage)]/55 text-foreground'
+                    : 'border-border bg-[var(--paper)] text-muted hover:border-foreground hover:text-foreground'
               )}
               onClick={() => onChange('secondaryTeam', '')}
               type="button"
@@ -213,11 +213,11 @@ export function StepTwoYourSquad({ answersByTeam, data, errors, onBlur, onChange
           <section
             aria-labelledby="team-questions-heading"
             className="application-chapter border-t pt-8"
-            style={{ borderTopColor: primaryAccent?.surface || 'var(--color-border)' }}
+            style={{ borderTopColor: primaryAccent?.surface || 'var(--border-soft)' }}
           >
             <div className="mb-5">
               <p className="eyebrow flex items-center gap-2 text-muted">
-                <span aria-hidden="true" className="h-2.5 w-2.5 rounded-full" style={{ background: primaryAccent?.surface || 'var(--color-border)' }} />
+                <span aria-hidden="true" className="h-2.5 w-2.5 rounded-full" style={{ background: primaryAccent?.surface || 'var(--border-soft)' }} />
                 {primaryTeam.name.toUpperCase()} QUESTIONS
               </p>
               <h2 className="heading mt-2" id="team-questions-heading">A few {primaryTeam.name}-specific questions</h2>

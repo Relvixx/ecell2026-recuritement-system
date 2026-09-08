@@ -18,35 +18,40 @@ export function LandingStickyApplyController() {
   }, []);
 
   useEffect(() => {
-    const heroSection = document.querySelector('[data-hero-section]');
+    const heroCta = document.querySelector('[data-hero-cta]');
     const finalCta = document.querySelector('[data-final-cta]');
 
-    if (!heroSection || !finalCta || !('IntersectionObserver' in window)) {
+    if (!heroCta || !finalCta) {
       setHidden(false);
       return undefined;
     }
 
-    const visibility = {
-      hero: true,
-      final: false
+    let frameId;
+
+    const isVisible = (node) => {
+      const rect = node.getBoundingClientRect();
+      return rect.bottom > 0 && rect.top < window.innerHeight;
     };
 
-    const update = () => setHidden(visibility.hero || visibility.final);
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.target === heroSection) visibility.hero = entry.isIntersecting;
-          if (entry.target === finalCta) visibility.final = entry.isIntersecting;
-        });
-        update();
-      },
-      { rootMargin: '0px 0px -12% 0px', threshold: 0 }
-    );
+    const update = () => {
+      frameId = undefined;
+      setHidden(isVisible(heroCta) || isVisible(finalCta));
+    };
 
-    observer.observe(heroSection);
-    observer.observe(finalCta);
+    const requestUpdate = () => {
+      if (frameId) return;
+      frameId = window.requestAnimationFrame(update);
+    };
 
-    return () => observer.disconnect();
+    requestUpdate();
+    window.addEventListener('scroll', requestUpdate, { passive: true });
+    window.addEventListener('resize', requestUpdate);
+
+    return () => {
+      if (frameId) window.cancelAnimationFrame(frameId);
+      window.removeEventListener('scroll', requestUpdate);
+      window.removeEventListener('resize', requestUpdate);
+    };
   }, []);
 
   return <MobileStickyApply hidden={hidden || menuOpen} />;
@@ -68,19 +73,20 @@ export function TeamExplorer() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-2 lg:gap-x-5 lg:gap-y-4">
+      <div className="team-index grid grid-cols-2 gap-0 border-y border-border sm:grid-cols-3 lg:grid-cols-1">
         {TEAMS.map((team, index) => (
           <div
             className={[
-              index === 1 || index === 4 ? 'lg:translate-y-5' : '',
-              index === 2 ? 'lg:col-span-2 lg:max-w-[68%]' : '',
-              index === 5 ? 'lg:-translate-y-1' : '',
-              index === 6 ? 'lg:col-span-2 lg:ml-auto lg:max-w-[68%]' : ''
+              'team-index-row',
+              index % 2 === 1 ? 'sm:border-l lg:border-l-0' : '',
+              index === 2 ? 'lg:ml-10' : '',
+              index === 4 ? 'lg:ml-20' : '',
+              index === 6 ? 'lg:ml-6' : ''
             ].join(' ')}
             key={team.id}
           >
             <TeamSelectorCard
-              className="min-h-[76px] p-3 lg:min-h-[150px] lg:p-6"
+              className="min-h-[76px] p-3 lg:min-h-[106px] lg:p-5"
               compact
               index={index}
               onSelect={(teamId) => {
@@ -95,7 +101,7 @@ export function TeamExplorer() {
       </div>
 
       {detailsOpen ? (
-        <div className="fixed inset-0 z-40 overflow-y-auto bg-[var(--color-ivory-100)]/95 p-4 md:p-8 lg:static lg:z-auto lg:col-span-2 lg:bg-transparent lg:p-0">
+        <div className="fixed inset-0 z-40 overflow-y-auto bg-[var(--footer-bg)]/95 p-4 md:p-8 lg:static lg:z-auto lg:col-span-2 lg:bg-transparent lg:p-0">
           <div className="mx-auto max-w-[900px]">
             <TeamDetailPanel onClose={() => setDetailsOpen(false)} team={selectedTeam} />
           </div>

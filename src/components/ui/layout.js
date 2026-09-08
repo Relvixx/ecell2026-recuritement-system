@@ -2,7 +2,9 @@ export function cn(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-export function PageShell({ children, className = '', variant = 'public' }) {
+export function PageShell({ children, className = '', recruitmentTheme = 'paper', variant = 'public' }) {
+  const themeProps = variant === 'admin' ? {} : { 'data-recruitment-theme': recruitmentTheme };
+
   return (
     <main
       className={cn(
@@ -10,6 +12,7 @@ export function PageShell({ children, className = '', variant = 'public' }) {
         variant === 'admin' && 'bg-[var(--color-ivory-100)]',
         className
       )}
+      {...themeProps}
     >
       {children}
     </main>
@@ -35,7 +38,7 @@ export function Container({ children, className = '', width = 'default' }) {
 export function Section({ children, className = '', tone = 'neutral', spacing = 'major', ...props }) {
   const tones = {
     neutral: '',
-    surface: 'bg-[var(--color-ivory-100)]',
+    surface: 'bg-[var(--footer-bg)]',
     blush: 'bg-[var(--color-blush)]/35',
     sage: 'bg-[var(--color-sage)]/35'
   };
@@ -68,7 +71,7 @@ export function PaperCard({ children, className = '', accent, as: Component = 'd
         'rounded-[var(--radius-paper)] border border-border bg-surface p-5 shadow-[var(--shadow-soft)] sm:p-7',
         className
       )}
-      style={accent ? { '--paper-accent': accent, borderColor: 'color-mix(in srgb, var(--paper-accent) 55%, var(--color-border))' } : undefined}
+      style={accent ? { '--paper-accent': accent, borderColor: 'color-mix(in srgb, var(--paper-accent) 55%, var(--border-soft))' } : undefined}
     >
       {children}
     </Component>
@@ -78,8 +81,8 @@ export function PaperCard({ children, className = '', accent, as: Component = 'd
 export function EditorialCard({ children, className = '', accent, as: Component = 'div' }) {
   return (
     <Component
-      className={cn('rounded-[var(--radius-card)] border border-border bg-[var(--color-ivory-50)] p-5 sm:p-6', className)}
-      style={accent ? { background: `color-mix(in srgb, ${accent} 28%, var(--color-ivory-50))` } : undefined}
+      className={cn('rounded-[var(--radius-card)] border border-border bg-[var(--paper)] p-5 sm:p-6', className)}
+      style={accent ? { background: `color-mix(in srgb, ${accent} 28%, var(--paper))` } : undefined}
     >
       {children}
     </Component>

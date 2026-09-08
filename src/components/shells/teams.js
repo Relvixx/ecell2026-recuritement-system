@@ -24,9 +24,9 @@ export function TeamSelectorCard({ team, selected = false, disabled = false, sec
     <Component
       aria-pressed={interactive ? selected : undefined}
       className={cn(
-        'relative w-full overflow-hidden rounded-[var(--radius-card)] border text-left transition duration-200',
+        'team-selector-card relative w-full overflow-hidden rounded-[var(--radius-card)] border text-left transition duration-200',
         compact ? 'min-h-16 p-3 md:min-h-24 md:p-4' : 'p-4',
-        selected ? 'border-foreground bg-[var(--team-accent)]' : 'border-border bg-[var(--color-ivory-50)]',
+        selected ? 'is-selected border-foreground bg-[var(--team-accent)]' : 'border-border bg-[var(--paper)]',
         secondary && 'opacity-85',
         disabled && 'cursor-not-allowed opacity-50',
         interactive && 'hover:-translate-y-0.5 hover:border-foreground',
@@ -34,7 +34,7 @@ export function TeamSelectorCard({ team, selected = false, disabled = false, sec
       )}
       disabled={interactive ? disabled : undefined}
       onClick={interactive ? () => onSelect(team.id) : undefined}
-      style={{ '--team-accent': accent?.surface || 'var(--color-surface-muted)' }}
+      style={{ '--team-accent': accent?.surface || 'var(--surface-muted)' }}
       type={interactive ? 'button' : undefined}
     >
       <span aria-hidden="true" className="absolute -right-5 -top-5 h-16 w-16 rounded-full bg-[var(--team-accent)] opacity-45" />
@@ -44,7 +44,7 @@ export function TeamSelectorCard({ team, selected = false, disabled = false, sec
           <p className={compact ? 'body-small hidden text-muted md:block lg:text-[1rem]' : 'body-small text-muted'}>{team.tagline}</p>
           <h3 className={compact ? 'label mt-1 text-[0.98rem] md:text-[1.08rem] lg:mt-2 lg:text-[1.28rem]' : 'heading mt-1 text-[1.35rem]'}>{team.name}</h3>
         </div>
-        {selected ? <span className="team-selected-indicator body-small rounded-full bg-[var(--color-ivory-50)] px-2.5 py-1">Selected</span> : null}
+        {selected ? <span className="team-selected-indicator body-small rounded-full bg-[var(--paper)] px-2.5 py-1">Selected</span> : null}
       </div>
       {compact && compactDescription ? <p className="body-small mt-3 hidden text-muted lg:block">{team.shortDescription}</p> : null}
       {!compact ? <p className="body-small mt-4 text-muted">{team.shortDescription}</p> : null}
@@ -56,7 +56,7 @@ export function FeaturedTeamCard({ team = TEAMS[0] }) {
   const accent = getTeamAccent(team.id);
 
   return (
-    <EditorialCard accent={accent?.surface} className="relative min-h-[320px] overflow-hidden lg:min-h-[430px] lg:p-8">
+    <EditorialCard accent={accent?.surface} className="featured-team-card relative min-h-[320px] overflow-hidden lg:min-h-[430px] lg:p-8">
       <span aria-hidden="true" className="absolute -right-12 top-8 h-36 w-36 rounded-full border border-foreground/10" />
       <span aria-hidden="true" className="absolute bottom-8 right-10 h-px w-28 rotate-[-8deg] bg-foreground/20" />
       <Stack gap="md">
@@ -77,7 +77,7 @@ export function FeaturedTeamCard({ team = TEAMS[0] }) {
 
 export function TeamDetailPanel({ team = TEAMS[0], onClose }) {
   return (
-    <section className="rounded-[var(--radius-paper)] border border-border bg-surface p-5 shadow-[var(--shadow-soft)] sm:p-7" aria-label={`${team.name} team details`}>
+    <section className="team-detail-panel rounded-[var(--radius-paper)] border border-border bg-surface p-5 shadow-[var(--shadow-soft)] sm:p-7" aria-label={`${team.name} team details`}>
       <Stack gap="lg">
         <div className="flex items-start justify-between gap-4">
           <div>
@@ -86,7 +86,7 @@ export function TeamDetailPanel({ team = TEAMS[0], onClose }) {
             <p className="body-small mt-1 text-muted">{team.tagline}</p>
           </div>
           {onClose ? (
-            <button className="min-h-11 rounded-[var(--radius-control)] px-3 text-sm text-muted hover:bg-[var(--color-surface-muted)]" onClick={onClose} type="button">
+            <button className="min-h-11 rounded-[var(--radius-control)] px-3 text-sm text-muted hover:bg-[var(--surface-muted)]" onClick={onClose} type="button">
               Close
             </button>
           ) : null}
@@ -96,7 +96,7 @@ export function TeamDetailPanel({ team = TEAMS[0], onClose }) {
           <h3 className="label">What we do</h3>
           <ul className="mt-3 grid gap-2 sm:grid-cols-2">
             {team.whatWeDo.map((item) => (
-              <li className="body-small rounded-[var(--radius-control)] bg-[var(--color-surface-muted)] px-3 py-2" key={item}>
+              <li className="body-small rounded-[var(--radius-control)] bg-[var(--surface-muted)] px-3 py-2" key={item}>
                 {item}
               </li>
             ))}
@@ -110,7 +110,7 @@ export function TeamDetailPanel({ team = TEAMS[0], onClose }) {
           <h3 className="label">You may work on</h3>
           <ul className="mt-3 grid gap-2 sm:grid-cols-2">
             {team.mayWorkOn.map((item) => (
-              <li className="body-small rounded-[var(--radius-control)] bg-[var(--color-surface-muted)] px-3 py-2" key={item}>
+              <li className="body-small rounded-[var(--radius-control)] bg-[var(--surface-muted)] px-3 py-2" key={item}>
                 {item}
               </li>
             ))}

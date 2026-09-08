@@ -24,14 +24,37 @@
   --color-mint: #d8ece2;
   --color-coral: #efc9bc;
   --color-rose-muted: #eed0d5;
+
+  /* Participant art-direction tokens. Paper is the approved current theme. */
+  --canvas: #faf8f3;
+  --surface: #fffdf9;
+  --surface-raised: #fffdf9;
+  --surface-muted: #f4efe5;
+  --paper: #fffdf9;
+  --text-primary: #282626;
+  --text-secondary: #6f6963;
+  --text-inverse: #fffdf9;
+  --text-on-paper: #282626;
+  --border-soft: #ded7cc;
+  --accent: #282626;
+  --accent-hover: #3a3632;
+  --accent-soft: #f5e7ad;
+  --focus: #8b6fcb;
+  --input-bg: #fffdf9;
+  --input-border: #ded7cc;
+  --header-bg: #faf8f3;
+  --footer-bg: #fcfaf6;
+  --media-frame: #f4efe5;
+  --selection-bg: #f5e7ad;
+  --selection-text: #282626;
   --status-submitted: var(--color-powder-blue);
   --status-under-review: var(--color-butter);
   --status-shortlisted: var(--color-lavender);
   --status-interview: var(--color-peach);
   --status-selected: var(--color-sage);
   --status-rejected: var(--color-rose-muted);
-  --background: var(--color-ivory-200);
-  --foreground: var(--color-ink);
+  --background: var(--canvas);
+  --foreground: var(--text-primary);
   --font-display-temp: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
   --font-body-temp: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-mono-temp: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
@@ -43,13 +66,72 @@
   --safe-area-bottom: env(safe-area-inset-bottom, 0px);
 }
 
+[data-recruitment-theme="paper"] {
+  --canvas: #faf8f3;
+  --surface: #fffdf9;
+  --surface-raised: #fffdf9;
+  --surface-muted: #f4efe5;
+  --paper: #fffdf9;
+  --text-primary: #282626;
+  --text-secondary: #6f6963;
+  --text-inverse: #fffdf9;
+  --text-on-paper: #282626;
+  --border-soft: #ded7cc;
+  --accent: #282626;
+  --accent-hover: #3a3632;
+  --accent-soft: #f5e7ad;
+  --focus: #8b6fcb;
+  --input-bg: #fffdf9;
+  --input-border: #ded7cc;
+  --header-bg: #faf8f3;
+  --footer-bg: #fcfaf6;
+  --media-frame: #f4efe5;
+  --selection-bg: #f5e7ad;
+  --selection-text: #282626;
+}
+
+[data-recruitment-theme="midnight"] {
+  --color-lavender: #d8c9df;
+  --color-powder-blue: #c8d8df;
+  --color-sage: #d8dfcc;
+  --color-butter: #efe1a7;
+  --color-blush: #e8c2ca;
+  --color-peach: #ead1bf;
+  --color-mint: #cbe0d4;
+  --color-coral: #e8b9ac;
+  --color-rose-muted: #d7aab4;
+  --canvas: #121212;
+  --surface: #181617;
+  --surface-raised: #1b181a;
+  --surface-muted: #242022;
+  --paper: #f6f1ea;
+  --text-primary: #f8f6f3;
+  --text-secondary: #b9b9b9;
+  --text-inverse: #121212;
+  --text-on-paper: #282324;
+  --border-soft: rgba(255, 255, 255, 0.07);
+  --accent: #ff1744;
+  --accent-hover: #ff5a78;
+  --accent-soft: #e8a8b1;
+  --focus: #ff5a78;
+  --input-bg: #1b181a;
+  --input-border: rgba(255, 255, 255, 0.12);
+  --header-bg: #121212;
+  --footer-bg: #181617;
+  --media-frame: #242022;
+  --selection-bg: #ff1744;
+  --selection-text: #f8f6f3;
+  --background: var(--canvas);
+  --foreground: var(--text-primary);
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-surface: var(--color-surface);
-  --color-muted: var(--color-muted);
-  --color-border: var(--color-border);
-  --color-focus: var(--color-focus);
+  --color-surface: var(--surface);
+  --color-muted: var(--text-secondary);
+  --color-border: var(--border-soft);
+  --color-focus: var(--focus);
   --color-error: var(--color-error);
   --color-success: var(--color-success);
   --color-lavender: var(--color-lavender);
@@ -93,12 +175,12 @@ textarea {
 }
 
 ::selection {
-  background: var(--color-butter);
-  color: var(--color-ink);
+  background: var(--selection-bg);
+  color: var(--selection-text);
 }
 
 :focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--color-focus) 70%, transparent);
+  outline: 3px solid color-mix(in srgb, var(--focus) 70%, transparent);
   outline-offset: 3px;
 }
 
@@ -160,7 +242,478 @@ textarea {
 .helper {
   font-size: 0.875rem;
   line-height: 1.45;
-  color: var(--color-muted);
+  color: var(--text-secondary);
+}
+
+.landing-midnight {
+  --shadow-soft: 0 24px 70px rgba(0, 0, 0, 0.32);
+  background: var(--canvas);
+}
+
+.landing-midnight > header {
+  border-bottom: 0;
+  background: transparent;
+  padding-top: 0.75rem;
+}
+
+.landing-midnight > header > div:first-child {
+  min-height: 4rem;
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface-raised) 86%, transparent);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.22);
+}
+
+.landing-midnight > header a,
+.landing-midnight > header button {
+  color: var(--text-primary);
+}
+
+.landing-midnight > header nav {
+  color: var(--text-secondary);
+}
+
+.landing-midnight > header nav a:hover {
+  border-color: color-mix(in srgb, var(--accent) 58%, transparent);
+  color: var(--text-primary);
+}
+
+.landing-midnight > header button[aria-controls] {
+  border-color: var(--border-soft);
+  background: var(--surface);
+  color: var(--text-primary);
+}
+
+.landing-midnight > header [aria-hidden="true"].hidden.h-12 {
+  border-color: color-mix(in srgb, var(--accent) 42%, var(--border-soft));
+  background: var(--accent);
+  color: var(--text-primary);
+}
+
+.landing-midnight .landing-hero {
+  position: relative;
+  overflow: hidden;
+  padding-top: 3rem;
+}
+
+.landing-midnight .landing-hero::before {
+  content: "";
+  position: absolute;
+  inset: 7rem 5vw auto auto;
+  width: min(28vw, 22rem);
+  height: 1px;
+  background: color-mix(in srgb, var(--accent) 72%, transparent);
+  transform: rotate(-8deg);
+}
+
+.landing-midnight .eyebrow {
+  color: color-mix(in srgb, var(--accent) 84%, var(--text-primary));
+}
+
+.landing-midnight .landing-status-pill {
+  border: 1px solid color-mix(in srgb, var(--accent) 34%, transparent);
+  background: color-mix(in srgb, var(--accent) 14%, var(--surface));
+  color: var(--text-primary);
+}
+
+.landing-midnight .landing-status-pill span {
+  color: var(--accent);
+}
+
+.landing-midnight .landing-audience-pill {
+  background: var(--surface);
+  color: var(--text-secondary);
+}
+
+.landing-midnight .display-hero,
+.landing-midnight .display-section {
+  color: var(--text-primary);
+}
+
+.landing-midnight .display-hero {
+  text-wrap: balance;
+}
+
+.landing-midnight .display-hero .relative.z-10 {
+  color: var(--text-primary);
+}
+
+.landing-midnight .landing-hero p,
+.landing-midnight .landing-life p,
+.landing-midnight .landing-teams p,
+.landing-midnight .landing-benefits > div > div > div:first-child p,
+.landing-midnight .landing-journey p,
+.landing-midnight .landing-faq p {
+  color: var(--text-secondary);
+}
+
+.landing-midnight .landing-hero .eyebrow,
+.landing-midnight .landing-life .eyebrow,
+.landing-midnight .landing-teams .eyebrow,
+.landing-midnight .landing-benefits .eyebrow,
+.landing-midnight .landing-journey .eyebrow,
+.landing-midnight .landing-faq .eyebrow {
+  color: color-mix(in srgb, var(--accent) 84%, var(--text-primary));
+}
+
+.landing-midnight .landing-hero figure,
+.landing-midnight .landing-life figure,
+.landing-midnight .landing-about figure {
+  background: var(--paper);
+  border-color: color-mix(in srgb, var(--paper) 78%, transparent);
+  box-shadow: 0 26px 70px rgba(0, 0, 0, 0.42);
+}
+
+.landing-midnight .landing-hero figure > div,
+.landing-midnight .landing-life figure > div,
+.landing-midnight .landing-about figure > div {
+  background:
+    linear-gradient(135deg, rgba(246, 241, 234, 0.88), rgba(185, 185, 185, 0.44)),
+    var(--media-frame);
+}
+
+.landing-midnight .landing-hero figure figcaption,
+.landing-midnight .landing-life figure figcaption,
+.landing-midnight .landing-about figure figcaption {
+  color: color-mix(in srgb, var(--text-on-paper) 72%, transparent);
+}
+
+.landing-midnight .landing-hero .absolute.body-small.inline-flex.rounded-full {
+  color: var(--text-on-paper);
+}
+
+.landing-midnight .landing-about {
+  border-block: 1px solid var(--border-soft);
+}
+
+.landing-midnight .landing-manifesto {
+  color: var(--text-on-paper);
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.28),
+    inset 0 0 0 1px rgba(40, 35, 36, 0.04);
+}
+
+.landing-midnight .landing-manifesto .heading,
+.landing-midnight .landing-manifesto p {
+  color: var(--text-on-paper);
+}
+
+.landing-midnight .landing-manifesto .text-muted {
+  color: color-mix(in srgb, var(--text-on-paper) 72%, transparent);
+}
+
+.landing-midnight #about .flex.flex-wrap span {
+  border-color: color-mix(in srgb, var(--accent) 44%, transparent);
+  color: var(--text-secondary);
+}
+
+.landing-midnight .landing-life {
+  border-block: 1px solid color-mix(in srgb, var(--paper) 7%, transparent);
+}
+
+.landing-midnight .life-mobile-feed {
+  align-items: start;
+}
+
+.landing-midnight .life-mobile-feed figure {
+  transform-origin: center;
+}
+
+.landing-midnight .life-mobile-feed .life-primary {
+  z-index: 3;
+  padding: 0.7rem;
+  border-radius: 2rem;
+}
+
+.landing-midnight .life-mobile-feed .life-primary > div {
+  min-height: 24rem;
+}
+
+.landing-midnight .life-mobile-feed .life-vertical {
+  z-index: 4;
+  padding: 0.55rem;
+  border-color: color-mix(in srgb, var(--accent-soft) 36%, var(--paper));
+}
+
+.landing-midnight .life-mobile-feed .life-support,
+.landing-midnight .life-mobile-feed .life-detail,
+.landing-midnight .life-mobile-feed .life-wide {
+  box-shadow: 0 18px 52px rgba(0, 0, 0, 0.34);
+}
+
+.landing-midnight .life-mobile-feed .life-detail {
+  z-index: 5;
+  border-radius: 1.35rem;
+}
+
+.landing-midnight .life-mobile-feed .life-detail > div {
+  border-radius: 1rem;
+}
+
+.landing-midnight .life-mobile-feed .life-wide {
+  z-index: 2;
+}
+
+.landing-midnight .landing-teams .featured-team-card,
+.landing-midnight .landing-benefits .landing-benefit-card,
+.landing-midnight .landing-final-panel {
+  background: var(--paper) !important;
+  color: var(--text-on-paper);
+  border-color: color-mix(in srgb, var(--paper) 82%, transparent);
+  box-shadow: 0 26px 72px rgba(0, 0, 0, 0.34);
+}
+
+.landing-midnight .landing-teams .featured-team-card .display-section,
+.landing-midnight .landing-teams .featured-team-card .heading,
+.landing-midnight .landing-benefits .landing-benefit-card .heading,
+.landing-midnight .landing-final-panel .display-section {
+  color: var(--text-on-paper);
+}
+
+.landing-midnight .landing-teams .featured-team-card .text-muted,
+.landing-midnight .landing-teams .featured-team-card p,
+.landing-midnight .landing-benefits .landing-benefit-card .text-muted,
+.landing-midnight .landing-final-panel .text-muted {
+  color: color-mix(in srgb, var(--text-on-paper) 70%, transparent);
+}
+
+.landing-midnight .landing-teams .featured-team-card > span:first-child {
+  border-color: color-mix(in srgb, var(--accent) 28%, transparent);
+}
+
+.landing-midnight .landing-teams .featured-team-card > span:nth-child(2) {
+  background: color-mix(in srgb, var(--accent) 72%, transparent);
+}
+
+.landing-midnight .landing-teams .featured-team-card a,
+.landing-midnight .landing-final-panel a {
+  border-color: transparent;
+  background: var(--accent);
+  color: var(--text-primary) !important;
+}
+
+.landing-midnight .landing-teams .featured-team-card a:hover,
+.landing-midnight .landing-final-panel a:hover {
+  background: var(--accent-hover);
+  color: var(--text-primary) !important;
+}
+
+.landing-midnight .landing-teams .team-index {
+  border-color: color-mix(in srgb, var(--paper) 13%, transparent);
+}
+
+.landing-midnight .landing-teams .team-index-row {
+  border-bottom: 1px solid color-mix(in srgb, var(--paper) 11%, transparent);
+}
+
+.landing-midnight .landing-teams .team-index-row:last-child {
+  border-bottom: 0;
+}
+
+.landing-midnight .landing-teams .team-selector-card {
+  border-width: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: var(--text-primary);
+}
+
+.landing-midnight .landing-teams .team-selector-card:hover {
+  background: color-mix(in srgb, var(--paper) 4%, transparent);
+}
+
+.landing-midnight .landing-teams .team-selector-card .text-muted {
+  color: var(--text-secondary);
+}
+
+.landing-midnight .landing-teams .team-selector-card > span[aria-hidden] {
+  inset: auto 1rem 1rem auto;
+  height: 0.42rem;
+  width: 2.2rem;
+  border-radius: 999px;
+  opacity: 0.34;
+}
+
+.landing-midnight .landing-teams .team-selector-card.is-selected {
+  background: color-mix(in srgb, var(--accent) 7%, transparent);
+  border-color: transparent;
+}
+
+.landing-midnight .landing-teams .team-selector-card.is-selected::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: var(--accent);
+}
+
+.landing-midnight .landing-teams .team-selected-indicator {
+  height: 0.72rem;
+  min-height: 0.72rem;
+  width: 0.72rem;
+  flex-shrink: 0;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--text-primary) 22%, transparent);
+  padding: 0;
+  background: var(--accent);
+  color: transparent;
+}
+
+.landing-midnight .landing-teams .team-detail-panel {
+  background: var(--paper);
+  color: var(--text-on-paper);
+}
+
+.landing-midnight .landing-teams .team-detail-panel .text-muted,
+.landing-midnight .landing-teams .team-detail-panel .helper {
+  color: color-mix(in srgb, var(--text-on-paper) 68%, transparent);
+}
+
+.landing-midnight .landing-teams .team-detail-panel li {
+  background: rgba(40, 35, 36, 0.06);
+}
+
+.landing-midnight .landing-teams .team-detail-panel a {
+  background: var(--accent);
+  color: var(--text-primary) !important;
+}
+
+.landing-midnight .landing-benefits {
+  border-block: 1px solid var(--border-soft);
+}
+
+.landing-midnight .landing-benefits .landing-benefit-card:nth-child(3n) {
+  background: color-mix(in srgb, var(--paper) 92%, var(--surface-muted)) !important;
+}
+
+.landing-midnight .landing-benefits .landing-benefit-card:nth-child(even) {
+  background: color-mix(in srgb, var(--paper) 90%, var(--accent-soft)) !important;
+}
+
+.landing-midnight .landing-benefits .landing-benefit-card .body-small:first-child {
+  color: var(--accent);
+}
+
+.landing-midnight .landing-journey ol > span {
+  background: var(--accent);
+}
+
+.landing-midnight .landing-journey li > span {
+  border-color: color-mix(in srgb, var(--accent) 58%, var(--border-soft));
+  background: var(--surface);
+  color: var(--text-primary);
+  font-family: var(--font-display-temp);
+  font-size: 1.12rem;
+  line-height: 1;
+}
+
+.landing-midnight .landing-journey h3 {
+  color: var(--text-primary);
+  font-size: 1.08rem;
+  letter-spacing: 0.08em;
+}
+
+.landing-midnight .landing-journey li p {
+  max-width: 17rem;
+  color: color-mix(in srgb, var(--text-secondary) 88%, var(--text-primary));
+}
+
+.landing-midnight .landing-faq {
+  background: var(--canvas);
+}
+
+.landing-midnight .landing-faq-container {
+  max-width: 1160px;
+}
+
+.landing-midnight .landing-faq .space-y-8 {
+  display: grid;
+  gap: 2.5rem;
+}
+
+.landing-midnight .landing-faq > div > div > div:last-child {
+  border-color: var(--border-soft);
+}
+
+.landing-midnight .landing-faq button {
+  min-height: 6.5rem;
+  padding-block: 2rem;
+  color: var(--text-primary);
+}
+
+.landing-midnight .landing-faq button .label {
+  max-width: 54rem;
+  font-size: clamp(1.08rem, 1.5vw, 1.42rem);
+  line-height: 1.35;
+}
+
+.landing-midnight .landing-faq button span:last-child {
+  color: var(--accent);
+}
+
+.landing-midnight .landing-faq [role="region"] p {
+  max-width: 780px;
+  padding-bottom: 2.35rem;
+  color: color-mix(in srgb, var(--text-secondary) 90%, var(--text-primary));
+}
+
+.landing-midnight .landing-final-panel {
+  position: relative;
+}
+
+.landing-midnight .landing-final-panel::after {
+  content: "";
+  position: absolute;
+  inset: auto 2rem 2rem auto;
+  width: 7rem;
+  height: 2px;
+  background: var(--accent);
+  transform: rotate(-6deg);
+}
+
+.landing-midnight footer {
+  border-color: color-mix(in srgb, var(--paper) 10%, transparent);
+  background: #121212;
+  color: var(--text-primary);
+}
+
+.landing-midnight footer .text-muted {
+  color: var(--text-secondary);
+}
+
+.landing-midnight footer .footer-brand .heading,
+.landing-midnight footer .footer-brand .label {
+  color: var(--text-primary);
+}
+
+.landing-midnight footer .footer-brand .heading {
+  letter-spacing: 0.02em;
+}
+
+.landing-midnight footer .footer-brand::before {
+  content: "";
+  display: block;
+  width: 3rem;
+  height: 2px;
+  margin-bottom: 1rem;
+  background: var(--accent);
+}
+
+.landing-midnight footer .footer-links {
+  color: var(--text-secondary);
+}
+
+.landing-midnight footer .footer-links .label {
+  color: var(--text-primary);
+}
+
+.landing-midnight footer .border-t {
+  border-color: color-mix(in srgb, var(--paper) 10%, transparent);
+}
+
+.landing-midnight .fixed.bottom-0 > div {
+  background: var(--surface-raised);
+  border-color: var(--border-soft);
 }
 
 @media (max-width: 767px) {
@@ -194,6 +747,15 @@ textarea {
   .life-mobile-feed figcaption {
     font-size: 0.92rem;
     line-height: 1.45;
+  }
+
+  .landing-midnight .life-mobile-feed .life-primary > div {
+    min-height: 0;
+  }
+
+  .landing-midnight .landing-faq button {
+    min-height: 4.75rem;
+    padding-block: 1.15rem;
   }
 
   .landing-desktop #journey ol {
@@ -231,7 +793,7 @@ textarea {
     width: 0.72rem;
     flex-shrink: 0;
     overflow: hidden;
-    border: 1px solid color-mix(in srgb, var(--color-ink) 18%, transparent);
+    border: 1px solid color-mix(in srgb, var(--text-primary) 18%, transparent);
     padding: 0;
     color: transparent;
   }
@@ -655,7 +1217,7 @@ textarea {
 
 @media (min-width: 1024px) {
   .landing-desktop .text-muted {
-    color: #57514c;
+    color: color-mix(in srgb, var(--text-secondary) 84%, var(--text-primary));
   }
 
   .landing-desktop .body {
@@ -840,7 +1402,7 @@ textarea {
     align-items: center;
     justify-content: center;
     border-radius: 999px;
-    background: var(--color-surface-muted);
+    background: var(--surface-muted);
   }
 
   .tracking-experience .display-section {
@@ -944,7 +1506,7 @@ textarea {
   }
 
   .admin-total-metric {
-    background: color-mix(in srgb, var(--color-powder-blue) 18%, var(--color-surface));
+    background: color-mix(in srgb, var(--color-powder-blue) 18%, var(--surface));
   }
 
   .admin-total-metric .heading {

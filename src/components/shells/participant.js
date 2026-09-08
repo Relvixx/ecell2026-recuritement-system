@@ -53,11 +53,11 @@ export function ParticipantHeader({ onMenuChange }) {
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-30 border-b border-border bg-background/95 lg:bg-background/90">
+    <header className="sticky top-0 z-30 border-b border-border bg-[var(--header-bg)]/95 lg:bg-[var(--header-bg)]/90">
       <Container className="flex min-h-16 items-center justify-between gap-4 lg:min-h-[84px]">
         <Link className="label min-h-11 inline-flex items-center lg:group lg:gap-3" href="/">
           <span className="lg:hidden">E-CELL MET</span>
-          <span className="hidden h-12 w-12 place-items-center rounded-[1rem] border border-border bg-[var(--color-ivory-50)] text-[0.92rem] font-medium text-foreground transition group-hover:border-foreground lg:grid">
+          <span className="hidden h-12 w-12 place-items-center rounded-[1rem] border border-border bg-[var(--paper)] text-[0.92rem] font-medium text-foreground transition group-hover:border-foreground lg:grid">
             EC
           </span>
           <span className="hidden gap-0.5 lg:grid">
@@ -95,7 +95,7 @@ export function ParticipantHeader({ onMenuChange }) {
       <div
         aria-hidden={!open}
         className={cn(
-          'fixed inset-0 z-50 overflow-y-auto bg-[var(--color-ivory-100)] transition duration-200 md:hidden',
+          'fixed inset-0 z-50 overflow-y-auto bg-[var(--footer-bg)] transition duration-200 md:hidden',
           open ? 'pointer-events-auto translate-y-0 opacity-100' : 'pointer-events-none -translate-y-2 opacity-0'
         )}
         id={menuId}
@@ -144,14 +144,14 @@ export function ParticipantFooter() {
   ];
 
   return (
-    <footer className="border-t border-border bg-[var(--color-ivory-100)]">
+    <footer className="participant-footer border-t border-border bg-[var(--footer-bg)]">
       <Container className="py-10 sm:py-12 lg:py-14">
         <div className="grid gap-8 lg:hidden">
-          <div>
+          <div className="footer-brand">
             <p className="label">E-CELL MET</p>
             <p className="body-small mt-2 text-muted">Recruitment {RECRUITMENT_YEAR_LABEL}</p>
           </div>
-          <nav aria-label="Footer" className="flex flex-wrap gap-4 text-sm text-muted">
+          <nav aria-label="Footer" className="footer-links flex flex-wrap gap-4 text-sm text-muted">
             {footerLinks.map((link) => (
               <span className="min-h-11 inline-flex items-center" key={link.label}>
                 {link.label}
@@ -162,7 +162,7 @@ export function ParticipantFooter() {
         </div>
 
         <div className="hidden gap-8 lg:grid lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
-          <div className="max-w-[520px]">
+          <div className="footer-brand max-w-[520px]">
             <p className="heading text-[2rem]">E-CELL MET</p>
             <p className="body-small mt-2 text-muted">Recruitment {RECRUITMENT_YEAR_LABEL}</p>
             <p className="body mt-5 text-muted">
@@ -170,7 +170,7 @@ export function ParticipantFooter() {
             </p>
           </div>
 
-          <nav aria-label="Footer" className="flex gap-10 lg:justify-self-end">
+          <nav aria-label="Footer" className="footer-links flex gap-10 lg:justify-self-end">
             {footerLinks.map((link) => (
               <span className="min-w-[7rem]" key={link.label}>
                 <span className="label block text-[1.04rem]">{link.label}</span>
@@ -193,7 +193,7 @@ export function MobileStickyApply({ hidden = false, className = '' }) {
 
   return (
     <div className={cn('fixed inset-x-0 bottom-0 z-20 px-4 pb-[calc(1rem+var(--safe-area-bottom))] md:hidden', className)}>
-      <div className="mx-auto flex max-w-[430px] items-center justify-between gap-3 rounded-[1.25rem] border border-border bg-[var(--color-ivory-50)] p-3 shadow-[var(--shadow-soft)]">
+      <div className="mx-auto flex max-w-[430px] items-center justify-between gap-3 rounded-[1.25rem] border border-border bg-[var(--paper)] p-3 shadow-[var(--shadow-soft)]">
         <span className="body-small text-muted">{RECRUITMENT_WINDOW_LABEL}</span>
         <Button className="min-h-11 px-4 py-2 sm:min-h-11" href="/apply">
           Apply <span aria-hidden="true">&rarr;</span>

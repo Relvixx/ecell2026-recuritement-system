@@ -70,7 +70,7 @@ export function SuccessShell({ loading = false }) {
                 <p className="body-large text-muted">You&apos;re officially in the recruitment pipeline.</p>
               </Stack>
 
-              <section aria-labelledby="application-id-heading" className="success-id rounded-[var(--radius-card)] border border-border bg-[var(--color-butter)]/35 p-5">
+              <section aria-labelledby="application-id-heading" className="success-id rounded-[var(--radius-card)] border border-border bg-[var(--accent-soft)]/35 p-5">
                 <p className="eyebrow text-muted" id="application-id-heading">YOUR APPLICATION ID</p>
                 <p className="mt-2 break-all font-mono text-[clamp(1.45rem,6vw,2rem)] font-medium tracking-[0.08em]">{applicationCode}</p>
                 <p className="helper mt-2">Keep this safe. You&apos;ll need it to track your application.</p>
@@ -84,7 +84,7 @@ export function SuccessShell({ loading = false }) {
                 <h2 className="heading" id="next-heading">What happens next?</h2>
                 <ol className="success-journey mt-5 grid gap-3">
                   {nextStages.map((stage, index) => (
-                    <li className="success-stage rounded-[var(--radius-control)] border border-border bg-[var(--color-ivory-50)] px-4 py-3" key={stage}>
+                    <li className="success-stage rounded-[var(--radius-control)] border border-border bg-[var(--paper)] px-4 py-3" key={stage}>
                       <span className="success-stage-number body-small text-muted">{String(index + 1).padStart(2, '0')}</span>
                       <span className="label">{stage}</span>
                     </li>

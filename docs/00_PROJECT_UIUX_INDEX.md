@@ -68,6 +68,9 @@ Seven team identities, descriptions, responsibilities, fit statements, visual mo
 ### `08_TYPOGRAPHY_SYSTEM.md`
 Typography philosophy and constraints. Exact final display font is intentionally not locked yet.
 
+### `09_THEME_ARCHITECTURE.md`
+Participant theme IDs, scope, token-driven architecture, admin isolation, and deferred toggle/persistence notes for Paper and Midnight.
+
 ---
 
 ## Current UI/UX Phase Status
