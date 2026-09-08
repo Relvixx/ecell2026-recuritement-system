@@ -21,9 +21,9 @@ function DetailList({ items, compactPairs = false }) {
   return (
     <dl className={compactPairs ? 'review-detail-list grid grid-cols-2 gap-4 lg:gap-x-6 lg:gap-y-5' : 'review-detail-list grid gap-4 sm:grid-cols-2 lg:gap-x-6 lg:gap-y-5'}>
       {items.map(item => (
-        <div className={item.wide ? 'col-span-2' : ''} key={item.label}>
+        <div className={item.wide ? 'review-detail-item col-span-2' : 'review-detail-item'} key={item.label}>
           <dt className="helper">{item.label}</dt>
-          <dd className="body mt-1 whitespace-pre-wrap break-words text-foreground">{item.value || 'Not provided'}</dd>
+          <dd className="review-answer body mt-1 whitespace-pre-wrap break-words text-foreground">{item.value || 'Not provided'}</dd>
         </div>
       ))}
     </dl>
@@ -74,16 +74,16 @@ export function ApplicationReview({ answersByTeam, data, errors, onChangeConfirm
           <ReviewSection onEdit={() => onEdit(1)} title={`${primaryTeam.name.toUpperCase()} QUESTIONS`}>
             <Stack gap="md">
               {primaryTeam.questions.map(question => (
-                <div key={question.id}>
+                <div className="review-detail-item" key={question.id}>
                   <p className="helper">{question.label}</p>
-                  <p className="body mt-1 whitespace-pre-wrap break-words text-foreground"><AnswerValue answer={activeAnswers.find(item => item.questionId === question.id)} question={question} /></p>
+                  <p className="review-answer body mt-1 whitespace-pre-wrap break-words text-foreground"><AnswerValue answer={activeAnswers.find(item => item.questionId === question.id)} question={question} /></p>
                 </div>
               ))}
             </Stack>
           </ReviewSection>
         ) : null}
 
-        <div className="rounded-[1.15rem] border border-border bg-[var(--accent-soft)]/18 p-4 lg:p-5">
+        <div className="application-submit-confirmation rounded-[1.15rem] border border-border bg-[var(--accent-soft)]/18 p-4 lg:p-5">
           <Checkbox
             checked={data.confirmationAccepted}
             id="confirmationAccepted"

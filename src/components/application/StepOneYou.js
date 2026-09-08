@@ -169,7 +169,7 @@ export function StepOneYou({ data, errors, touched, onBlur, onChange, onSubmit, 
         ) : null}
       </div>
 
-      <p className="helper text-right" aria-live="polite">
+      <p className="application-autosave helper text-right" aria-live="polite">
         {autosaveStatus === 'saved' ? 'Saved on this device' : ' '}
       </p>
     </form>

@@ -716,7 +716,331 @@ textarea {
   border-color: var(--border-soft);
 }
 
+.application-experience[data-recruitment-theme="midnight"] {
+  --shadow-soft: 0 28px 86px rgba(0, 0, 0, 0.38);
+  --application-mobile-action-reserve: calc(8.75rem + var(--safe-area-bottom));
+  background:
+    radial-gradient(circle at 18% 0%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 28rem),
+    var(--canvas);
+  scroll-padding-bottom: var(--application-mobile-action-reserve);
+}
+
+.application-experience[data-recruitment-theme="midnight"] > section {
+  min-height: 100svh;
+}
+
+.application-experience[data-recruitment-theme="midnight"] .application-topbar {
+  color: var(--text-primary);
+}
+
+.application-experience[data-recruitment-theme="midnight"] .application-brand-lockup > span:first-child {
+  background: var(--accent);
+}
+
+.application-experience[data-recruitment-theme="midnight"] .application-brand-lockup .text-foreground {
+  color: var(--text-primary);
+}
+
+.application-experience[data-recruitment-theme="midnight"] .application-exit {
+  border: 1px solid var(--border-soft);
+  padding-inline: 1rem;
+  color: var(--text-secondary);
+}
+
+.application-experience[data-recruitment-theme="midnight"] .application-exit:hover {
+  border-color: color-mix(in srgb, var(--accent) 36%, var(--border-soft));
+  color: var(--text-primary);
+}
+
+.application-experience[data-recruitment-theme="midnight"] .application-progress {
+  border-color: var(--border-soft);
+  background: color-mix(in srgb, var(--surface-raised) 88%, transparent);
+  color: var(--text-secondary);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.22);
+}
+
+.application-experience[data-recruitment-theme="midnight"] .application-progress-step {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-secondary);
+}
+
+.application-experience[data-recruitment-theme="midnight"] .application-progress-step.is-active {
+  border-color: color-mix(in srgb, var(--accent) 44%, transparent);
+  background: color-mix(in srgb, var(--accent) 12%, var(--surface-raised));
+  color: var(--text-primary);
+}
+
+.application-experience[data-recruitment-theme="midnight"] .application-progress-step.is-complete {
+  border-color: color-mix(in srgb, var(--paper) 15%, transparent);
+  background: color-mix(in srgb, var(--paper) 8%, var(--surface-raised));
+  color: var(--text-primary);
+}
+
+.application-experience[data-recruitment-theme="midnight"] .application-progress-step[aria-current="step"]::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 2px;
+  background: var(--accent);
+}
+
+.application-experience[data-recruitment-theme="midnight"] .application-card {
+  --background: var(--paper);
+  --foreground: var(--text-on-paper);
+  --text-primary: var(--text-on-paper);
+  --text-secondary: color-mix(in srgb, var(--text-on-paper) 68%, transparent);
+  --border-soft: rgba(40, 35, 36, 0.14);
+  --accent-soft: #f0c5ca;
+  --input-bg: color-mix(in srgb, var(--paper) 82%, #ffffff);
+  --input-border: rgba(40, 35, 36, 0.18);
+  --surface: color-mix(in srgb, var(--paper) 88%, #ffffff);
+  --surface-muted: color-mix(in srgb, var(--paper) 82%, #d9d0c6);
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  border-color: color-mix(in srgb, var(--paper) 84%, transparent);
+  background: var(--paper);
+  color: var(--text-on-paper);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.34);
+}
+
+.application-experience[data-recruitment-theme="midnight"] .application-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 12%, transparent));
+}
+
+.application-experience[data-recruitment-theme="midnight"] .application-card > * {
+  min-width: 0;
+  position: relative;
+}
+
+.application-experience[data-recruitment-theme="midnight"] .application-card .display-section,
+.application-experience[data-recruitment-theme="midnight"] .application-card .heading,
+.application-experience[data-recruitment-theme="midnight"] .application-card .label,
+.application-experience[data-recruitment-theme="midnight"] .application-card .text-foreground {
+  color: var(--text-on-paper);
+}
+
+.application-experience[data-recruitment-theme="midnight"] .application-card .text-muted,
+.application-experience[data-recruitment-theme="midnight"] .application-card .helper {
+  color: var(--text-secondary);
+}
+
+.application-experience[data-recruitment-theme="midnight"] .application-card .eyebrow {
+  color: color-mix(in srgb, var(--accent) 78%, var(--text-on-paper));
+}
+
+.application-experience[data-recruitment-theme="midnight"] .application-card input,
+.application-experience[data-recruitment-theme="midnight"] .application-card select,
+.application-experience[data-recruitment-theme="midnight"] .application-card textarea {
+  border-color: var(--input-border);
+  background: var(--input-bg);
+  color: var(--text-on-paper);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.42);
+}
+
+.application-experience[data-recruitment-theme="midnight"] .application-card textarea {
+  min-height: 8.5rem;
+  line-height: 1.68;
+}
+
+.application-experience[data-recruitment-theme="midnight"] .application-card input:focus,
+.application-experience[data-recruitment-theme="midnight"] .application-card select:focus,
+.application-experience[data-recruitment-theme="midnight"] .application-card textarea:focus {
+  border-color: var(--accent);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.42),
+    0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.application-experience[data-recruitment-theme="midnight"] .application-card [aria-invalid="true"] {
+  border-color: var(--color-error);
+  background: var(--color-error-surface);
+}
+
+.application-experience[data-recruitment-theme="midnight"] .application-card .text-error {
+  color: var(--color-error);
+}
+
+.application-experience[data-recruitment-theme="midnight"] .application-step-one fieldset label,
+.application-experience[data-recruitment-theme="midnight"] .application-step-two label:has(input[type="checkbox"]),
+.application-experience[data-recruitment-theme="midnight"] .application-secondary-team button {
+  border-color: var(--input-border);
+  background: color-mix(in srgb, var(--paper) 80%, #ffffff);
+  color: var(--text-secondary);
+  box-shadow: none;
+}
+
+.application-experience[data-recruitment-theme="midnight"] .application-step-one fieldset label:has(input:checked),
+.application-experience[data-recruitment-theme="midnight"] .application-step-two label:has(input[type="checkbox"]:checked),
+.application-experience[data-recruitment-theme="midnight"] .application-secondary-team button[aria-pressed="true"] {
+  border-color: color-mix(in srgb, var(--accent) 48%, var(--input-border));
+  background: color-mix(in srgb, var(--accent-soft) 34%, var(--paper));
+  color: var(--text-on-paper);
+}
+
+.application-experience[data-recruitment-theme="midnight"] .application-team-card,
+.application-experience[data-recruitment-theme="midnight"] .application-secondary-team-card {
+  border-color: var(--input-border);
+  background: color-mix(in srgb, var(--paper) 80%, #ffffff);
+  color: var(--text-on-paper);
+  box-shadow: none;
+}
+
+.application-experience[data-recruitment-theme="midnight"] .application-team-card:hover,
+.application-experience[data-recruitment-theme="midnight"] .application-secondary-team-card:hover {
+  border-color: color-mix(in srgb, var(--accent) 32%, var(--input-border));
+  background: color-mix(in srgb, var(--paper) 70%, #ffffff);
+}
+
+.application-experience[data-recruitment-theme="midnight"] .application-team-card > span[aria-hidden],
+.application-experience[data-recruitment-theme="midnight"] .application-secondary-team-card > span[aria-hidden] {
+  inset: auto 0.9rem 0.9rem auto;
+  height: 0.38rem;
+  width: 2rem;
+  border-radius: 999px;
+  opacity: 0.36;
+}
+
+.application-experience[data-recruitment-theme="midnight"] .application-team-card.is-selected,
+.application-experience[data-recruitment-theme="midnight"] .application-secondary-team-card.is-selected {
+  border-color: color-mix(in srgb, var(--accent) 56%, var(--input-border));
+  background: color-mix(in srgb, var(--accent-soft) 34%, var(--paper));
+}
+
+.application-experience[data-recruitment-theme="midnight"] .application-team-card.is-selected::after,
+.application-experience[data-recruitment-theme="midnight"] .application-secondary-team-card.is-selected::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: var(--accent);
+}
+
+.application-experience[data-recruitment-theme="midnight"] .application-team-card .team-selected-indicator,
+.application-experience[data-recruitment-theme="midnight"] .application-secondary-team-card .team-selected-indicator {
+  height: 0.72rem;
+  min-height: 0.72rem;
+  width: 0.72rem;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-color: color-mix(in srgb, var(--accent) 44%, transparent);
+  padding: 0;
+  background: var(--paper);
+  color: transparent;
+}
+
+.application-experience[data-recruitment-theme="midnight"] .application-chapter,
+.application-experience[data-recruitment-theme="midnight"] .application-secondary-reason,
+.application-experience[data-recruitment-theme="midnight"] .application-story-questions,
+.application-experience[data-recruitment-theme="midnight"] .application-team-questions {
+  border-color: var(--border-soft) !important;
+}
+
+.application-experience[data-recruitment-theme="midnight"] .application-team-questions {
+  padding-top: 2rem;
+}
+
+.application-experience[data-recruitment-theme="midnight"] .application-autosave {
+  min-height: 1.5rem;
+  color: color-mix(in srgb, var(--accent) 72%, var(--text-on-paper));
+}
+
+.application-experience[data-recruitment-theme="midnight"] .application-card [role="dialog"] {
+  border-color: color-mix(in srgb, var(--accent) 18%, var(--border-soft));
+  background: color-mix(in srgb, var(--accent-soft) 16%, var(--paper));
+  box-shadow: none;
+}
+
+.application-experience[data-recruitment-theme="midnight"] .review-section {
+  min-width: 0;
+  border-width: 1px 0 0;
+  border-radius: 0;
+  background: transparent;
+  padding-inline: 0;
+  box-shadow: none;
+}
+
+.application-experience[data-recruitment-theme="midnight"] .review-section:first-of-type {
+  border-top-color: color-mix(in srgb, var(--accent) 34%, var(--border-soft));
+}
+
+.application-experience[data-recruitment-theme="midnight"] .review-section > div:first-child {
+  min-width: 0;
+  border-color: var(--border-soft);
+}
+
+.application-experience[data-recruitment-theme="midnight"] .review-section > div:first-child h2 {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.application-experience[data-recruitment-theme="midnight"] .review-section > div:first-child button {
+  flex-shrink: 0;
+}
+
+.application-experience[data-recruitment-theme="midnight"] .review-section button {
+  color: color-mix(in srgb, var(--accent) 80%, var(--text-on-paper));
+}
+
+.application-experience[data-recruitment-theme="midnight"] .review-section button:hover {
+  background: color-mix(in srgb, var(--accent-soft) 26%, transparent);
+  color: var(--text-on-paper);
+}
+
+.application-experience[data-recruitment-theme="midnight"] .review-detail-list dd {
+  color: var(--text-on-paper);
+}
+
+.application-experience[data-recruitment-theme="midnight"] .review-detail-list,
+.application-experience[data-recruitment-theme="midnight"] .review-detail-item,
+.application-experience[data-recruitment-theme="midnight"] .review-answer,
+.application-experience[data-recruitment-theme="midnight"] .application-submit-confirmation,
+.application-experience[data-recruitment-theme="midnight"] .application-submit-confirmation > * {
+  min-width: 0;
+}
+
+.application-experience[data-recruitment-theme="midnight"] .review-answer {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.application-experience[data-recruitment-theme="midnight"] .application-submit-confirmation {
+  border-color: color-mix(in srgb, var(--accent) 22%, var(--border-soft));
+  background: color-mix(in srgb, var(--accent-soft) 22%, var(--paper));
+}
+
+.application-experience[data-recruitment-theme="midnight"] .application-submit-confirmation input[type="checkbox"] {
+  accent-color: var(--accent);
+}
+
+.application-experience[data-recruitment-theme="midnight"] .application-actions {
+  border-color: var(--border-soft);
+  background: color-mix(in srgb, var(--canvas) 92%, transparent);
+}
+
+.application-experience[data-recruitment-theme="midnight"] .application-actions [class*="bg-surface"] {
+  border-color: var(--border-soft);
+  background: var(--surface-raised);
+  color: var(--text-primary);
+}
+
 @media (max-width: 767px) {
+  .application-experience[data-recruitment-theme="midnight"] .application-has-actions {
+    padding-bottom: var(--application-mobile-action-reserve) !important;
+  }
+
+  .application-experience[data-recruitment-theme="midnight"] .application-actions {
+    padding-bottom: calc(0.75rem + var(--safe-area-bottom));
+  }
+
   .landing-desktop {
     padding-bottom: 6.5rem;
   }

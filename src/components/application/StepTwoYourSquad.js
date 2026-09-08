@@ -111,7 +111,7 @@ export function StepTwoYourSquad({ answersByTeam, data, errors, onBlur, onChange
       <Stack gap="xl">
         <ApplicationStepHeader description="Pick the team you'd genuinely enjoy contributing to. You don't need to be an expert already." title="Find your place" />
 
-        <fieldset className="application-chapter">
+        <fieldset className="application-chapter application-primary-team">
           <legend className="heading text-[1.35rem] lg:text-[1.5rem]">Primary team <span aria-hidden="true">*</span></legend>
           <p className="helper mt-2">This is the team you&apos;d most like to work with.</p>
           <div className="mt-5 grid grid-cols-2 gap-3 lg:gap-4">
@@ -130,7 +130,7 @@ export function StepTwoYourSquad({ answersByTeam, data, errors, onBlur, onChange
           <FieldError id="primaryTeam-error">{touched.primaryTeam ? errors.primaryTeam : undefined}</FieldError>
         </fieldset>
 
-        <fieldset className="application-chapter border-t border-border/75 pt-7">
+        <fieldset className="application-chapter application-secondary-team border-t border-border/75 pt-7">
           <legend className="heading text-[1.35rem] lg:text-[1.5rem]">Second preference</legend>
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div>
@@ -170,7 +170,7 @@ export function StepTwoYourSquad({ answersByTeam, data, errors, onBlur, onChange
         </fieldset>
 
         {data.secondaryTeam ? (
-          <FormField className="border-t border-border/75 pt-7" error={touched.secondaryTeamReason ? errors.secondaryTeamReason : undefined} id="secondaryTeamReason" label="Why might your second-choice team also suit you?">
+          <FormField className="application-secondary-reason border-t border-border/75 pt-7" error={touched.secondaryTeamReason ? errors.secondaryTeamReason : undefined} id="secondaryTeamReason" label="Why might your second-choice team also suit you?">
             {(fieldProps) => (
               <AutoGrowTextarea
                 {...fieldProps}
@@ -183,7 +183,7 @@ export function StepTwoYourSquad({ answersByTeam, data, errors, onBlur, onChange
           </FormField>
         ) : null}
 
-        <section aria-labelledby="your-story-heading" className="application-chapter border-t border-border/75 pt-8">
+        <section aria-labelledby="your-story-heading" className="application-chapter application-story-questions border-t border-border/75 pt-8">
           <div className="mb-5">
             <p className="eyebrow text-muted">YOUR STORY</p>
             <h2 className="heading mt-2" id="your-story-heading">A little more about your why</h2>
@@ -212,7 +212,7 @@ export function StepTwoYourSquad({ answersByTeam, data, errors, onBlur, onChange
         {primaryTeam ? (
           <section
             aria-labelledby="team-questions-heading"
-            className="application-chapter border-t pt-8"
+            className="application-chapter application-team-questions border-t pt-8"
             style={{ borderTopColor: primaryAccent?.surface || 'var(--border-soft)' }}
           >
             <div className="mb-5">

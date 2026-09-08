@@ -10,8 +10,8 @@ export const APPLICATION_STEPS = [
 
 export function ApplicationShell({ children, actions, currentStep = 0 }) {
   return (
-    <PageShell className="application-experience">
-      <Section className={actions ? 'pb-32 sm:pb-24 lg:pb-16' : ''} spacing="compact">
+    <PageShell className="application-experience" recruitmentTheme="midnight">
+      <Section className={cn('application-flow-section', actions && 'application-has-actions pb-32 sm:pb-24 lg:pb-16')} spacing="compact">
         <Container width="form">
           <Stack gap="lg">
             <header className="application-topbar flex min-h-16 items-center justify-between gap-4">
@@ -48,7 +48,10 @@ export function ApplicationProgress({ currentStep = 0 }) {
             <li
               aria-current={active ? 'step' : undefined}
               className={cn(
-                'min-h-11 rounded-[var(--radius-control)] px-3 py-2 text-sm',
+                'application-progress-step min-h-11 rounded-[var(--radius-control)] px-3 py-2 text-sm',
+                active && 'is-active',
+                complete && 'is-complete',
+                !active && !complete && 'is-future',
                 active && 'bg-[var(--accent-soft)] text-foreground',
                 complete && 'bg-[var(--color-sage)]/55 text-foreground',
                 !active && !complete && 'text-muted'
