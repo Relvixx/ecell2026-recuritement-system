@@ -11,7 +11,10 @@ const APPLICATION_CODE_PATTERN = /^EC26-[ABCDEFGHJKMNPQRSTUVWXYZ23456789]{5}$/;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const TRACKING_ERROR = 'We couldn\'t find an application with those details.';
 const TRACKING_ERROR_HELPER = 'Check your Application ID and registered email, then try again.';
+const RATE_LIMIT_ERROR = 'Too many attempts. Please wait a bit, then try again.';
 const NETWORK_ERROR = 'We couldn\'t check your application right now. Please try again.';
+const PROGRESSION_STATUSES = ['submitted', 'under_review', 'shortlisted', 'interview'];
+const TERMINAL_STATUSES = ['selected', 'rejected'];
 
 function normalizeApplicationCode(value) {
   return typeof value === 'string' ? value.trim().toUpperCase() : '';
@@ -90,6 +93,10 @@ export function TrackingShell({ loading = false }) {
         setFormError(TRACKING_ERROR);
         return;
       }
+      if (response.status === 429) {
+        setFormError(RATE_LIMIT_ERROR);
+        return;
+      }
       if (!response.ok || !isSafeResult(body.application)) {
         setFormError(NETWORK_ERROR);
         return;
@@ -109,15 +116,15 @@ export function TrackingShell({ loading = false }) {
   }
 
   if (loading) {
-    return <PageShell><Section spacing="compact"><Container width="form"><PaperCard><p className="body text-muted">Preparing application tracking.</p></PaperCard></Container></Section></PageShell>;
+    return <PageShell className="tracking-experience utility-experience" recruitmentTheme="midnight"><Section spacing="compact"><Container width="form"><PaperCard className="utility-card"><p className="body text-muted">Preparing application tracking.</p></PaperCard></Container></Section></PageShell>;
   }
 
   return (
-    <PageShell className="tracking-experience utility-experience">
+    <PageShell className="tracking-experience utility-experience" recruitmentTheme="midnight">
       <Section spacing="compact">
         <Container width="form">
-          <div className="tracking-layout grid gap-6 lg:grid-cols-[0.96fr_1.04fr] lg:items-start">
-            <PaperCard className="tracking-card utility-card">
+          <PaperCard className="tracking-card tracking-paper-sheet utility-card">
+            <div className="tracking-layout grid gap-6 lg:grid-cols-[0.96fr_1.04fr] lg:items-start">
               <Stack gap="lg">
                 <Stack gap="sm">
                   <p className="eyebrow text-muted">E-CELL MET / Recruitment 2026-27</p>
@@ -126,7 +133,7 @@ export function TrackingShell({ loading = false }) {
                 </Stack>
                 <form aria-describedby={formError ? 'tracking-form-error' : undefined} aria-label="Track application" className="tracking-form grid gap-5" noValidate onSubmit={checkStatus}>
                   <FormField error={errors.applicationCode} id="applicationCode" label="Application ID" required>
-            {(fieldProps) => <Input {...fieldProps} autoComplete="off" error={Boolean(errors.applicationCode)} onChange={(event) => updateField('applicationCode', event.target.value)} placeholder="EC26-XXXXX" type="text" value={form.applicationCode} />}
+                    {(fieldProps) => <Input {...fieldProps} autoComplete="off" error={Boolean(errors.applicationCode)} onChange={(event) => updateField('applicationCode', event.target.value)} placeholder="EC26-XXXXX" type="text" value={form.applicationCode} />}
                   </FormField>
                   <FormField error={errors.email} id="trackingEmail" label="Email address" required>
                     {(fieldProps) => <Input {...fieldProps} autoComplete="email" error={Boolean(errors.email)} onChange={(event) => updateField('email', event.target.value)} placeholder="you@example.com" type="email" value={form.email} />}
@@ -136,9 +143,9 @@ export function TrackingShell({ loading = false }) {
                 </form>
                 {result ? <button className="tracking-change-details label w-fit rounded-full px-1 py-2 text-muted transition hover:text-foreground focus-visible:text-foreground" onClick={clearResult} type="button">Change details</button> : null}
               </Stack>
-            </PaperCard>
-            {result ? <StatusDisplay className="tracking-result" result={result} resultRef={resultRef} /> : <TrackingHint />}
-          </div>
+              {result ? <StatusDisplay className="tracking-result" result={result} resultRef={resultRef} /> : <TrackingHint />}
+            </div>
+          </PaperCard>
         </Container>
       </Section>
     </PageShell>
@@ -153,6 +160,87 @@ export function StatusDisplay({ result, resultRef, className = '' }) {
   const copy = STATUS_COPY[result.status];
   const accent = STATUS_TOKENS[result.status];
   const team = getTeamById(result.primaryTeam);
+  const currentIndex = PROGRESSION_STATUSES.indexOf(result.status);
+  const terminalStatus = TERMINAL_STATUSES.includes(result.status) ? result.status : null;
+  const terminalCopy = terminalStatus ? STATUS_COPY[terminalStatus] : null;
+  const terminalStep = {
+    key: terminalStatus || 'final_decision',
+    label: terminalCopy?.label || 'Final Decision',
+    title: terminalCopy?.title || 'Pending',
+    active: Boolean(terminalStatus),
+    complete: false,
+    rejected: terminalStatus === 'rejected'
+  };
 
-  return <aside aria-label={`Application status: ${copy.label}`} className={`tracking-result-card rounded-[var(--radius-paper)] border border-border bg-[var(--paper)] p-5 shadow-[var(--shadow-soft)] sm:p-7 ${className}`} ref={resultRef} tabIndex="-1"><Stack gap="md"><div className="flex flex-wrap items-center justify-between gap-3"><p className="eyebrow text-muted">APPLICATION STATUS</p><span className="tracking-status-chip inline-flex min-h-11 w-fit items-center rounded-full border border-border px-4 py-2 text-sm font-medium" style={{ background: `color-mix(in srgb, ${accent} 58%, var(--paper))` }}>{copy.label}</span></div><div><p className="helper font-mono tracking-[0.08em]">{result.applicationCode}</p><h2 className="heading mt-2">{copy.title}</h2><p className="body mt-3 text-muted">{copy.description}</p></div><dl className="tracking-meta grid gap-4 border-t border-border pt-4 sm:grid-cols-2"><div><dt className="helper">Applicant</dt><dd className="body mt-1 break-words">{result.firstName}</dd></div><div><dt className="helper">Primary team</dt><dd className="body mt-1 break-words">{team?.name || 'Team'}</dd></div></dl></Stack></aside>;
+  return (
+    <aside
+      aria-label={`Application status: ${copy.label}`}
+      className={`tracking-result-card rounded-[var(--radius-paper)] border border-border bg-[var(--paper)] p-5 shadow-[var(--shadow-soft)] sm:p-7 ${className}`}
+      ref={resultRef}
+      tabIndex="-1"
+    >
+      <Stack gap="md">
+        <div className="tracking-result-heading flex flex-wrap items-center justify-between gap-3">
+          <p className="eyebrow text-muted">APPLICATION STATUS</p>
+          <span
+            className="tracking-status-chip inline-flex min-h-11 w-fit items-center rounded-full border border-border px-4 py-2 text-sm font-medium"
+            style={{ background: `color-mix(in srgb, ${accent} 46%, var(--paper))` }}
+          >
+            {copy.label}
+          </span>
+        </div>
+
+        <div>
+          <p className="tracking-code helper font-mono tracking-[0.08em]">{result.applicationCode}</p>
+          <h2 className="heading mt-2">{copy.title}</h2>
+          <p className="body mt-3 text-muted">{copy.description}</p>
+        </div>
+
+        <dl className="tracking-meta grid gap-4 border-t border-border pt-4 sm:grid-cols-2">
+          <div>
+            <dt className="helper">Applicant</dt>
+            <dd className="body mt-1 break-words">{result.firstName}</dd>
+          </div>
+          <div>
+            <dt className="helper">Primary team</dt>
+            <dd className="body mt-1 break-words">{team?.name || 'Team'}</dd>
+          </div>
+        </dl>
+
+        <ol className="tracking-status-flow" aria-label="Recruitment status progression. Final decision resolves to selected or rejected.">
+          {PROGRESSION_STATUSES.map((status, index) => {
+            const statusCopy = STATUS_COPY[status];
+            const active = status === result.status;
+            const complete = Boolean(terminalStatus) || currentIndex > index;
+
+            return (
+              <li
+                aria-current={active ? 'step' : undefined}
+                className={`tracking-status-step ${active ? 'is-active' : ''} ${complete ? 'is-complete' : ''}`}
+                key={status}
+              >
+                <span className="tracking-status-dot" aria-hidden="true" />
+                <span>
+                  <span className="label block">{statusCopy.label}</span>
+                  <span className="helper block">{statusCopy.title}</span>
+                </span>
+              </li>
+            );
+          })}
+          <li
+            aria-current={terminalStep.active ? 'step' : undefined}
+            aria-label={`Final decision: ${terminalStep.label}`}
+            className={`tracking-status-step is-terminal ${terminalStep.active ? 'is-active' : 'is-pending'} ${terminalStep.rejected ? 'is-rejected' : ''}`}
+            key={terminalStep.key}
+          >
+            <span className="tracking-status-dot" aria-hidden="true" />
+            <span>
+              <span className="label block">{terminalStep.label}</span>
+              <span className="helper block">{terminalStep.title}</span>
+            </span>
+          </li>
+        </ol>
+      </Stack>
+    </aside>
+  );
 }

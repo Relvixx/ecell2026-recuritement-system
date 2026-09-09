@@ -3,7 +3,7 @@ import { cn } from './layout';
 
 const buttonVariants = {
   primary: 'bg-[var(--accent)] text-[var(--text-inverse)] visited:text-[var(--text-inverse)] hover:bg-[var(--accent-hover)] hover:text-[var(--text-inverse)] focus-visible:text-[var(--text-inverse)]',
-  secondary: 'border border-border bg-surface text-foreground visited:text-foreground hover:bg-[var(--surface-muted)]',
+  secondary: 'button-secondary border border-border bg-surface text-foreground visited:text-foreground hover:bg-[var(--surface-muted)]',
   ghost: 'text-foreground visited:text-foreground hover:bg-[var(--surface-muted)]'
 };
 

@@ -31,15 +31,15 @@ export function SuccessShell({ loading = false }) {
   }
 
   if (loading) {
-    return <PageShell><Section spacing="compact"><Container width="copy"><PaperCard><p className="body text-muted">Preparing your confirmation.</p></PaperCard></Container></Section></PageShell>;
+    return <PageShell className="success-experience utility-experience" recruitmentTheme="midnight"><Section spacing="compact"><Container width="copy"><PaperCard className="utility-card"><p className="body text-muted">Preparing your confirmation.</p></PaperCard></Container></Section></PageShell>;
   }
 
   if (!applicationCode) {
     return (
-      <PageShell className="success-experience utility-experience">
+      <PageShell className="success-experience utility-experience" recruitmentTheme="midnight">
         <Section spacing="compact">
           <Container width="copy">
-            <PaperCard className="success-card utility-card motion-settle">
+            <PaperCard className="success-card success-receipt utility-card motion-settle">
               <Stack gap="lg">
                 <Stack gap="sm">
                   <p className="eyebrow text-muted">E-CELL MET / Recruitment 2026-27</p>
@@ -59,16 +59,18 @@ export function SuccessShell({ loading = false }) {
   }
 
   return (
-    <PageShell className="success-experience utility-experience">
+    <PageShell className="success-experience utility-experience" recruitmentTheme="midnight">
       <Section spacing="compact">
         <Container width="copy">
-          <PaperCard className="success-card utility-card motion-settle">
+          <PaperCard className="success-card success-receipt utility-card motion-settle">
             <Stack gap="lg">
               <Stack gap="sm">
                 <p className="eyebrow text-muted">E-CELL MET / Recruitment 2026-27</p>
                 <h1 className="display-section">Application received.</h1>
                 <p className="body-large text-muted">You&apos;re officially in the recruitment pipeline.</p>
               </Stack>
+
+              <div className="success-receipt-rule" aria-hidden="true" />
 
               <section aria-labelledby="application-id-heading" className="success-id rounded-[var(--radius-card)] border border-border bg-[var(--accent-soft)]/35 p-5">
                 <p className="eyebrow text-muted" id="application-id-heading">YOUR APPLICATION ID</p>
@@ -79,6 +81,8 @@ export function SuccessShell({ loading = false }) {
                   <span aria-live="polite" className="helper">{copyState === 'unavailable' ? 'Copy is unavailable here. You can select the ID manually.' : ''}</span>
                 </div>
               </section>
+
+              <div className="success-receipt-rule" aria-hidden="true" />
 
               <section aria-labelledby="next-heading">
                 <h2 className="heading" id="next-heading">What happens next?</h2>

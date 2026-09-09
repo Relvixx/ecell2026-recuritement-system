@@ -1032,6 +1032,255 @@ textarea {
   color: var(--text-primary);
 }
 
+.utility-experience[data-recruitment-theme="midnight"] {
+  --utility-paper-shadow: 0 30px 90px rgba(0, 0, 0, 0.36);
+  background:
+    radial-gradient(circle at 15% 0%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 28rem),
+    radial-gradient(circle at 100% 18%, color-mix(in srgb, var(--paper) 7%, transparent), transparent 24rem),
+    var(--canvas);
+  color: var(--text-primary);
+}
+
+.utility-experience[data-recruitment-theme="midnight"] > section {
+  min-height: 100svh;
+}
+
+.utility-experience[data-recruitment-theme="midnight"] .utility-card,
+.utility-experience[data-recruitment-theme="midnight"] .tracking-paper-sheet {
+  --background: var(--paper);
+  --foreground: var(--text-on-paper);
+  --text-primary: var(--text-on-paper);
+  --text-secondary: color-mix(in srgb, var(--text-on-paper) 66%, transparent);
+  --border-soft: rgba(40, 35, 36, 0.14);
+  --accent-soft: #f0c5ca;
+  --input-bg: color-mix(in srgb, var(--paper) 82%, #ffffff);
+  --input-border: rgba(40, 35, 36, 0.18);
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  border-color: color-mix(in srgb, var(--paper) 84%, transparent);
+  background: var(--paper);
+  color: var(--text-on-paper);
+  box-shadow: var(--utility-paper-shadow);
+}
+
+.utility-experience[data-recruitment-theme="midnight"] .utility-card::before,
+.utility-experience[data-recruitment-theme="midnight"] .tracking-paper-sheet::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 12%, transparent));
+}
+
+.utility-experience[data-recruitment-theme="midnight"] .utility-card > *,
+.utility-experience[data-recruitment-theme="midnight"] .tracking-paper-sheet > * {
+  min-width: 0;
+  position: relative;
+}
+
+.utility-experience[data-recruitment-theme="midnight"] .display-section,
+.utility-experience[data-recruitment-theme="midnight"] .heading,
+.utility-experience[data-recruitment-theme="midnight"] .label,
+.utility-experience[data-recruitment-theme="midnight"] .text-foreground {
+  color: var(--text-on-paper);
+}
+
+.utility-experience[data-recruitment-theme="midnight"] .body-large,
+.utility-experience[data-recruitment-theme="midnight"] .body,
+.utility-experience[data-recruitment-theme="midnight"] .helper,
+.utility-experience[data-recruitment-theme="midnight"] .text-muted {
+  color: var(--text-secondary);
+}
+
+.utility-experience[data-recruitment-theme="midnight"] .eyebrow {
+  color: color-mix(in srgb, var(--accent) 78%, var(--text-on-paper));
+}
+
+.utility-experience[data-recruitment-theme="midnight"] .button-secondary {
+  border-color: color-mix(in srgb, var(--paper) 16%, transparent);
+  background: var(--surface);
+  color: var(--paper);
+}
+
+.utility-experience[data-recruitment-theme="midnight"] .button-secondary:visited,
+.utility-experience[data-recruitment-theme="midnight"] .button-secondary:hover,
+.utility-experience[data-recruitment-theme="midnight"] .button-secondary:focus-visible,
+.utility-experience[data-recruitment-theme="midnight"] .button-secondary:active {
+  color: var(--paper);
+}
+
+.utility-experience[data-recruitment-theme="midnight"] .button-secondary:hover,
+.utility-experience[data-recruitment-theme="midnight"] .button-secondary:focus-visible {
+  border-color: color-mix(in srgb, var(--paper) 28%, transparent);
+  background: var(--surface-muted);
+}
+
+.utility-experience[data-recruitment-theme="midnight"] .button-secondary:disabled,
+.utility-experience[data-recruitment-theme="midnight"] .button-secondary[aria-disabled="true"] {
+  color: color-mix(in srgb, var(--paper) 82%, transparent);
+  opacity: 0.74;
+}
+
+.utility-experience[data-recruitment-theme="midnight"] .success-receipt {
+  border-radius: 1.35rem;
+}
+
+.utility-experience[data-recruitment-theme="midnight"] .success-receipt-rule {
+  height: 1px;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 42%, transparent), color-mix(in srgb, var(--text-on-paper) 16%, transparent), transparent);
+}
+
+.utility-experience[data-recruitment-theme="midnight"] .success-id {
+  border-color: color-mix(in srgb, var(--accent) 24%, var(--border-soft));
+  background: color-mix(in srgb, var(--accent-soft) 24%, var(--paper));
+}
+
+.utility-experience[data-recruitment-theme="midnight"] .success-id .font-mono,
+.utility-experience[data-recruitment-theme="midnight"] .tracking-code {
+  color: var(--text-on-paper);
+  overflow-wrap: anywhere;
+}
+
+.utility-experience[data-recruitment-theme="midnight"] .success-stage {
+  border-color: var(--border-soft);
+  background: transparent;
+}
+
+.utility-experience[data-recruitment-theme="midnight"] .success-stage-number {
+  background: color-mix(in srgb, var(--accent) 12%, var(--paper));
+  color: color-mix(in srgb, var(--accent) 82%, var(--text-on-paper));
+}
+
+.utility-experience[data-recruitment-theme="midnight"] input {
+  border-color: var(--input-border);
+  background: var(--input-bg);
+  color: var(--text-on-paper);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.42);
+}
+
+.utility-experience[data-recruitment-theme="midnight"] input:focus {
+  border-color: var(--accent);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.42),
+    0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.utility-experience[data-recruitment-theme="midnight"] [aria-invalid="true"] {
+  border-color: var(--color-error);
+  background: var(--color-error-surface);
+}
+
+.utility-experience[data-recruitment-theme="midnight"] .text-error {
+  color: var(--color-error);
+}
+
+.utility-experience[data-recruitment-theme="midnight"] .tracking-layout {
+  align-items: start;
+}
+
+.utility-experience[data-recruitment-theme="midnight"] .tracking-card {
+  border-radius: 1.35rem;
+}
+
+.utility-experience[data-recruitment-theme="midnight"] .tracking-hint {
+  border-color: var(--border-soft);
+  background: color-mix(in srgb, var(--accent-soft) 14%, var(--paper));
+  color: var(--text-on-paper);
+  box-shadow: none;
+}
+
+.utility-experience[data-recruitment-theme="midnight"] .tracking-hint .heading {
+  color: var(--text-on-paper);
+}
+
+.utility-experience[data-recruitment-theme="midnight"] .tracking-hint .body,
+.utility-experience[data-recruitment-theme="midnight"] .tracking-hint .text-muted {
+  color: var(--text-secondary);
+}
+
+.utility-experience[data-recruitment-theme="midnight"] .tracking-result-heading,
+.utility-experience[data-recruitment-theme="midnight"] .tracking-meta {
+  border-color: var(--border-soft);
+}
+
+.utility-experience[data-recruitment-theme="midnight"] .tracking-result-card {
+  border-color: var(--border-soft);
+  background: color-mix(in srgb, var(--accent-soft) 10%, var(--paper));
+  box-shadow: none;
+}
+
+.utility-experience[data-recruitment-theme="midnight"] .tracking-meta dd,
+.utility-experience[data-recruitment-theme="midnight"] .tracking-status-step span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.utility-experience[data-recruitment-theme="midnight"] .tracking-status-chip {
+  border-color: var(--border-soft);
+  color: var(--text-on-paper);
+}
+
+.utility-experience[data-recruitment-theme="midnight"] .tracking-status-flow {
+  display: grid;
+  gap: 0;
+  border-top: 1px solid var(--border-soft);
+  padding-top: 1rem;
+}
+
+.utility-experience[data-recruitment-theme="midnight"] .tracking-status-step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.25rem minmax(0, 1fr);
+  gap: 0.8rem;
+  padding: 0 0 1rem;
+}
+
+.utility-experience[data-recruitment-theme="midnight"] .tracking-status-step:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  left: 0.4rem;
+  top: 1rem;
+  bottom: 0;
+  width: 1px;
+  background: var(--border-soft);
+}
+
+.utility-experience[data-recruitment-theme="midnight"] .tracking-status-dot {
+  position: relative;
+  z-index: 1;
+  margin-top: 0.28rem;
+  height: 0.85rem;
+  width: 0.85rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-soft);
+  background: var(--paper);
+}
+
+.utility-experience[data-recruitment-theme="midnight"] .tracking-status-step.is-complete .tracking-status-dot,
+.utility-experience[data-recruitment-theme="midnight"] .tracking-status-step.is-active .tracking-status-dot {
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--border-soft));
+  background: var(--accent);
+}
+
+.utility-experience[data-recruitment-theme="midnight"] .tracking-status-step.is-pending .tracking-status-dot {
+  border-style: dashed;
+  background: color-mix(in srgb, var(--paper) 72%, var(--accent-soft));
+}
+
+.utility-experience[data-recruitment-theme="midnight"] .tracking-status-step.is-complete:not(:last-child)::before,
+.utility-experience[data-recruitment-theme="midnight"] .tracking-status-step.is-active:not(:last-child)::before {
+  background: color-mix(in srgb, var(--accent) 46%, var(--border-soft));
+}
+
+.utility-experience[data-recruitment-theme="midnight"] .tracking-status-step.is-rejected.is-active .tracking-status-dot {
+  background: var(--color-error);
+}
+
+.utility-experience[data-recruitment-theme="midnight"] .tracking-status-step.is-rejected.is-active .label {
+  color: var(--color-error);
+}
+
 @media (max-width: 767px) {
   .application-experience[data-recruitment-theme="midnight"] .application-has-actions {
     padding-bottom: var(--application-mobile-action-reserve) !important;
