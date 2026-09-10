@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useId, useRef, useState } from 'react';
 import { RECRUITMENT_LINKS, RECRUITMENT_WINDOW_LABEL, RECRUITMENT_YEAR_LABEL } from '@/config/recruitment';
@@ -21,6 +22,63 @@ const mobileLinks = [
   { label: 'Recruitment Journey', href: '#journey' },
   { label: 'FAQ', href: '#faq' }
 ];
+
+const footerLinks = [
+  {
+    index: '01',
+    label: 'Instagram',
+    display: '@ecell.met',
+    description: 'Updates, events & announcements',
+    href: RECRUITMENT_LINKS.instagramUrl,
+    icon: 'instagram',
+    external: true
+  },
+  {
+    index: '02',
+    label: 'Official website',
+    display: 'ecell-met.tech',
+    description: 'Official E-CELL MET website',
+    href: RECRUITMENT_LINKS.websiteUrl,
+    icon: 'globe',
+    external: true
+  },
+  {
+    index: '03',
+    label: 'Contact',
+    display: RECRUITMENT_LINKS.contactEmail,
+    description: 'Recruitment-related queries',
+    href: `mailto:${RECRUITMENT_LINKS.contactEmail}`,
+    icon: 'mail',
+    external: false
+  }
+];
+
+function DirectoryIcon({ type }) {
+  const shared = {
+    'aria-hidden': 'true',
+    className: 'footer-directory-icon h-[1.05rem] w-[1.05rem] shrink-0',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+    strokeWidth: '1.5',
+    viewBox: '0 0 24 24'
+  };
+
+  if (type === 'instagram') {
+    return <svg {...shared}><rect height="15" rx="4" width="15" x="4.5" y="4.5" /><circle cx="12" cy="12" r="3.25" /><circle cx="17.35" cy="6.8" fill="currentColor" r="0.7" stroke="none" /></svg>;
+  }
+
+  if (type === 'globe') {
+    return <svg {...shared}><circle cx="12" cy="12" r="8.25" /><path d="M3.75 12h16.5M12 3.75c2.1 2.26 3.18 4.99 3.18 8.25S14.1 17.99 12 20.25C9.9 17.99 8.82 15.26 8.82 12S9.9 6.01 12 3.75Z" /></svg>;
+  }
+
+  return <svg {...shared}><rect height="14.5" rx="2.5" width="18" x="3" y="4.75" /><path d="m4.4 6.3 7.6 6.05 7.6-6.05" /></svg>;
+}
+
+function ExternalArrow({ external }) {
+  return <span aria-hidden="true" className="footer-directory-arrow">{external ? '\u2197' : '\u2192'}</span>;
+}
 
 export function ParticipantHeader({ onMenuChange }) {
   const [open, setOpen] = useState(false);
@@ -55,11 +113,9 @@ export function ParticipantHeader({ onMenuChange }) {
   return (
     <header className="sticky top-0 z-30 border-b border-border bg-[var(--header-bg)]/95 lg:bg-[var(--header-bg)]/90">
       <Container className="flex min-h-16 items-center justify-between gap-4 lg:min-h-[84px]">
-        <Link className="label min-h-11 inline-flex items-center lg:group lg:gap-3" href="/">
-          <span className="lg:hidden">E-CELL MET</span>
-          <span className="hidden h-12 w-12 place-items-center rounded-[1rem] border border-border bg-[var(--paper)] text-[0.92rem] font-medium text-foreground transition group-hover:border-foreground lg:grid">
-            EC
-          </span>
+        <Link className="label min-h-11 inline-flex items-center gap-2.5 lg:group lg:gap-3" href="/">
+          <Image alt="" aria-hidden="true" className="h-10 w-9 object-contain lg:h-12 lg:w-10" height={700} priority src="/brand/ecell-met-mark.png" width={625} />
+          <span className="text-[1rem] font-medium leading-none tracking-[0.01em] text-foreground lg:hidden">E-CELL MET</span>
           <span className="hidden gap-0.5 lg:grid">
             <span className="text-[1.2rem] font-medium leading-none tracking-[0.01em] text-foreground">E-CELL MET</span>
             <span className="hidden text-[0.8rem] leading-none text-muted lg:block">Recruitment {RECRUITMENT_YEAR_LABEL}</span>
@@ -103,8 +159,9 @@ export function ParticipantHeader({ onMenuChange }) {
       >
         <Container className="safe-bottom-pad min-h-svh py-4">
           <div className="flex min-h-16 items-center justify-between gap-4">
-            <Link className="label inline-flex min-h-11 items-center" href="/" onClick={() => setOpen(false)}>
-              E-CELL MET
+            <Link className="label inline-flex min-h-11 items-center gap-2.5" href="/" onClick={() => setOpen(false)}>
+              <Image alt="" aria-hidden="true" className="h-10 w-9 object-contain" height={700} src="/brand/ecell-met-mark.png" width={625} />
+              <span>E-CELL MET</span>
             </Link>
             <button
               className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-[var(--radius-control)] border border-border bg-surface px-3 text-sm font-medium"
@@ -137,49 +194,46 @@ export function ParticipantHeader({ onMenuChange }) {
 }
 
 export function ParticipantFooter() {
-  const footerLinks = [
-    { label: 'Instagram', meta: RECRUITMENT_LINKS.instagramUrl || 'URL pending' },
-    { label: 'Website', meta: RECRUITMENT_LINKS.websiteUrl || 'URL pending' },
-    { label: 'Contact', meta: RECRUITMENT_LINKS.contactEmail || 'Email pending' }
-  ];
-
   return (
     <footer className="participant-footer border-t border-border bg-[var(--footer-bg)]">
       <Container className="py-10 sm:py-12 lg:py-14">
-        <div className="grid gap-8 lg:hidden">
-          <div className="footer-brand">
-            <p className="label">E-CELL MET</p>
-            <p className="body-small mt-2 text-muted">Recruitment {RECRUITMENT_YEAR_LABEL}</p>
-          </div>
-          <nav aria-label="Footer" className="footer-links flex flex-wrap gap-4 text-sm text-muted">
-            {footerLinks.map((link) => (
-              <span className="min-h-11 inline-flex items-center" key={link.label}>
-                {link.label}
-              </span>
-            ))}
-          </nav>
-          <p className="body-small text-muted">Built with care by E-CELL MET.</p>
-        </div>
-
-        <div className="hidden gap-8 lg:grid lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+        <div className="grid gap-10 lg:grid-cols-[0.9fr_1.6fr] lg:items-start lg:gap-14">
           <div className="footer-brand max-w-[520px]">
-            <p className="heading text-[2rem]">E-CELL MET</p>
+            <div className="flex items-center gap-3">
+              <Image alt="" aria-hidden="true" className="footer-logo h-14 w-12 object-contain" height={700} src="/brand/ecell-met-mark.png" width={625} />
+              <p className="heading text-[2rem]">E-CELL MET</p>
+            </div>
             <p className="body-small mt-2 text-muted">Recruitment {RECRUITMENT_YEAR_LABEL}</p>
             <p className="body mt-5 text-muted">
               Student-led recruitment for the people behind E-CELL&apos;s ideas, events, stories, systems and execution.
             </p>
           </div>
 
-          <nav aria-label="Footer" className="footer-links flex gap-10 lg:justify-self-end">
+          <nav aria-label="E-CELL MET contact directory" className="footer-directory grid border-b border-border/70 lg:grid-cols-3 lg:gap-7">
             {footerLinks.map((link) => (
-              <span className="min-w-[7rem]" key={link.label}>
-                <span className="label block text-[1.04rem]">{link.label}</span>
-                <span className="body-small mt-2 block text-muted">{link.meta}</span>
-              </span>
+              <a
+                aria-label={link.external ? `${link.label}: ${link.display} (opens in a new tab)` : `Email E-CELL MET recruitment: ${link.display}`}
+                className="footer-directory-item group relative grid min-h-[126px] grid-cols-[auto_1fr_auto] gap-x-3 border-t border-border/70 py-5 focus-visible:outline-none"
+                href={link.href}
+                key={link.label}
+                rel={link.external ? 'noopener noreferrer' : undefined}
+                target={link.external ? '_blank' : undefined}
+              >
+                <span className="footer-directory-index eyebrow pt-0.5">{link.index}</span>
+                <span className="min-w-0">
+                  <span className="flex items-center gap-2 text-muted">
+                    <DirectoryIcon type={link.icon} />
+                    <span className="eyebrow">{link.label}</span>
+                  </span>
+                  <span className="footer-directory-display mt-3 block break-words text-[1.1rem] leading-tight text-foreground">{link.display}</span>
+                  <span className="body-small mt-2 block leading-snug text-muted">{link.description}</span>
+                </span>
+                <ExternalArrow external={link.external} />
+              </a>
             ))}
           </nav>
         </div>
-        <div className="mt-10 hidden flex-col gap-3 border-t border-border pt-5 sm:flex-row sm:items-center sm:justify-between lg:flex">
+        <div className="mt-10 flex flex-col gap-3 border-t border-border pt-5 sm:flex-row sm:items-center sm:justify-between">
           <p className="body-small text-muted">Built with care by E-CELL MET.</p>
           <p className="body-small text-muted">Applications close {RECRUITMENT_LINKS.deadlineLabel}.</p>
         </div>

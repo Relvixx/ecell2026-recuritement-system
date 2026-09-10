@@ -1031,12 +1031,79 @@ textarea {
   background: var(--accent);
 }
 
-.landing-midnight footer .footer-links {
+.landing-midnight footer .footer-directory {
+  border-color: color-mix(in srgb, var(--paper) 12%, transparent);
+}
+
+.landing-midnight footer .footer-directory-item {
+  border-color: color-mix(in srgb, var(--paper) 12%, transparent);
   color: var(--text-secondary);
 }
 
-.landing-midnight footer .footer-links .label {
-  color: var(--text-primary);
+.landing-midnight footer .footer-directory-item::after {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 1px;
+  background: var(--accent);
+  content: '';
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 180ms ease;
+}
+
+.landing-midnight footer .footer-directory-index,
+.landing-midnight footer .footer-directory-icon {
+  color: color-mix(in srgb, var(--text-secondary) 85%, var(--paper));
+  transition: color 180ms ease;
+}
+
+.landing-midnight footer .footer-directory-display {
+  font-family: var(--font-display);
+  letter-spacing: 0.01em;
+  transition: color 180ms ease, text-decoration-color 180ms ease;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.24em;
+}
+
+.landing-midnight footer .footer-directory-arrow {
+  color: var(--text-secondary);
+  font-size: 1.15rem;
+  line-height: 1;
+  transition: color 180ms ease, transform 180ms ease;
+}
+
+.landing-midnight footer .footer-directory-item:hover::after,
+.landing-midnight footer .footer-directory-item:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.landing-midnight footer .footer-directory-item:hover .footer-directory-index,
+.landing-midnight footer .footer-directory-item:hover .footer-directory-icon,
+.landing-midnight footer .footer-directory-item:focus-visible .footer-directory-index,
+.landing-midnight footer .footer-directory-item:focus-visible .footer-directory-icon,
+.landing-midnight footer .footer-directory-item:hover .footer-directory-arrow,
+.landing-midnight footer .footer-directory-item:focus-visible .footer-directory-arrow {
+  color: var(--accent);
+}
+
+.landing-midnight footer .footer-directory-item:hover .footer-directory-display,
+.landing-midnight footer .footer-directory-item:focus-visible .footer-directory-display {
+  color: var(--paper);
+  text-decoration-color: color-mix(in srgb, var(--accent) 75%, transparent);
+}
+
+.landing-midnight footer .footer-directory-item:hover .footer-directory-arrow,
+.landing-midnight footer .footer-directory-item:focus-visible .footer-directory-arrow {
+  transform: translateX(3px) translateY(-1px);
+}
+
+.landing-midnight footer .footer-directory-item:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
 }
 
 .landing-midnight footer .border-t {
