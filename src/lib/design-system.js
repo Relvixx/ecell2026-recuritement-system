@@ -161,3 +161,10 @@ export const MEDIA_PLACEHOLDERS = {
     sizes: '(min-width: 1024px) 46vw, 90vw'
   }
 };
+
+export const HERO_VIDEO = {
+  path: '/media/recruitment-2026/hero-video.mp4',
+  posterPath: '/media/recruitment-2026/hero-video-poster.webp',
+  objectPosition: '50% 38%',
+  sizes: '(min-width: 1024px) 42vw, 88vw'
+};

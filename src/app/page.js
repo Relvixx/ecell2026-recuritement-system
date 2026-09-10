@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/forms';
 import { Container, EditorialCard, Eyebrow, PageShell, Section, Stack } from '@/components/ui/layout';
-import { AnnotationLabel, EditorialPhotoFrame, EditorialUnderline, IrregularPaperBlock, TapeAccent } from '@/components/shells/editorial';
+import { AnnotationLabel, EditorialPhotoFrame, EditorialUnderline, EditorialVideoFrame, IrregularPaperBlock, TapeAccent } from '@/components/shells/editorial';
 import { ParticipantFooter, ParticipantHeader } from '@/components/shells/participant';
 import { FAQAccordion, LandingStickyApplyController, TeamExplorer } from '@/components/landing/LandingInteractions';
 import { RECRUITMENT_WINDOW_LABEL } from '@/config/recruitment';
@@ -189,10 +189,9 @@ export default function Home() {
 
           <div className="relative min-h-[430px] pt-4 sm:min-h-[500px] lg:min-h-[640px]">
             <TapeAccent className="absolute left-10 top-2 z-10 lg:left-20" />
-            <EditorialPhotoFrame
+            <EditorialVideoFrame
               className="motion-fade-up absolute left-0 top-8 w-[88%] lg:left-2 lg:top-6 lg:w-[84%]"
               mediaClassName="aspect-[4/3] lg:aspect-[4/3.35]"
-              mediaKey="heroMain"
             />
             <div className="absolute bottom-0 right-0 w-[58%] max-w-[260px] lg:bottom-7 lg:w-[44%] lg:max-w-none">
               <AnnotationLabel className="absolute -top-5 right-2 z-10">apply here &rarr;</AnnotationLabel>

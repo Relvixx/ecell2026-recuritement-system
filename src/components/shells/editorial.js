@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { MEDIA_PLACEHOLDERS } from '@/lib/design-system';
+import { HERO_VIDEO, MEDIA_PLACEHOLDERS } from '@/lib/design-system';
 import { cn } from '../ui/layout';
 
 export function EditorialPhotoFrame({ mediaKey = 'heroMain', caption, captionMeta, className = '', mediaClassName = '', rotate = 'none' }) {
@@ -26,6 +26,39 @@ export function EditorialPhotoFrame({ mediaKey = 'heroMain', caption, captionMet
         ) : null}
       </div>
       {caption ? <MediaCaption meta={captionMeta}>{caption}</MediaCaption> : null}
+    </figure>
+  );
+}
+
+export function EditorialVideoFrame({ className = '', mediaClassName = '' }) {
+  return (
+    <figure className={cn('relative rounded-[1.75rem] border border-border bg-surface p-2 shadow-[var(--shadow-soft)]', className)}>
+      <div className={cn('relative aspect-[4/3] overflow-hidden rounded-[1.35rem] bg-[var(--media-frame)]', mediaClassName)}>
+        <Image
+          alt=""
+          aria-hidden="true"
+          className="hero-video-poster object-cover"
+          fill
+          priority
+          sizes={HERO_VIDEO.sizes}
+          src={HERO_VIDEO.posterPath}
+          style={{ objectPosition: HERO_VIDEO.objectPosition }}
+        />
+        <video
+          aria-hidden="true"
+          autoPlay
+          className="hero-primary-video absolute inset-0 h-full w-full object-cover"
+          loop
+          muted
+          playsInline
+          poster={HERO_VIDEO.posterPath}
+          preload="metadata"
+          style={{ objectPosition: HERO_VIDEO.objectPosition }}
+          tabIndex={-1}
+        >
+          <source src={HERO_VIDEO.path} type="video/mp4" />
+        </video>
+      </div>
     </figure>
   );
 }

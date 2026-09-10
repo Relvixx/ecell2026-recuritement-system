@@ -372,6 +372,24 @@ textarea {
     var(--media-frame);
 }
 
+.landing-midnight .hero-primary-video,
+.landing-midnight .hero-video-poster {
+  object-position: 50% 38%;
+}
+
+@media (min-width: 1024px) {
+  .landing-midnight .hero-primary-video,
+  .landing-midnight .hero-video-poster {
+    object-position: 50% 60% !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-midnight .hero-primary-video {
+    display: none;
+  }
+}
+
 .landing-midnight .landing-hero figure figcaption,
 .landing-midnight .landing-life figure figcaption,
 .landing-midnight .landing-about figure figcaption {
