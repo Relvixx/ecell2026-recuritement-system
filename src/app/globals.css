@@ -2586,3 +2586,348 @@ textarea {
     animation: none;
   }
 }
+
+/* Life at E-CELL: a compact editorial orbit around one story core. */
+.landing-midnight .landing-life {
+  position: relative;
+  overflow: clip;
+}
+
+.landing-midnight .life-orbit-stage {
+  position: relative;
+  isolation: isolate;
+  margin-inline: auto;
+  max-width: 72rem;
+}
+
+.landing-midnight .life-orbit-stage::before {
+  content: "";
+  position: absolute;
+  z-index: -2;
+  top: 10.5rem;
+  left: 50%;
+  width: min(92%, 62rem);
+  height: 25rem;
+  border: 1px solid color-mix(in srgb, var(--paper) 10%, transparent);
+  border-radius: 50%;
+  transform: translateX(-50%) rotate(-8deg);
+}
+
+.landing-midnight .life-orbit-stage::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 19rem;
+  left: 15%;
+  width: 70%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent) 42%, transparent), transparent);
+  transform: rotate(-5deg);
+}
+
+.landing-midnight .life-story-core {
+  position: relative;
+  z-index: 4;
+  border: 1px solid color-mix(in srgb, var(--text-on-paper) 16%, var(--paper));
+  border-radius: 1.9rem 1.35rem 1.85rem 1.5rem;
+  background: var(--paper);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.26);
+  padding: 1.6rem;
+  color: var(--text-on-paper);
+}
+
+.landing-midnight .life-story-core .display-section {
+  margin-top: 0.65rem;
+  color: var(--text-on-paper);
+  font-size: clamp(2.7rem, 11vw, 4.7rem);
+  line-height: 0.9;
+}
+
+.landing-midnight .landing-life .life-story-core .text-muted {
+  margin-top: 1.05rem;
+  color: color-mix(in srgb, var(--text-on-paper) 68%, transparent);
+  line-height: 1.55;
+}
+
+.landing-midnight .life-story-core-mark {
+  display: block;
+  width: 3.5rem;
+  height: 3px;
+  margin-bottom: 1.25rem;
+  background: var(--accent);
+}
+
+.landing-midnight .life-story-core-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem 0.9rem;
+  margin-top: 1.35rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid color-mix(in srgb, var(--text-on-paper) 18%, transparent);
+  color: color-mix(in srgb, var(--text-on-paper) 60%, transparent);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.11em;
+}
+
+.landing-midnight .life-orbit-media-group {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  align-items: start;
+  gap: 0.8rem;
+  margin-top: 1.2rem;
+}
+
+.landing-midnight .life-orbit-card {
+  position: relative;
+  min-width: 0;
+  margin: 0;
+  padding: 0.42rem;
+  border-radius: 1.25rem;
+  transition: transform 260ms var(--ease-settle), box-shadow 260ms ease-out;
+}
+
+.landing-midnight .life-orbit-card > div {
+  border-radius: 0.93rem;
+}
+
+.landing-midnight .life-orbit-card figcaption {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: baseline;
+  column-gap: 0.55rem;
+  margin: 0.52rem 0.1rem 0.04rem;
+  padding-top: 0.52rem;
+  border-top: 1px solid color-mix(in srgb, var(--text-on-paper) 15%, transparent);
+  color: color-mix(in srgb, var(--text-on-paper) 72%, transparent);
+  font-size: 0.73rem;
+  line-height: 1.32;
+}
+
+.landing-midnight .life-orbit-card .media-caption-meta {
+  color: color-mix(in srgb, var(--accent) 72%, var(--text-on-paper));
+  font-size: 0.58rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.landing-midnight .life-orbit-card .media-caption-copy {
+  min-width: 0;
+}
+
+.landing-midnight .life-orbit-media {
+  transition: transform 360ms var(--ease-settle);
+  animation: life-media-drift 12s ease-in-out infinite alternate;
+}
+
+.landing-midnight .life-orbit-card--prep {
+  z-index: 3;
+  grid-column: 1 / span 8;
+  transform: rotate(-1.1deg);
+}
+
+.landing-midnight .life-orbit-card--team {
+  z-index: 4;
+  grid-column: 8 / span 4;
+  margin-top: 3.5rem;
+  transform: rotate(1.2deg);
+}
+
+.landing-midnight .life-orbit-card--event {
+  z-index: 3;
+  grid-column: 1 / span 7;
+  margin-top: 0.85rem;
+  transform: rotate(0.7deg);
+}
+
+.landing-midnight .life-orbit-card--bts {
+  z-index: 4;
+  grid-column: 8 / span 4;
+  margin-top: 2.15rem;
+  transform: rotate(-1deg);
+}
+
+.landing-midnight .life-orbit-card--celebration {
+  z-index: 3;
+  grid-column: 1 / span 5;
+  margin-top: 0.45rem;
+  transform: rotate(-0.7deg);
+}
+
+.landing-midnight .life-orbit-card--video {
+  z-index: 2;
+  grid-column: 6 / span 6;
+  margin-top: 2.7rem;
+  transform: rotate(0.8deg);
+}
+
+.landing-midnight .life-orbit-card--team .life-orbit-media {
+  animation-delay: -4s;
+}
+
+.landing-midnight .life-orbit-card--event .life-orbit-media {
+  animation-delay: -7s;
+}
+
+.landing-midnight .life-orbit-card--bts .life-orbit-media {
+  animation-delay: -2s;
+}
+
+.landing-midnight .life-orbit-card--celebration .life-orbit-media {
+  animation-delay: -9s;
+}
+
+.landing-midnight .life-orbit-card--video .life-orbit-media {
+  animation-delay: -5s;
+}
+
+@media (max-width: 1023px) {
+  .landing-midnight .life-orbit-card--team figcaption,
+  .landing-midnight .life-orbit-card--bts figcaption {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 0.16rem;
+  }
+}
+
+@media (hover: hover) {
+  .landing-midnight .life-orbit-card:hover {
+    box-shadow: 0 26px 60px rgba(0, 0, 0, 0.48);
+  }
+
+  .landing-midnight .life-orbit-card--prep:hover {
+    transform: translateY(-5px) rotate(-1.1deg);
+  }
+
+  .landing-midnight .life-orbit-card--team:hover {
+    transform: translateY(-5px) rotate(1.2deg);
+  }
+
+  .landing-midnight .life-orbit-card--event:hover {
+    transform: translateY(-5px) rotate(0.7deg);
+  }
+
+  .landing-midnight .life-orbit-card--bts:hover {
+    transform: translateY(-5px) rotate(-1deg);
+  }
+
+  .landing-midnight .life-orbit-card--celebration:hover {
+    transform: translateY(-5px) rotate(-0.7deg);
+  }
+
+  .landing-midnight .life-orbit-card--video:hover {
+    transform: translateY(-5px) rotate(0.8deg);
+  }
+
+  .landing-midnight .life-orbit-card:hover .life-orbit-media {
+    animation-play-state: paused;
+    transform: scale(1.025);
+  }
+}
+
+@media (min-width: 1024px) {
+  .landing-midnight .life-orbit-stage {
+    min-height: 40rem;
+  }
+
+  .landing-midnight .life-orbit-stage::before {
+    top: 3.5rem;
+    width: 78%;
+    height: 31rem;
+  }
+
+  .landing-midnight .life-orbit-stage::after {
+    top: 20rem;
+    left: 15%;
+    width: 70%;
+  }
+
+  .landing-midnight .life-story-core {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: min(31vw, 25rem);
+    min-height: 21rem;
+    transform: translate(-50%, -50%);
+    padding: 2.25rem;
+  }
+
+  .landing-midnight .life-story-core .display-section {
+    font-size: clamp(3.5rem, 5.1vw, 4.75rem);
+  }
+
+  .landing-midnight .life-orbit-media-group {
+    display: block;
+    position: absolute;
+    inset: 0;
+    margin: 0;
+  }
+
+  .landing-midnight .life-orbit-card {
+    position: absolute;
+    width: auto;
+    margin: 0;
+  }
+
+  .landing-midnight .life-orbit-card--prep {
+    top: 8%;
+    left: 0;
+    width: 32%;
+  }
+
+  .landing-midnight .life-orbit-card--team {
+    top: 0;
+    right: 2%;
+    width: 17.5%;
+  }
+
+  .landing-midnight .life-orbit-card--event {
+    bottom: 0;
+    left: 8%;
+    width: 27%;
+  }
+
+  .landing-midnight .life-orbit-card--bts {
+    top: 43%;
+    right: 3%;
+    width: 16%;
+  }
+
+  .landing-midnight .life-orbit-card--celebration {
+    right: 1%;
+    bottom: 0;
+    width: 21%;
+  }
+
+  .landing-midnight .life-orbit-card--video {
+    top: -4rem;
+    left: 41.25%;
+    width: 17.5%;
+  }
+
+  .landing-midnight .life-orbit-card figcaption {
+    font-size: 0.68rem;
+  }
+}
+
+@keyframes life-media-drift {
+  from {
+    transform: translate3d(0, 0, 0) scale(1.001);
+  }
+  to {
+    transform: translate3d(0, -4px, 0) scale(1.012);
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1199px) {
+  .landing-midnight .life-orbit-card--video {
+    top: calc(-2.5rem + 2px);
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1359px) {
+  .landing-midnight .life-orbit-card--video {
+    top: -3.5rem;
+  }
+}

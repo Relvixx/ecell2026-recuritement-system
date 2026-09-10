@@ -1,7 +1,8 @@
+import Image from 'next/image';
 import { MEDIA_PLACEHOLDERS } from '@/lib/design-system';
 import { cn } from '../ui/layout';
 
-export function EditorialPhotoFrame({ mediaKey = 'heroMain', caption, className = '', mediaClassName = '', rotate = 'none' }) {
+export function EditorialPhotoFrame({ mediaKey = 'heroMain', caption, captionMeta, className = '', mediaClassName = '', rotate = 'none' }) {
   const media = MEDIA_PLACEHOLDERS[mediaKey];
   const rotations = {
     none: '',
@@ -11,8 +12,20 @@ export function EditorialPhotoFrame({ mediaKey = 'heroMain', caption, className 
 
   return (
     <figure className={cn('relative rounded-[1.75rem] border border-border bg-surface p-2 shadow-[var(--shadow-soft)]', rotations[rotate], className)}>
-      <div className={cn('aspect-[4/3] overflow-hidden rounded-[1.35rem] bg-[linear-gradient(135deg,var(--paper),var(--color-powder-blue),var(--color-peach))]', mediaClassName)} />
-      {caption || media?.label ? <MediaCaption>{caption || media.label}</MediaCaption> : null}
+      <div className={cn('relative aspect-[4/3] overflow-hidden rounded-[1.35rem] bg-[linear-gradient(135deg,var(--paper),var(--color-powder-blue),var(--color-peach))]', mediaClassName)}>
+        {media?.path ? (
+          <Image
+            alt={media.alt || ''}
+            className="object-cover"
+            fill
+            priority={media.priority}
+            sizes={media.sizes}
+            src={media.path}
+            style={{ objectPosition: media.objectPosition }}
+          />
+        ) : null}
+      </div>
+      {caption ? <MediaCaption meta={captionMeta}>{caption}</MediaCaption> : null}
     </figure>
   );
 }
@@ -38,8 +51,13 @@ export function EditorialUnderline({ children, className = '' }) {
   );
 }
 
-export function MediaCaption({ children, className = '' }) {
-  return <figcaption className={cn('body-small mt-3 text-muted', className)}>{children}</figcaption>;
+export function MediaCaption({ children, className = '', meta }) {
+  return (
+    <figcaption className={cn('body-small mt-3 text-muted', className)}>
+      {meta ? <span className="media-caption-meta">{meta}</span> : null}
+      <span className="media-caption-copy">{children}</span>
+    </figcaption>
+  );
 }
 
 export function IrregularPaperBlock({ children, className = '' }) {

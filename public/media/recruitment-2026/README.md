@@ -1,4 +1,4 @@
-Stable replacement paths for final E-CELL recruitment media:
+Production-ready E-CELL recruitment media:
 
 - hero-main.webp
 - hero-secondary.webp
@@ -10,4 +10,4 @@ Stable replacement paths for final E-CELL recruitment media:
 - life-celebration.webp
 - life-video-poster.webp
 
-The UI uses graceful placeholders until these files are available.
+All listed files are optimized WebP derivatives. Raw source media remains outside this directory.

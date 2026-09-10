@@ -8,39 +8,45 @@ import { RECRUITMENT_WINDOW_LABEL } from '@/config/recruitment';
 const lifeMoments = [
   {
     key: 'lifePrep',
+    label: '01 / PREP',
     caption: 'the calm before the event',
-    className: 'life-primary w-[92%] lg:col-span-8 lg:row-span-2 lg:w-full',
-    mediaClassName: 'aspect-[1.18/1] lg:aspect-[1.34/1]'
+    className: 'life-orbit-card life-orbit-card--prep',
+    mediaClassName: 'life-orbit-media aspect-[1.22/1]'
   },
   {
     key: 'lifeTeam',
-    caption: '',
-    className: 'life-vertical ml-auto w-[64%] lg:col-span-4 lg:col-start-9 lg:row-span-3 lg:w-full lg:translate-y-[4.5rem]',
-    mediaClassName: 'aspect-[3/4] lg:aspect-[3/5.45]'
+    label: '02 / TOGETHER',
+    caption: 'figuring it out together',
+    className: 'life-orbit-card life-orbit-card--team',
+    mediaClassName: 'life-orbit-media aspect-[3/4]'
   },
   {
     key: 'lifeEvent',
+    label: '03 / EXECUTE',
     caption: 'this is what execution looks like',
-    className: 'life-support w-[78%] lg:col-span-5 lg:col-start-2 lg:w-full lg:-translate-y-8',
-    mediaClassName: 'aspect-[1.35/1] lg:aspect-[1.45/1]'
+    className: 'life-orbit-card life-orbit-card--event',
+    mediaClassName: 'life-orbit-media aspect-[1.4/1]'
   },
   {
     key: 'lifeBts',
-    caption: 'behind the scenes >',
-    className: 'life-detail ml-auto w-[60%] lg:col-span-3 lg:col-start-7 lg:ml-0 lg:w-full lg:-translate-y-20',
-    mediaClassName: 'aspect-[1/1]'
+    label: '04 / BTS',
+    caption: 'behind the scenes',
+    className: 'life-orbit-card life-orbit-card--bts',
+    mediaClassName: 'life-orbit-media aspect-[1/1]'
   },
   {
     key: 'lifeCelebration',
-    caption: '',
-    className: 'life-support w-[70%] lg:col-span-4 lg:col-start-1 lg:w-full lg:-translate-y-4',
-    mediaClassName: 'aspect-[4/3]'
+    label: '05 / AFTER',
+    caption: 'a win shared by the room',
+    className: 'life-orbit-card life-orbit-card--celebration',
+    mediaClassName: 'life-orbit-media aspect-[4/3]'
   },
   {
     key: 'lifeVideoPoster',
-    caption: 'video poster placeholder',
-    className: 'life-wide ml-auto w-[90%] lg:col-span-6 lg:col-start-6 lg:w-full lg:-translate-y-10',
-    mediaClassName: 'aspect-[16/10]'
+    label: '06 / MAKE',
+    caption: 'when ideas become work',
+    className: 'life-orbit-card life-orbit-card--video',
+    mediaClassName: 'life-orbit-media aspect-[16/10]'
   }
 ];
 
@@ -224,26 +230,32 @@ export default function Home() {
         </Container>
       </Section>
 
-      <Section id="life" spacing="major" className="landing-life bg-[var(--canvas)]">
+      <Section id="life" spacing="compact" className="landing-life bg-[var(--canvas)]">
         <Container>
-          <div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-start lg:gap-14">
-            <Stack gap="sm" className="lg:sticky lg:top-32 lg:pt-8">
+          <div className="life-orbit-stage">
+            <div className="life-story-core">
+              <span aria-hidden="true" className="life-story-core-mark" />
               <Eyebrow>BEHIND THE SCENES</Eyebrow>
               <h2 className="display-section">Life at E-CELL</h2>
-              <p className="body-large max-w-[580px] text-muted lg:text-[1.18rem]">
+              <p className="body-large text-muted lg:text-[1.1rem]">
                 Somewhere between planning, deadlines, ideas and a little chaos&mdash;things get built.
               </p>
-            </Stack>
+              <div className="life-story-core-footer" aria-label="E-CELL moments">
+                <span>PLAN</span>
+                <span>MAKE</span>
+                <span>SHOW UP</span>
+              </div>
+            </div>
 
-            <div className="life-mobile-feed grid gap-7 lg:grid-cols-12 lg:grid-rows-[auto_auto_auto_auto] lg:gap-x-5 lg:gap-y-8">
-              {lifeMoments.map((moment, index) => (
+            <div className="life-orbit-media-group">
+              {lifeMoments.map((moment) => (
                 <EditorialPhotoFrame
-                  caption={moment.caption || undefined}
+                  caption={moment.caption}
+                  captionMeta={moment.label}
                   className={moment.className}
                   key={moment.key}
                   mediaClassName={moment.mediaClassName}
                   mediaKey={moment.key}
-                  rotate={index === 1 ? 'left' : index === 3 ? 'right' : 'none'}
                 />
               ))}
             </div>

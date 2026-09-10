@@ -49,3 +49,5 @@ bulk_data_fixed.csv
 fix_csv.py
 *.csv
 FINAL_WORKING_TEMPLATE.csv
+MEDIA_RAW/
+MEDIA_RAW.zip

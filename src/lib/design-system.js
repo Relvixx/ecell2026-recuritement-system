@@ -89,46 +89,75 @@ export const MEDIA_PLACEHOLDERS = {
   heroMain: {
     key: 'hero-main',
     path: '/media/recruitment-2026/hero-main.webp',
-    label: 'Hero main'
+    label: 'Hero main',
+    alt: 'E-CELL MET members collaborating around laptops during a planning session',
+    objectPosition: '52% 52%',
+    priority: true,
+    sizes: '(min-width: 1024px) 42vw, 88vw'
   },
   heroSecondary: {
     key: 'hero-secondary',
     path: '/media/recruitment-2026/hero-secondary.webp',
-    label: 'Hero secondary'
+    label: 'Hero secondary',
+    alt: 'E-CELL MET members speaking together in the college atrium',
+    objectPosition: '50% 48%',
+    priority: true,
+    sizes: '(min-width: 1024px) 22vw, 58vw'
   },
   aboutTeam: {
     key: 'about-team',
     path: '/media/recruitment-2026/about-team.webp',
-    label: 'About team'
+    label: 'About team',
+    alt: 'E-CELL MET members gathered in front of the club display at a summit',
+    objectPosition: '50% 50%',
+    sizes: '(min-width: 1024px) 55vw, 100vw'
   },
   lifePrep: {
     key: 'life-prep',
     path: '/media/recruitment-2026/life-prep.webp',
-    label: 'Life prep'
+    label: 'Life prep',
+    alt: 'E-CELL MET members planning together around a table',
+    objectPosition: '50% 50%',
+    sizes: '(min-width: 1024px) 45vw, 92vw'
   },
   lifeTeam: {
     key: 'life-team',
     path: '/media/recruitment-2026/life-team.webp',
-    label: 'Life team'
+    label: 'Life team',
+    alt: 'E-CELL MET members working together during a planning meeting',
+    objectPosition: '50% 45%',
+    sizes: '(min-width: 1024px) 24vw, 64vw'
   },
   lifeEvent: {
     key: 'life-event',
     path: '/media/recruitment-2026/life-event.webp',
-    label: 'Life event'
+    label: 'Life event',
+    alt: 'E-CELL MET members celebrating on stage at an entrepreneurship event',
+    objectPosition: '50% 52%',
+    sizes: '(min-width: 1024px) 32vw, 78vw'
   },
   lifeBts: {
     key: 'life-bts',
     path: '/media/recruitment-2026/life-bts.webp',
-    label: 'Life behind the scenes'
+    label: 'Life behind the scenes',
+    alt: 'E-CELL MET members presenting to students in a classroom session',
+    objectPosition: '50% 54%',
+    sizes: '(min-width: 1024px) 20vw, 60vw'
   },
   lifeCelebration: {
     key: 'life-celebration',
     path: '/media/recruitment-2026/life-celebration.webp',
-    label: 'Life celebration'
+    label: 'Life celebration',
+    alt: 'E-CELL MET members receiving recognition together at an event',
+    objectPosition: '50% 54%',
+    sizes: '(min-width: 1024px) 30vw, 70vw'
   },
   lifeVideoPoster: {
     key: 'life-video-poster',
     path: '/media/recruitment-2026/life-video-poster.webp',
-    label: 'Life video poster'
+    label: 'Life video poster',
+    alt: 'E-CELL MET members collaborating at workstations',
+    objectPosition: '50% 50%',
+    sizes: '(min-width: 1024px) 46vw, 90vw'
   }
 };
