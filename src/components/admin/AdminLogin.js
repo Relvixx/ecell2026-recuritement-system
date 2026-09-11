@@ -23,7 +23,7 @@ export default function AdminLogin() {
       const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: form.username.trim(), password: form.password })
+        body: JSON.stringify({ username: form.username.trim().toLowerCase(), password: form.password })
       });
       const data = await response.json().catch(() => ({}));
       if (!response.ok || !data.admin) {
@@ -58,8 +58,8 @@ export default function AdminLogin() {
                 <p className="body mt-4 max-w-[38rem] text-muted">Recruitment 2026-27 admin workspace.</p>
               </div>
               <form className="admin-login-form grid gap-5" onSubmit={submit}>
-                <FormField id="admin-username" label="Username or email" required>
-                  {(props) => <Input {...props} autoComplete="username" onChange={(event) => setForm({ ...form, username: event.target.value })} value={form.username} />}
+                <FormField id="admin-username" label="Username" required>
+                  {(props) => <Input {...props} autoComplete="username" onChange={(event) => setForm({ ...form, username: event.target.value })} placeholder="Your username" value={form.username} />}
                 </FormField>
                 <FormField id="admin-password" label="Password" required>
                   {(props) => <Input {...props} autoComplete="current-password" onChange={(event) => setForm({ ...form, password: event.target.value })} type="password" value={form.password} />}

@@ -6,7 +6,8 @@ const AdminSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    trim: true
+    trim: true,
+    lowercase: true
   },
   email: {
     type: String,

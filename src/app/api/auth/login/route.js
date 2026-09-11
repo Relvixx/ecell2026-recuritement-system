@@ -10,6 +10,10 @@ function cleanString(value) {
   return typeof value === 'string' ? value.trim() : '';
 }
 
+function escapeRegex(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 const LOGIN_BODY_LIMIT_BYTES = 8 * 1024;
 const LOGIN_RATE_LIMIT = {
   limit: 8,
@@ -37,20 +41,20 @@ export async function POST(request) {
     }
 
     const body = parseResult.body;
-    const usernameOrEmail = cleanString(body?.username).toLowerCase();
+    const username = cleanString(body?.username).toLowerCase();
     const password = typeof body?.password === 'string' ? body.password : '';
     const rateLimitResponse = await enforceRateLimit(
       request,
       'admin-login',
       LOGIN_RATE_LIMIT,
-      usernameOrEmail
+      username
     );
 
     if (rateLimitResponse) {
       return rateLimitResponse;
     }
 
-    if (!usernameOrEmail || !password) {
+    if (!username || !password) {
       return Response.json(
         { error: 'Invalid credentials' },
         { status: 401 }
@@ -59,13 +63,10 @@ export async function POST(request) {
 
     await dbConnect();
 
-    // Find admin by username
+    // Admin access is intentionally username-only; email remains contact data.
     const admin = await Admin.findOne({
       isActive: true,
-      $or: [
-        { username: usernameOrEmail },
-        { email: usernameOrEmail }
-      ]
+      username: { $regex: `^${escapeRegex(username)}$`, $options: 'i' }
     });
 
     if (!admin) {
