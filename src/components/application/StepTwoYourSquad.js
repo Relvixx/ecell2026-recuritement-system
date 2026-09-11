@@ -1,9 +1,8 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { AVAILABILITY_OPTIONS } from '@/config/application-options';
 import { getTeamAccent, getTeamById, TEAMS } from '@/config/teams';
-import { FieldError, FormField, Input, Select, Textarea } from '@/components/ui/forms';
+import { FieldError, FormField, Input, Textarea } from '@/components/ui/forms';
 import { ApplicationStepHeader } from '@/components/shells/application';
 import { Stack, cn } from '@/components/ui/layout';
 import { TeamSelectorCard } from '@/components/shells/teams';
@@ -197,14 +196,6 @@ export function StepTwoYourSquad({ answersByTeam, data, errors, onBlur, onChange
             </FormField>
             <FormField error={touched.experience ? errors.experience : undefined} helper="School work, personal projects, volunteering, experiments and side projects all count." id="experience" label="Tell us about something you've built, created, organised, researched or contributed to." required>
               {(fieldProps) => <AutoGrowTextarea {...fieldProps} error={Boolean(touched.experience && errors.experience)} onBlur={() => onBlur('experience')} onChange={(event) => onChange('experience', event.target.value)} value={data.experience} />}
-            </FormField>
-            <FormField className="lg:max-w-[520px]" error={touched.availability ? errors.availability : undefined} id="availability" label="How much time can you realistically give E-CELL each week?" required>
-              {(fieldProps) => (
-                <Select {...fieldProps} error={Boolean(touched.availability && errors.availability)} onBlur={() => onBlur('availability')} onChange={(event) => onChange('availability', event.target.value)} value={data.availability}>
-                  <option value="">Select your availability</option>
-                  {AVAILABILITY_OPTIONS.map(option => <option key={option.value} value={option.value}>{option.label}</option>)}
-                </Select>
-              )}
             </FormField>
           </Stack>
         </section>

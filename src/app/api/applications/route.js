@@ -2,7 +2,6 @@ import dbConnect from '../../../../lib/mongodb';
 import Application2026 from '../../../../models/Application2026';
 import { requireAuth } from '../../../../lib/auth';
 import {
-  AVAILABILITY_IDS,
   BRANCH_IDS,
   RECRUITMENT_CYCLE,
   STATUS_IDS,
@@ -283,7 +282,6 @@ function normalizeSubmissionBody(body) {
     whyEcell: cleanString(body.whyEcell),
     whyPrimaryTeam: cleanString(body.whyPrimaryTeam),
     experience: cleanString(body.experience),
-    availability: cleanString(body.availability).toLowerCase(),
     confirmationAccepted: body.confirmationAccepted
   };
 
@@ -296,7 +294,6 @@ function normalizeSubmissionBody(body) {
   pushRequiredStringError(errors, data, 'whyEcell');
   pushRequiredStringError(errors, data, 'whyPrimaryTeam');
   pushRequiredStringError(errors, data, 'experience');
-  pushRequiredStringError(errors, data, 'availability');
 
   if (data.otherClubDetails.length > MAX_LENGTHS.otherClubDetails) {
     errors.push('otherClubDetails is too long');
@@ -334,10 +331,6 @@ function normalizeSubmissionBody(body) {
     errors.push('Choose a different team for your second preference');
   }
 
-  if (!AVAILABILITY_IDS.includes(data.availability)) {
-    errors.push('availability is invalid');
-  }
-
   if (data.confirmationAccepted !== true) {
     errors.push('confirmationAccepted must be true');
   }
@@ -355,7 +348,6 @@ function normalizeSubmissionBody(body) {
     whyEcell: data.whyEcell,
     whyPrimaryTeam: data.whyPrimaryTeam,
     experience: data.experience,
-    availability: data.availability,
     teamAnswers,
     confirmationAccepted: data.confirmationAccepted
   };

@@ -256,7 +256,6 @@ export function ApplicationWizard() {
       whyEcell: data.whyEcell,
       whyPrimaryTeam: data.whyPrimaryTeam,
       experience: data.experience,
-      availability: data.availability,
       teamAnswers: buildTeamAnswersPayload(team, answersByTeam),
       confirmationAccepted: true
     };

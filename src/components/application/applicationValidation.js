@@ -160,10 +160,6 @@ export function validateStepTwo(data, teamAnswers = {}) {
     errors.experience = 'This field is required.';
   }
 
-  if (!cleanString(data.availability)) {
-    errors.availability = 'This field is required.';
-  }
-
   if (data.secondaryTeam && !cleanString(data.secondaryTeamReason)) {
     // The second-preference explanation is intentionally optional.
     delete errors.secondaryTeamReason;

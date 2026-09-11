@@ -124,7 +124,6 @@ const Application2026Schema = new mongoose.Schema({
   },
   availability: {
     type: String,
-    required: true,
     enum: AVAILABILITY_IDS
   },
 

@@ -1,4 +1,4 @@
-import { AVAILABILITY_OPTIONS, BRANCH_OPTIONS, YEAR_OPTIONS } from '@/config/application-options';
+import { BRANCH_OPTIONS, YEAR_OPTIONS } from '@/config/application-options';
 import { getTeamById } from '@/config/teams';
 import { ApplicationStepHeader, ReviewSection } from '@/components/shells/application';
 import { Checkbox, FieldError } from '@/components/ui/forms';
@@ -54,8 +54,7 @@ export function ApplicationReview({ answersByTeam, data, errors, onChangeConfirm
         <ReviewSection onEdit={() => onEdit(1)} title="YOUR SQUAD">
           <DetailList items={[
             { label: 'Primary team', value: primaryTeam?.name || data.primaryTeam },
-            { label: 'Second preference', value: secondaryTeam?.name || 'None selected' },
-            { label: 'Availability', value: displayOption(AVAILABILITY_OPTIONS, data.availability), wide: true }
+            { label: 'Second preference', value: secondaryTeam?.name || 'None selected' }
           ]} compactPairs />
         </ReviewSection>
 

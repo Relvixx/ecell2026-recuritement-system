@@ -114,7 +114,7 @@ export function ParticipantHeader({ onMenuChange }) {
     <header className="sticky top-0 z-30 border-b border-border bg-[var(--header-bg)]/95 lg:bg-[var(--header-bg)]/90">
       <Container className="flex min-h-16 items-center justify-between gap-4 lg:min-h-[84px]">
         <Link className="label min-h-11 inline-flex items-center gap-2.5 lg:group lg:gap-3" href="/">
-          <Image alt="" aria-hidden="true" className="h-10 w-9 object-contain lg:h-12 lg:w-10" height={700} priority src="/brand/ecell-met-mark.png" width={625} />
+          <Image alt="" aria-hidden="true" className="h-14 w-14 object-contain lg:h-16 lg:w-16" height={1627} priority src="/brand/ecell-met-logo.png" width={1674} />
           <span className="text-[1rem] font-medium leading-none tracking-[0.01em] text-foreground lg:hidden">E-CELL MET</span>
           <span className="hidden gap-0.5 lg:grid">
             <span className="text-[1.2rem] font-medium leading-none tracking-[0.01em] text-foreground">E-CELL MET</span>
@@ -160,7 +160,7 @@ export function ParticipantHeader({ onMenuChange }) {
         <Container className="safe-bottom-pad min-h-svh py-4">
           <div className="flex min-h-16 items-center justify-between gap-4">
             <Link className="label inline-flex min-h-11 items-center gap-2.5" href="/" onClick={() => setOpen(false)}>
-              <Image alt="" aria-hidden="true" className="h-10 w-9 object-contain" height={700} src="/brand/ecell-met-mark.png" width={625} />
+              <Image alt="" aria-hidden="true" className="h-14 w-14 object-contain" height={1627} src="/brand/ecell-met-logo.png" width={1674} />
               <span>E-CELL MET</span>
             </Link>
             <button
@@ -200,7 +200,7 @@ export function ParticipantFooter() {
         <div className="grid gap-10 lg:grid-cols-[0.9fr_1.6fr] lg:items-start lg:gap-14">
           <div className="footer-brand max-w-[520px]">
             <div className="flex items-center gap-3">
-              <Image alt="" aria-hidden="true" className="footer-logo h-14 w-12 object-contain" height={700} src="/brand/ecell-met-mark.png" width={625} />
+              <Image alt="" aria-hidden="true" className="footer-logo h-28 w-28 object-contain" height={1627} src="/brand/ecell-met-logo.png" width={1674} />
               <p className="heading text-[2rem]">E-CELL MET</p>
             </div>
             <p className="body-small mt-2 text-muted">Recruitment {RECRUITMENT_YEAR_LABEL}</p>
