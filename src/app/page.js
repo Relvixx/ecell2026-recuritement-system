@@ -359,6 +359,16 @@ export default function Home() {
                   Find the team you&apos;d enjoy working with and tell us what you can bring to it.
                 </p>
               </div>
+              <aside className="landing-support-callout grid gap-4 border border-border bg-[var(--color-butter)]/70 p-5 sm:grid-cols-[1fr_auto] sm:items-center sm:gap-7 sm:p-6" aria-label="Application support">
+                <div>
+                  <Eyebrow className="text-foreground/70">NEED A HAND?</Eyebrow>
+                  <h3 className="heading mt-2 text-[1.35rem]">Stuck while applying, or have a question?</h3>
+                  <p className="body mt-2 max-w-[620px] text-muted">Call Rahul and he&apos;ll help you figure it out.</p>
+                </div>
+                <a aria-label="Call Rahul at 8983707673" className="landing-support-link inline-flex min-h-11 items-center justify-center rounded-[var(--radius-control)] border border-foreground/20 bg-[var(--paper)] px-5 py-3 text-sm font-medium text-foreground transition hover:-translate-y-0.5 hover:bg-[var(--surface-muted)]" href="tel:+918983707673">
+                  Rahul <span aria-hidden="true">&middot;</span> 8983707673 <span aria-hidden="true">&rarr;</span>
+                </a>
+              </aside>
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center lg:gap-5">
                 <Button className="lg:px-7" href="/apply">
                   Start your application <span className="arrow-shift" aria-hidden="true">&#8599;</span>

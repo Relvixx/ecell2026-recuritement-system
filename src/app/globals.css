@@ -524,6 +524,16 @@ textarea {
   color: var(--text-primary) !important;
 }
 
+.landing-midnight .landing-final-panel .landing-support-link,
+.landing-midnight .landing-final-panel .landing-support-link:hover {
+  background: var(--paper);
+  color: var(--text-on-paper) !important;
+}
+
+.landing-midnight .landing-final-panel .landing-support-link:hover {
+  background: var(--surface-muted);
+}
+
 .landing-midnight .landing-teams .featured-team-details {
   border-color: color-mix(in srgb, var(--text-on-paper) 32%, transparent);
   background: transparent;
