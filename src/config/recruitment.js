@@ -5,9 +5,6 @@ export const RECRUITMENT_CYCLE = '2026-27';
 export const APPLICATION_CODE_PREFIX = 'EC26-';
 export const APPLICATIONS_OPEN = true;
 export const RECRUITMENT_TIMEZONE = 'Asia/Kolkata';
-export const RECRUITMENT_OPEN_AT = '2026-09-08T00:01:00+05:30';
-export const RECRUITMENT_CLOSE_AT = '2026-09-20T23:59:00+05:30';
-export const RECRUITMENT_WINDOW_LABEL = '8-20 September 2026';
 
 export const APPLICATION_STATUS_IDS = [
   'submitted',
@@ -45,32 +42,11 @@ export const BRANCH_IDS = BRANCH_OPTIONS.map((option) => option.value);
 export const RECRUITMENT_LINKS = {
   instagramUrl: 'https://www.instagram.com/ecell.met/',
   websiteUrl: 'https://www.ecell-met.tech/',
-  contactEmail: 'met.iot.ecell@gmail.com',
-  deadlineLabel: '20 September 2026, 11:59 PM IST'
+  contactEmail: 'met.iot.ecell@gmail.com'
 };
 
-export function getRecruitmentWindowStatus(now = new Date()) {
-  if (!APPLICATIONS_OPEN) {
-    return 'closed';
-  }
-
-  const currentTime = now.getTime();
-  const openTime = new Date(RECRUITMENT_OPEN_AT).getTime();
-  const closeTime = new Date(RECRUITMENT_CLOSE_AT).getTime();
-
-  if (currentTime < openTime) {
-    return 'not_open';
-  }
-
-  if (currentTime > closeTime) {
-    return 'closed';
-  }
-
-  return 'open';
-}
-
-export function isRecruitmentAcceptingApplications(now = new Date()) {
-  return getRecruitmentWindowStatus(now) === 'open';
+export function isRecruitmentAcceptingApplications() {
+  return APPLICATIONS_OPEN;
 }
 
 export { TEAM_IDS };

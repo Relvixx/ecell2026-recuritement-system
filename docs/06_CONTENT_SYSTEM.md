@@ -76,8 +76,6 @@ Primary CTA:
 Secondary:
 **Explore the teams ↓**
 
-Do not fabricate a deadline.
-
 ---
 
 # 4. About
@@ -111,7 +109,7 @@ Heading:
 **Life at E-CELL**
 
 Supporting:
-**Somewhere between planning, deadlines, ideas and a little chaos—things get built.**
+**Somewhere between planning, ideas and a little chaos—things get built.**
 
 Optional photo captions:
 - the calm before the event
@@ -571,7 +569,6 @@ This permanently removes the application and cannot be undone.
 
 Do not invent these values:
 
-- `RECRUITMENT_DEADLINE`
 - `CONTACT_EMAIL`
 - `INSTAGRAM_URL`
 - `OFFICIAL_ECELL_URL`

@@ -11,7 +11,7 @@ import {
 } from '../../../../lib/recruitment2026';
 import { enforceRateLimit } from '../../../../lib/rateLimit';
 import { parseJsonRequest } from '../../../../lib/request';
-import { getRecruitmentWindowStatus } from '../../../config/recruitment';
+import { isRecruitmentAcceptingApplications } from '../../../config/recruitment';
 import { getTeamById } from '../../../config/teams';
 
 const MAX_LENGTHS = {
@@ -416,14 +416,10 @@ export async function POST(request) {
       return rateLimitResponse;
     }
 
-    const windowStatus = getRecruitmentWindowStatus();
-
-    if (windowStatus !== 'open') {
+    if (!isRecruitmentAcceptingApplications()) {
       return Response.json(
         {
-          error: windowStatus === 'not_open'
-            ? 'Applications are not open yet.'
-            : 'Applications are closed.'
+          error: 'Applications are not currently open.'
         },
         { status: 403 }
       );

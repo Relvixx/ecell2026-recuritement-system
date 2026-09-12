@@ -3,7 +3,6 @@ import { Container, EditorialCard, Eyebrow, PageShell, Section, Stack } from '@/
 import { AnnotationLabel, EditorialPhotoFrame, EditorialUnderline, EditorialVideoFrame, IrregularPaperBlock, TapeAccent } from '@/components/shells/editorial';
 import { ParticipantFooter, ParticipantHeader } from '@/components/shells/participant';
 import { FAQAccordion, LandingStickyApplyController, TeamExplorer } from '@/components/landing/LandingInteractions';
-import { RECRUITMENT_WINDOW_LABEL } from '@/config/recruitment';
 
 const lifeMoments = [
   {
@@ -158,7 +157,7 @@ export default function Home() {
               <Eyebrow>Recruitment 2026&ndash;27</Eyebrow>
               <span className="landing-status-pill body-small inline-flex min-h-11 items-center gap-2 rounded-full bg-[var(--color-sage)] px-4 text-foreground">
                 <span aria-hidden="true">&#9679;</span>
-                {RECRUITMENT_WINDOW_LABEL}
+                Applications open
               </span>
               <span className="landing-audience-pill body-small inline-flex min-h-11 items-center rounded-full border border-border bg-surface px-4 text-muted">
                 For 1st, 2nd &amp; 3rd year students
@@ -237,7 +236,7 @@ export default function Home() {
               <Eyebrow>BEHIND THE SCENES</Eyebrow>
               <h2 className="display-section">Life at E-CELL</h2>
               <p className="body-large text-muted lg:text-[1.1rem]">
-                Somewhere between planning, deadlines, ideas and a little chaos&mdash;things get built.
+                Somewhere between planning, ideas and a little chaos&mdash;things get built.
               </p>
               <div className="life-story-core-footer" aria-label="E-CELL moments">
                 <span>PLAN</span>

@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useId, useRef, useState } from 'react';
-import { RECRUITMENT_LINKS, RECRUITMENT_WINDOW_LABEL, RECRUITMENT_YEAR_LABEL } from '@/config/recruitment';
+import { RECRUITMENT_LINKS, RECRUITMENT_YEAR_LABEL } from '@/config/recruitment';
 import { Button } from '../ui/forms';
 import { Container, cn } from '../ui/layout';
 
@@ -130,7 +130,11 @@ export function ParticipantHeader({ onMenuChange }) {
           ))}
         </nav>
 
-        <div className="hidden md:block">
+        <div className="hidden items-center gap-3 md:flex">
+          <Button className="min-h-11 px-4 sm:min-h-11 lg:min-h-[50px] lg:px-5 lg:text-[0.96rem]" href="/track" variant="secondary">
+            <span className="lg:hidden">Track</span>
+            <span className="hidden lg:inline">Track application</span>
+          </Button>
           <Button className="min-h-11 px-5 sm:min-h-11 lg:min-h-[50px] lg:px-7 lg:text-[0.96rem]" href="/apply">
             Apply Now <span className="arrow-shift" aria-hidden="true">&#8599;</span>
           </Button>
@@ -186,6 +190,9 @@ export function ParticipantHeader({ onMenuChange }) {
             <Button className="mt-6 w-full" href="/apply" onClick={() => setOpen(false)}>
               Start Application <span className="arrow-shift" aria-hidden="true">&#8599;</span>
             </Button>
+            <Button className="w-full" href="/track" onClick={() => setOpen(false)} variant="secondary">
+              Track application <span aria-hidden="true">&rarr;</span>
+            </Button>
           </nav>
         </Container>
       </div>
@@ -235,7 +242,6 @@ export function ParticipantFooter() {
         </div>
         <div className="mt-10 flex flex-col gap-3 border-t border-border pt-5 sm:flex-row sm:items-center sm:justify-between">
           <p className="body-small text-muted">Built with care by E-CELL MET.</p>
-          <p className="body-small text-muted">Applications close {RECRUITMENT_LINKS.deadlineLabel}.</p>
         </div>
       </Container>
     </footer>
@@ -248,7 +254,7 @@ export function MobileStickyApply({ hidden = false, className = '' }) {
   return (
     <div className={cn('fixed inset-x-0 bottom-0 z-20 px-4 pb-[calc(1rem+var(--safe-area-bottom))] md:hidden', className)}>
       <div className="mx-auto flex max-w-[430px] items-center justify-between gap-3 rounded-[1.25rem] border border-border bg-[var(--paper)] p-3 shadow-[var(--shadow-soft)]">
-        <span className="body-small text-muted">{RECRUITMENT_WINDOW_LABEL}</span>
+        <span className="body-small text-muted">Recruitment open</span>
         <Button className="min-h-11 px-4 py-2 sm:min-h-11" href="/apply">
           Apply <span aria-hidden="true">&rarr;</span>
         </Button>
