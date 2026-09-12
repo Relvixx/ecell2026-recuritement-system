@@ -463,6 +463,27 @@ Application Review
 → Interaction
 → Final Decision
 
+Social sharing (optional):
+
+Eyebrow:
+**MAKE IT OFFICIAL**
+
+Heading:
+**You applied. Now put it out there.**
+
+Supporting:
+**Your story might bring the next builder into E-CELL.**
+
+Primary CTA:
+**Share this with your network ↗**
+
+Secondary actions:
+- Download story card
+- Copy caption
+
+Helper:
+**On supported phones, your installed social apps will appear in the share menu.**
+
 CTA:
 **Track your application →**
 

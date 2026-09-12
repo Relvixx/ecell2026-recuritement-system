@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Button } from '../ui/forms';
 import { Container, PageShell, PaperCard, Section, Stack } from '../ui/layout';
+import { RecruitmentShareSection } from '../sharing/RecruitmentShareSection';
 
 const APPLICATION_CODE_PATTERN = /^EC26-[ABCDEFGHJKMNPQRSTUVWXYZ23456789]{5}$/;
 const nextStages = ['Application Review', 'Shortlisting', 'Interaction', 'Final Decision'];
@@ -61,7 +62,7 @@ export function SuccessShell({ loading = false }) {
   return (
     <PageShell className="success-experience utility-experience" recruitmentTheme="midnight">
       <Section spacing="compact">
-        <Container width="copy">
+        <Container width="form">
           <PaperCard className="success-card success-receipt utility-card motion-settle">
             <Stack gap="lg">
               <Stack gap="sm">
@@ -98,6 +99,11 @@ export function SuccessShell({ loading = false }) {
 
               <div className="success-actions utility-actions flex flex-col gap-3 sm:flex-row sm:gap-4">
                 <Button href={`/track?id=${encodeURIComponent(applicationCode)}`}>Track your application &rarr;</Button>
+              </div>
+
+              <RecruitmentShareSection />
+
+              <div className="success-actions utility-actions flex flex-col gap-3 sm:flex-row sm:gap-4">
                 <Button href="/" variant="secondary">Back to E-CELL</Button>
               </div>
             </Stack>
