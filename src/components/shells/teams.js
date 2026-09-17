@@ -68,9 +68,6 @@ export function FeaturedTeamCard({ team = TEAMS[0], onViewDetails, detailsOpen =
         <p className="body-large text-muted lg:text-[1.14rem]">{team.description}</p>
         <p className="body lg:text-[1.04rem] lg:leading-[1.7]">{team.idealFor}</p>
         <div className="featured-team-actions flex flex-wrap gap-3">
-          <Button href={`/apply?team=${team.id}`} variant="secondary">
-            Apply for this team &#8599;
-          </Button>
           {onViewDetails ? (
             <Button
               aria-controls={detailsOpen ? 'team-detail-content' : undefined}
@@ -130,7 +127,6 @@ export function TeamDetailPanel({ team = TEAMS[0], onClose }) {
           </ul>
         </div>
         <p className="helper">{team.reassurance}</p>
-        <Button href={`/apply?team=${team.id}`}>Apply for this team &#8599;</Button>
       </Stack>
     </section>
   );

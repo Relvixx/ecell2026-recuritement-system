@@ -3,7 +3,7 @@ import { TEAM_IDS } from './canonical';
 export const RECRUITMENT_YEAR_LABEL = '2026-27';
 export const RECRUITMENT_CYCLE = '2026-27';
 export const APPLICATION_CODE_PREFIX = 'EC26-';
-export const APPLICATIONS_OPEN = true;
+export const APPLICATIONS_OPEN = false;
 export const RECRUITMENT_TIMEZONE = 'Asia/Kolkata';
 
 export const APPLICATION_STATUS_IDS = [

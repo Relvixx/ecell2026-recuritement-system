@@ -135,9 +135,9 @@ export function ParticipantHeader({ onMenuChange }) {
             <span className="lg:hidden">Track</span>
             <span className="hidden lg:inline">Track application</span>
           </Button>
-          <Button className="min-h-11 px-5 sm:min-h-11 lg:min-h-[50px] lg:px-7 lg:text-[0.96rem]" href="/apply">
-            Apply Now <span className="arrow-shift" aria-hidden="true">&#8599;</span>
-          </Button>
+          <span className="body-small inline-flex min-h-11 items-center rounded-[var(--radius-control)] border border-border bg-surface px-5 text-muted lg:min-h-[50px]">
+            Registrations closed
+          </span>
         </div>
 
         <button
@@ -187,9 +187,6 @@ export function ParticipantHeader({ onMenuChange }) {
                 {link.label}
               </a>
             ))}
-            <Button className="mt-6 w-full" href="/apply" onClick={() => setOpen(false)}>
-              Start Application <span className="arrow-shift" aria-hidden="true">&#8599;</span>
-            </Button>
             <Button className="w-full" href="/track" onClick={() => setOpen(false)} variant="secondary">
               Track application <span aria-hidden="true">&rarr;</span>
             </Button>
@@ -253,11 +250,8 @@ export function MobileStickyApply({ hidden = false, className = '' }) {
 
   return (
     <div className={cn('fixed inset-x-0 bottom-0 z-20 px-4 pb-[calc(1rem+var(--safe-area-bottom))] md:hidden', className)}>
-      <div className="mx-auto flex max-w-[430px] items-center justify-between gap-3 rounded-[1.25rem] border border-border bg-[var(--paper)] p-3 shadow-[var(--shadow-soft)]">
-        <span className="body-small text-muted">Recruitment open</span>
-        <Button className="min-h-11 px-4 py-2 sm:min-h-11" href="/apply">
-          Apply <span aria-hidden="true">&rarr;</span>
-        </Button>
+      <div className="mx-auto flex max-w-[430px] items-center justify-center gap-3 rounded-[1.25rem] border border-border bg-[var(--paper)] p-3 shadow-[var(--shadow-soft)]">
+        <span className="body-small text-muted">Registrations closed</span>
       </div>
     </div>
   );

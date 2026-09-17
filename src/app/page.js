@@ -1,8 +1,8 @@
 import { Button } from '@/components/ui/forms';
 import { Container, EditorialCard, Eyebrow, PageShell, Section, Stack } from '@/components/ui/layout';
-import { AnnotationLabel, EditorialPhotoFrame, EditorialUnderline, EditorialVideoFrame, IrregularPaperBlock, TapeAccent } from '@/components/shells/editorial';
+import { EditorialPhotoFrame, EditorialUnderline, EditorialVideoFrame, IrregularPaperBlock, TapeAccent } from '@/components/shells/editorial';
 import { ParticipantFooter, ParticipantHeader } from '@/components/shells/participant';
-import { FAQAccordion, LandingStickyApplyController, TeamExplorer } from '@/components/landing/LandingInteractions';
+import { FAQAccordion, TeamExplorer } from '@/components/landing/LandingInteractions';
 
 const lifeMoments = [
   {
@@ -155,9 +155,8 @@ export default function Home() {
           <Stack gap="lg" className="motion-settle">
             <div className="flex flex-wrap items-center gap-3">
               <Eyebrow>Recruitment 2026&ndash;27</Eyebrow>
-              <span className="landing-status-pill body-small inline-flex min-h-11 items-center gap-2 rounded-full bg-[var(--color-sage)] px-4 text-foreground">
-                <span aria-hidden="true">&#9679;</span>
-                Applications open
+              <span className="landing-status-pill body-small inline-flex min-h-11 items-center gap-2 rounded-full border border-border bg-surface px-4 text-muted">
+                Registrations closed
               </span>
               <span className="landing-audience-pill body-small inline-flex min-h-11 items-center rounded-full border border-border bg-surface px-4 text-muted">
                 For 1st, 2nd &amp; 3rd year students
@@ -177,9 +176,9 @@ export default function Home() {
             </p>
 
             <div className="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center lg:gap-4" data-hero-cta>
-              <Button className="lg:px-7" href="/apply">
-                Start your application <span className="arrow-shift" aria-hidden="true">&#8599;</span>
-              </Button>
+              <span className="body-small inline-flex min-h-11 items-center gap-2 rounded-[var(--radius-control)] border border-border bg-surface px-5 text-muted">
+                Registrations are now closed. Thank you for your interest.
+              </span>
               <Button className="lg:px-6" href="#teams" variant="ghost">
                 Explore the teams <span aria-hidden="true">&darr;</span>
               </Button>
@@ -193,7 +192,7 @@ export default function Home() {
               mediaClassName="aspect-[4/3] lg:aspect-[4/3.35]"
             />
             <div className="absolute bottom-0 right-0 w-[58%] max-w-[260px] lg:bottom-7 lg:w-[44%] lg:max-w-none">
-              <AnnotationLabel className="absolute -top-5 right-2 z-10">apply here &rarr;</AnnotationLabel>
+
               <EditorialPhotoFrame className="motion-fade-up" mediaClassName="aspect-[1/1]" mediaKey="heroSecondary" rotate="left" />
             </div>
           </div>
@@ -370,10 +369,9 @@ export default function Home() {
                 </a>
               </aside>
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center lg:gap-5">
-                <Button className="lg:px-7" href="/apply">
-                  Start your application <span className="arrow-shift" aria-hidden="true">&#8599;</span>
-                </Button>
-                <p className="body-small text-muted lg:text-[0.98rem]">For 1st, 2nd &amp; 3rd year students.</p>
+                <span className="body-small inline-flex min-h-11 items-center gap-2 rounded-[var(--radius-control)] border border-border bg-surface px-5 text-muted">
+                  Registrations are now closed. Thank you for your interest.
+                </span>
               </div>
             </Stack>
           </div>
@@ -381,7 +379,7 @@ export default function Home() {
       </Section>
 
       <ParticipantFooter />
-      <LandingStickyApplyController />
+
     </PageShell>
   );
 }

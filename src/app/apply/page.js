@@ -1,8 +1,14 @@
 import { Suspense } from 'react';
+import { redirect } from 'next/navigation';
 import { ApplicationWizard } from '@/components/application/ApplicationWizard';
 import { ApplicationShell, ApplicationStepHeader } from '@/components';
+import { APPLICATIONS_OPEN } from '@/config/recruitment';
 
 export default function ApplyPage() {
+  if (!APPLICATIONS_OPEN) {
+    redirect('/');
+  }
+
   return (
     <Suspense
       fallback={(
